@@ -1,0 +1,11 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="ATPTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <item name="colorPrimary">#009688</item>
+        <item name="colorPrimaryDark">#004d40</item>
+        <item name="colorAccent">#009688</item>
+    </style>
+
+</resources>
