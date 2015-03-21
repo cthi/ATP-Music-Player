@@ -33,6 +33,7 @@ public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.Vi
 
         @Override
         public void onClick(View view) {
+
         }
     }
 

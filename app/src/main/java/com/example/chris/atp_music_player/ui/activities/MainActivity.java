@@ -1,20 +1,25 @@
 package com.example.chris.atp_music_player.ui.activities;
 
 import android.content.res.Configuration;
+import android.database.Cursor;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.adapters.DrawerListAdapter;
+import com.example.chris.atp_music_player.loaders.MusicQueryLoader;
 import com.example.chris.atp_music_player.models.DrawerItem;
+import com.example.chris.atp_music_player.ui.fragments.LibraryFragment;
 
 import java.util.ArrayList;
 
@@ -22,7 +27,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements LoaderManager.LoaderCallbacks<Cursor>  {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -58,6 +63,12 @@ public class MainActivity extends BaseActivity {
 
         setSupportActionBar(mToolbar);
         initDrawerLayout();
+
+        LibraryFragment fragment = LibraryFragment.newInstance();
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment,fragment).commit();
+
+        Loader loader = getSupportLoaderManager().initLoader(0, null, this);
+        loader.forceLoad();
     }
 
     @Override
@@ -97,5 +108,19 @@ public class MainActivity extends BaseActivity {
             mDrawerToggle.setDrawerIndicatorEnabled(true);
             mDrawerLayout.setDrawerListener(mDrawerToggle);
         }
+    }
+
+    @Override
+    public Loader onCreateLoader(int id, Bundle args) {
+        return new MusicQueryLoader(this);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        Log.d(TAG, Integer.toString(cursor.getCount()));
+    }
+
+    @Override
+    public void onLoaderReset(Loader loader) {
     }
 }
