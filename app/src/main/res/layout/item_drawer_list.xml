@@ -3,13 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/drawer_item_height"
-    android:paddingEnd="@dimen/drawer_item_horizontal_padding"
-    android:paddingStart="@dimen/drawer_item_horizontal_padding">
+    android:layout_height="@dimen/single_list_text_height"
+    android:paddingStart="@dimen/single_list_text_padding_start"
+    android:paddingEnd="@dimen/single_list_text_padding_start"
+    android:paddingLeft="@dimen/single_list_text_padding_start"
+    android:paddingRight="@dimen/single_list_text_padding_start">
 
     <TextView
         android:id="@+id/drawer_list_item_text"
-        tools:text="Test"
+        tools:text="Library"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"/>

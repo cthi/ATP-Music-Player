@@ -27,7 +27,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class MainActivity extends BaseActivity implements LoaderManager.LoaderCallbacks<Cursor>  {
+public class MainActivity extends BaseActivity implements LoaderManager.LoaderCallbacks<Boolean>  {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -67,8 +67,8 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
         LibraryFragment fragment = LibraryFragment.newInstance();
         getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment,fragment).commit();
 
-        Loader loader = getSupportLoaderManager().initLoader(0, null, this);
-        loader.forceLoad();
+        //Loader loader = getSupportLoaderManager().initLoader(0, null, this);
+        //loader.forceLoad();
     }
 
     @Override
@@ -116,8 +116,8 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        Log.d(TAG, Integer.toString(cursor.getCount()));
+    public void onLoadFinished(Loader<Boolean> loader, Boolean result) {
+        Log.d(TAG, "DONE");
     }
 
     @Override

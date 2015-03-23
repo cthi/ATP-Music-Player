@@ -50,7 +50,6 @@ public class LibraryFragment extends Fragment {
 
     public void initPagerTabs(){
         if (mPagerTabs != null){
-            Log.d("COLOR",Integer.toString(((BaseActivity) getActivity()).getColorPrimary()));
             mPagerTabs.setBackgroundColor(((BaseActivity) getActivity()).getColorPrimary());
             mPagerTabs.setIndicatorHeight(4);
             mPagerTabs.setDividerColor(Color.TRANSPARENT);

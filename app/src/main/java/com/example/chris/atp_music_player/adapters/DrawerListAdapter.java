@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.models.DrawerItem;
@@ -21,10 +20,10 @@ public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.Vi
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @InjectView(R.id.drawer_list_item_text) TextView mTextView;
 
-        public ViewHolder(View drawerItemView) {
-            super(drawerItemView);
+        public ViewHolder(View view) {
+            super(view);
 
-            ButterKnife.inject(this, drawerItemView);
+            ButterKnife.inject(this, view);
         }
 
         public void bind(DrawerItem draweritem) {
@@ -43,7 +42,7 @@ public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.Vi
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int pos) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.drawer_list_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_drawer_list, parent, false);
 
         return new ViewHolder(view);
     }

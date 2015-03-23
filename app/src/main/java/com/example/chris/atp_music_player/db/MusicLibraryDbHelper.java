@@ -14,8 +14,9 @@ public class MusicLibraryDbHelper extends SQLiteOpenHelper {
     private static final String COMMA_SEP = ",";
 
     public static final String SQL_CREATE_ENTRIES =
-            "CREATE TABLE" + MusicLibraryDbContract.MusicLibraryEntry.TABLE_NAME + " (" +
+            "CREATE TABLE " + MusicLibraryDbContract.MusicLibraryEntry.TABLE_NAME + " (" +
                     MusicLibraryDbContract.MusicLibraryEntry.ENTRY_ID + " INTEGER PRIMARY KEY," +
+                    MusicLibraryDbContract.MusicLibraryEntry.SONG_TITLE + TEXT_TYPE + COMMA_SEP +
                     MusicLibraryDbContract.MusicLibraryEntry.SONG_ARTIST + TEXT_TYPE + COMMA_SEP +
                     MusicLibraryDbContract.MusicLibraryEntry.SONG_ALBUM + TEXT_TYPE + COMMA_SEP +
                     MusicLibraryDbContract.MusicLibraryEntry.SONG_ALBUM_ID + INT_TYPE + COMMA_SEP +
@@ -24,8 +25,7 @@ public class MusicLibraryDbHelper extends SQLiteOpenHelper {
                     MusicLibraryDbContract.MusicLibraryEntry.SONG_YEAR + INT_TYPE + COMMA_SEP +
                     MusicLibraryDbContract.MusicLibraryEntry.SONG_DATA + TEXT_TYPE + COMMA_SEP +
                     MusicLibraryDbContract.MusicLibraryEntry.SONG_DATE_ADDED + TEXT_TYPE + COMMA_SEP +
-                    MusicLibraryDbContract.MusicLibraryEntry.SONG_DATE_MODIFIED + INT_TYPE + COMMA_SEP +
-                    MusicLibraryDbContract.MusicLibraryEntry.ENTRY_ID + TEXT_TYPE + COMMA_SEP + " )";
+                    MusicLibraryDbContract.MusicLibraryEntry.SONG_DATE_MODIFIED + INT_TYPE +" )";
 
     private static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + MusicLibraryDbContract.MusicLibraryEntry.TABLE_NAME;
 

@@ -1,6 +1,8 @@
 <android.support.v7.widget.RecyclerView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/song_recycle_view"
     tools:context="com.example.chris.atp_music_player.ui.fragments.SongListFragment">
 </android.support.v7.widget.RecyclerView>
