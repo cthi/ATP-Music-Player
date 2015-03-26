@@ -1,7 +1,12 @@
 package com.example.chris.atp_music_player.ui.activities;
 
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.res.Configuration;
-import android.database.Cursor;
+import android.net.Uri;
+import android.os.IBinder;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.view.GravityCompat;
@@ -19,6 +24,7 @@ import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.adapters.DrawerListAdapter;
 import com.example.chris.atp_music_player.loaders.MusicQueryLoader;
 import com.example.chris.atp_music_player.models.DrawerItem;
+import com.example.chris.atp_music_player.services.LocalPlaybackService;
 import com.example.chris.atp_music_player.ui.fragments.LibraryFragment;
 
 import java.util.ArrayList;
@@ -31,10 +37,29 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
+    private LocalPlaybackService mService;
     @InjectView(R.id.toolbar) Toolbar mToolbar;
     private ActionBarDrawerToggle mDrawerToggle;
     @InjectView(R.id.drawerLayout) DrawerLayout mDrawerLayout;
     @InjectView(R.id.drawerList) RecyclerView mDrawerList;
+
+    private boolean mBound;
+
+    private ServiceConnection mConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName className,
+                                       IBinder service) {
+            LocalPlaybackService.LocalBinder binder = (LocalPlaybackService.LocalBinder) service;
+            mService = binder.getService();
+            mBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+            mBound = false;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +92,11 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
         LibraryFragment fragment = LibraryFragment.newInstance();
         getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment,fragment).commit();
 
-        //Loader loader = getSupportLoaderManager().initLoader(0, null, this);
-        //loader.forceLoad();
+        Loader loader = getSupportLoaderManager().initLoader(0, null, this);
+        loader.forceLoad();
+
+        Intent intent = new Intent(this, LocalPlaybackService.class);
+        startService(intent);
     }
 
     @Override
@@ -101,6 +129,23 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
         mToolbar.setTitle(title);
     }
 
+    @Override
+    protected void onStart(){
+        super.onStart();
+
+        Intent intent = new Intent(this, LocalPlaybackService.class);
+        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+
+        if (mBound) {
+            unbindService(mConnection);
+            mBound = false;
+        }
+    }
     public void initDrawerLayout(){
         if (mDrawerLayout != null) {
             mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
@@ -110,6 +155,9 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
         }
     }
 
+    public void pushMedia(Uri uri) {
+        mService.play(uri);
+    }
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
         return new MusicQueryLoader(this);

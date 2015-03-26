@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,10 +39,10 @@ public class SongListFragment extends Fragment {
 
 
         SQLiteDatabase db = new MusicLibraryDbHelper(getActivity()).getReadableDatabase();
-        String query = "SELECT id _id, * FROM " + MusicLibraryDbContract.MusicLibraryEntry.TABLE_NAME;
+        String query = "SELECT id _id, title, artist, data  FROM " + MusicLibraryDbContract.MusicLibraryEntry.TABLE_NAME;
 
         Cursor cursor = db.rawQuery(query,null);
-        SongListAdapter adapter = new SongListAdapter(cursor);
+        SongListAdapter adapter = new SongListAdapter(cursor, getActivity());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
 
