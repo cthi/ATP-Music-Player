@@ -44,6 +44,7 @@
                 android:layout_below="@id/sliding_layout_song_title"
                 tools:text="TEST"/>
             </RelativeLayout>
+
     </RelativeLayout>
 
     <LinearLayout

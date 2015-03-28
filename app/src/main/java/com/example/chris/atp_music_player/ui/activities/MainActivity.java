@@ -1,8 +1,10 @@
 package com.example.chris.atp_music_player.ui.activities;
 
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -27,6 +29,8 @@ import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.adapters.DrawerListAdapter;
 import com.example.chris.atp_music_player.loaders.MusicQueryLoader;
 import com.example.chris.atp_music_player.models.DrawerItem;
+import com.example.chris.atp_music_player.models.Song;
+import com.example.chris.atp_music_player.receivers.ReceiverMessages;
 import com.example.chris.atp_music_player.services.LocalPlaybackService;
 import com.example.chris.atp_music_player.ui.fragments.LibraryFragment;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
@@ -42,6 +46,8 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private LocalPlaybackService mService;
+    private BroadcastReceiver mServiceReceiver;
+
     @InjectView(R.id.toolbar) Toolbar mToolbar;
     private ActionBarDrawerToggle mDrawerToggle;
     @InjectView(R.id.drawerLayout) DrawerLayout mDrawerLayout;
@@ -53,7 +59,8 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
     @InjectView(R.id.sliding_layout_action_ico) ImageView mActionImage;
     @InjectView(R.id.sliding_layout) SlidingUpPanelLayout mSlidingPanel;
 
-    private boolean mBound;
+    private boolean mServiceBound;
+    private boolean mReceiverRegistered;
 
     private ServiceConnection mConnection = new ServiceConnection() {
 
@@ -62,12 +69,13 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
                                        IBinder service) {
             LocalPlaybackService.LocalBinder binder = (LocalPlaybackService.LocalBinder) service;
             mService = binder.getService();
-            mBound = true;
+            mServiceBound = true;
+            restorePlayingView();
         }
 
         @Override
         public void onServiceDisconnected(ComponentName arg0) {
-            mBound = false;
+            mServiceBound = false;
         }
     };
 
@@ -102,8 +110,8 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
         LibraryFragment fragment = LibraryFragment.newInstance();
         getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment,fragment).commit();
 
-        Loader loader = getSupportLoaderManager().initLoader(0, null, this);
-        loader.forceLoad();
+      //  Loader loader = getSupportLoaderManager().initLoader(0, null, this);
+        //loader.forceLoad();
 
         Intent intent = new Intent(this, LocalPlaybackService.class);
         startService(intent);
@@ -112,6 +120,39 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
         mSlidingPanel.setDragView(findViewById(R.id.drag_view));
 
         initListeners();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (!mReceiverRegistered) {
+            mServiceReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    int result = intent.getIntExtra(ReceiverMessages.PLAYBACK_INTENT_TAG, 0);
+
+                    if (result == ReceiverMessages.PLAYBACK_STOPPED) {
+                        // update gui
+                    } else if (result == ReceiverMessages.STREAM_ENDED) {
+                        // send a new song to the service
+                    }
+                }
+            };
+
+            registerReceiver(mServiceReceiver, new IntentFilter("android.intent.action.MAIN"));
+            mReceiverRegistered = true;
+        }
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+
+        if (mReceiverRegistered) {
+            unregisterReceiver(mServiceReceiver);
+            mReceiverRegistered = false;
+        }
     }
 
     public void initListeners(){
@@ -171,11 +212,12 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
     protected void onStop(){
         super.onStop();
 
-        if (mBound) {
+        if (mServiceBound) {
             unbindService(mConnection);
-            mBound = false;
+            mServiceBound = false;
         }
     }
+
     public void initDrawerLayout(){
         if (mDrawerLayout != null) {
             mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
@@ -186,7 +228,7 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
     }
 
     public void pushMedia(String title, String artist, Uri uri) {
-        mService.play(uri);
+        mService.play(title, artist, uri);
 
         mArtist.setText(artist);
         mTitle.setText(title);
@@ -204,5 +246,20 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
 
     @Override
     public void onLoaderReset(Loader loader) {
+    }
+
+    public void restorePlayingView(){
+        if (mServiceBound) {
+            if (mService.isPlaying()) {
+                mActionImage.setImageResource(R.drawable.ic_pause_white_24dp);
+            } else {
+                mActionImage.setImageResource(R.drawable.ic_play_arrow_white_24dp);
+            }
+
+            Song song = mService.getLastSong();
+
+            mArtist.setText(song.getArtist());
+            mTitle.setText(song.getTitle());
+        }
     }
 }
