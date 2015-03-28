@@ -41,7 +41,7 @@ public class SongListAdapter extends CursorRecyclerAdapter<SongListAdapter.ViewH
 
         @Override
         public void onClick(View view) {
-            ((MainActivity) mContext).pushMedia(Uri.parse(media_uri));
+            ((MainActivity) mContext).pushMedia(mTitle.getText().toString(), mSubtitle.getText().toString(), Uri.parse(media_uri));
         }
     }
 

@@ -24,9 +24,15 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
     private static final int AUDIO_NO_FOCUS_CAN_DUCK = 1;
     private static final int AUDIO_FOCUSED = 2;
 
+    private static final int STATE_PAUSED = 0;
+    private static final int STATE_PLAYING = 1;
+    private static final int STATE_STOPPED = 2;
+
     private int mPlaybackState;
     private int mAudioFocusState;
     private boolean mPlaybackPaused = false;
+
+    private Uri mLastPlayed;
 
     private MediaPlayer mMediaPlayer;
     private AudioManager mAudioManager;
@@ -120,7 +126,9 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
                 } else {
                     mMediaPlayer.reset();
                 }
-                mMediaPlayer.setDataSource(this, uri);
+
+                mLastPlayed = uri;
+                mMediaPlayer.setDataSource(this, mLastPlayed);
                 mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
                 mMediaPlayer.prepareAsync();
@@ -131,6 +139,23 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
 
         } else {
             releaseResources();
+        }
+    }
+
+    @Override
+    public void resume() {
+        if (requestAudioFocus()) {
+            if (mMediaPlayer == null) {
+                mMediaPlayer = new MediaPlayer();
+                mMediaPlayer.setWakeMode(this.getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
+                mMediaPlayer.setOnPreparedListener(this);
+            } else {
+                if (mPlaybackState == STATE_PAUSED) {
+                    skipToTime(mCurrentPlaybackPosition);
+                }
+
+                mMediaPlayer.start();
+            }
         }
     }
 
@@ -145,20 +170,27 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
 
     @Override
     public void pause() {
-        stopForeground(true);
-
-    }
-
-    @Override
-    public void stop(){
         if (mMediaPlayer != null && mMediaPlayer.isPlaying()) {
             mMediaPlayer.pause();
-            releaseResources();
+            mCurrentPlaybackPosition = mMediaPlayer.getCurrentPosition();
         }
 
         abandonAudioFocus();
 
+        mPlaybackState = STATE_PAUSED;
     }
+
+    @Override
+    public void stop() {
+        pause();
+        releaseResources();
+        destroyCallbacks();
+
+        mPlaybackState = STATE_STOPPED;
+        mLastPlayed = null;
+        mCurrentPlaybackPosition = 0;
+    }
+
     @Override
     public void onDestroy() {
         releaseResources();
@@ -166,8 +198,9 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
 
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
-        Log.d("PROGRESS", "DFD");
         mMediaPlayer.start();
+
+        mPlaybackState = STATE_PLAYING;
     }
 
     public void releaseResources() {
@@ -178,7 +211,14 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
         }
     }
 
-    public void destroyCallbacks(){
+    public void skipToTime(int time) {
+        if (mMediaPlayer != null && mMediaPlayer.isPlaying()) {
+            mMediaPlayer.seekTo(time);
+        }
+        mCurrentPlaybackPosition = time;
+    }
+
+    public void destroyCallbacks() {
 
     }
 }

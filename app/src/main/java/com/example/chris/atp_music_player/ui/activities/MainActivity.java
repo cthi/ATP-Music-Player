@@ -19,6 +19,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.adapters.DrawerListAdapter;
@@ -26,6 +29,7 @@ import com.example.chris.atp_music_player.loaders.MusicQueryLoader;
 import com.example.chris.atp_music_player.models.DrawerItem;
 import com.example.chris.atp_music_player.services.LocalPlaybackService;
 import com.example.chris.atp_music_player.ui.fragments.LibraryFragment;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
 
@@ -33,7 +37,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class MainActivity extends BaseActivity implements LoaderManager.LoaderCallbacks<Boolean>  {
+public class MainActivity extends BaseActivity implements LoaderManager.LoaderCallbacks<Boolean> {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -42,6 +46,12 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
     private ActionBarDrawerToggle mDrawerToggle;
     @InjectView(R.id.drawerLayout) DrawerLayout mDrawerLayout;
     @InjectView(R.id.drawerList) RecyclerView mDrawerList;
+
+    // move this
+    @InjectView(R.id.sliding_layout_song_title) TextView mTitle;
+    @InjectView(R.id.sliding_layout_song_artist) TextView mArtist;
+    @InjectView(R.id.sliding_layout_action_ico) ImageView mActionImage;
+    @InjectView(R.id.sliding_layout) SlidingUpPanelLayout mSlidingPanel;
 
     private boolean mBound;
 
@@ -97,6 +107,26 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
 
         Intent intent = new Intent(this, LocalPlaybackService.class);
         startService(intent);
+
+        mSlidingPanel.setEnableDragViewTouchEvents(true);
+        mSlidingPanel.setDragView(findViewById(R.id.drag_view));
+
+        initListeners();
+    }
+
+    public void initListeners(){
+        mActionImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                if (mService.isPlaying()) {
+                    mService.pause();
+                    mActionImage.setImageResource(R.drawable.ic_play_arrow_white_24dp);
+                } else {
+                    mService.resume();
+                    mActionImage.setImageResource(R.drawable.ic_pause_white_24dp);
+                }
+            }
+        });
     }
 
     @Override
@@ -155,8 +185,12 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
         }
     }
 
-    public void pushMedia(Uri uri) {
+    public void pushMedia(String title, String artist, Uri uri) {
         mService.play(uri);
+
+        mArtist.setText(artist);
+        mTitle.setText(title);
+        mActionImage.setImageResource(R.drawable.ic_pause_white_24dp);
     }
     @Override
     public Loader onCreateLoader(int id, Bundle args) {

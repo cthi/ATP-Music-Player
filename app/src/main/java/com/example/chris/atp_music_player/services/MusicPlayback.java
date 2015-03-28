@@ -14,5 +14,7 @@ public interface MusicPlayback {
 
     void pause();
 
+    void resume();
+
     void stop();
 }
