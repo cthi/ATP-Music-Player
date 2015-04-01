@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:layout_height="@dimen/single_list_text_height"
+    android:paddingLeft="@dimen/single_list_text_padding_start"
+    android:paddingRight="@dimen/single_list_text_padding_start">
+
+    <TextView
+        android:id="@+id/item_genre_list_label"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        tools:text="test"
+        android:textSize="16sp"/>
+</RelativeLayout>

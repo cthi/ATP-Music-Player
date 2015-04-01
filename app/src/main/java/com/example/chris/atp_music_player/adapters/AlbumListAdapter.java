@@ -1,8 +1,8 @@
 package com.example.chris.atp_music_player.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,19 +11,18 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.chris.atp_music_player.R;
-import com.example.chris.atp_music_player.ui.activities.MainActivity;
+import com.example.chris.atp_music_player.ui.activities.SongSubsetActivity;
+import com.example.chris.atp_music_player.utils.Constants;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class SongListAdapter extends CursorRecyclerAdapter<SongListAdapter.ViewHolder> {
+public class AlbumListAdapter extends CursorRecyclerAdapter<AlbumListAdapter.ViewHolder> {
 
     private Context mContext;
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @InjectView(R.id.item_song_list_title) TextView mTitle;
-        @InjectView(R.id.item_song_list_subtitle) TextView mSubtitle;
-        String media_uri;
+        @InjectView(R.id.item_artist_list_label) TextView mLabel;
 
         public ViewHolder(View view) {
             super(view);
@@ -33,18 +32,20 @@ public class SongListAdapter extends CursorRecyclerAdapter<SongListAdapter.ViewH
         }
 
         public void bind(Cursor cursor) {
-            mTitle.setText(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.TITLE)));
-            mSubtitle.setText(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST)));
-            media_uri = cursor.getString(cursor.getColumnIndex("data"));
+            mLabel.setText(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM)));
         }
 
         @Override
         public void onClick(View view) {
-            ((MainActivity) mContext).pushMedia(mTitle.getText().toString(), mSubtitle.getText().toString(), Uri.parse(media_uri));
+            Intent intent = new Intent(mContext, SongSubsetActivity.class);
+            intent.putExtra(Constants.QUERY_CONSTRAINT, mLabel.getText().toString());
+            intent.putExtra(Constants.QUERY_TYPE, Constants.QUERY_TYPE_ALBUM);
+
+            mContext.startActivity(intent);
         }
     }
 
-    public SongListAdapter(Cursor cursor, Context context) {
+    public AlbumListAdapter(Cursor cursor, Context context) {
         super(cursor);
 
         mContext = context;
@@ -52,13 +53,13 @@ public class SongListAdapter extends CursorRecyclerAdapter<SongListAdapter.ViewH
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int position) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_song_list, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_artist_list, parent, false);
 
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolderCursor(ViewHolder viewHolder, Cursor cursor){
-        viewHolder.bind(cursor);
+    public void onBindViewHolderCursor(ViewHolder viewholder, Cursor cursor){
+        viewholder.bind(cursor);
     }
 }

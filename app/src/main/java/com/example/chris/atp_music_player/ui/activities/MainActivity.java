@@ -94,7 +94,7 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
         DrawerItem d = new DrawerItem("TEST");
         DrawerItem e = new DrawerItem("TEST");
 
-        ArrayList<DrawerItem> test  = new ArrayList<DrawerItem>();
+        ArrayList<DrawerItem> test  = new ArrayList<>();
         test.add(a);
         test.add(b);
         test.add(c);
@@ -234,6 +234,7 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
         mTitle.setText(title);
         mActionImage.setImageResource(R.drawable.ic_pause_white_24dp);
     }
+
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
         return new MusicQueryLoader(this);

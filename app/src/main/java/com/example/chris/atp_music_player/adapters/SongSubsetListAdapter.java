@@ -2,7 +2,6 @@ package com.example.chris.atp_music_player.adapters;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,12 +10,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.chris.atp_music_player.R;
-import com.example.chris.atp_music_player.ui.activities.MainActivity;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class SongListAdapter extends CursorRecyclerAdapter<SongListAdapter.ViewHolder> {
+public class SongSubsetListAdapter extends CursorRecyclerAdapter<SongSubsetListAdapter.ViewHolder> {
 
     private Context mContext;
 
@@ -40,11 +38,11 @@ public class SongListAdapter extends CursorRecyclerAdapter<SongListAdapter.ViewH
 
         @Override
         public void onClick(View view) {
-            ((MainActivity) mContext).pushMedia(mTitle.getText().toString(), mSubtitle.getText().toString(), Uri.parse(media_uri));
+
         }
     }
 
-    public SongListAdapter(Cursor cursor, Context context) {
+    public SongSubsetListAdapter(Cursor cursor, Context context) {
         super(cursor);
 
         mContext = context;
@@ -58,7 +56,7 @@ public class SongListAdapter extends CursorRecyclerAdapter<SongListAdapter.ViewH
     }
 
     @Override
-    public void onBindViewHolderCursor(ViewHolder viewHolder, Cursor cursor){
+    public void onBindViewHolderCursor(ViewHolder viewHolder, Cursor cursor) {
         viewHolder.bind(cursor);
     }
 }

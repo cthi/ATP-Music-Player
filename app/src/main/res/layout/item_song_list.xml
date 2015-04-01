@@ -7,8 +7,6 @@
     android:clickable="true"
     android:focusable="true"
     android:layout_height="@dimen/double_list_text_height"
-    android:paddingStart="@dimen/double_list_text_padding_start"
-    android:paddingEnd="@dimen/double_list_text_padding_start"
     android:paddingLeft="@dimen/double_list_text_padding_start"
     android:paddingRight="@dimen/double_list_text_padding_start"
     android:paddingTop="@dimen/double_list_text_padding_top">
@@ -19,15 +17,16 @@
         android:textStyle="bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:maxLines="1"
         android:layout_gravity="center_vertical"
-        android:textSize="16sp" />
+        android:textSize="16sp"/>
 
     <TextView
         android:id="@+id/item_song_list_subtitle"
         tools:text="Drake - Album "
         android:layout_width="match_parent"
+        android:maxLines="1"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:textSize="14sp" />
-
 </LinearLayout>

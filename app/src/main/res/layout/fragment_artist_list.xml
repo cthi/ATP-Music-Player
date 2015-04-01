@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/song_recycle_view"
+    android:paddingTop="4dp"
+    android:paddingLeft="4dp"
+    android:paddingRight="4dp"
+    android:clipToPadding="false"
+    android:id="@+id/artist_recycle_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.chris.atp_music_player.ui.fragments.SongListFragment"/>
+    tools:context="com.example.chris.atp_music_player.ui.fragments.ArtistListFragment"/>

@@ -20,6 +20,16 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".ui.activities.SongSubsetActivity"
+            android:parentActivityName=".ui.activities.MainActivity"
+            android:label="Subset">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.activities.MainActivity" />
+         </activity>
+
         <service android:name=".services.LocalPlaybackService"
             android:exported="false"/>
     </application>
