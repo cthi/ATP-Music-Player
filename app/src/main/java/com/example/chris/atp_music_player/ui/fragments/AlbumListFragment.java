@@ -38,7 +38,10 @@ public class AlbumListFragment extends Fragment {
 
 
         SQLiteDatabase db = new MusicLibraryDbHelper(getActivity()).getReadableDatabase();
-        String query = "SELECT DISTINCT id _id, album FROM " + MusicLibraryDbContract.MusicLibraryEntry.TABLE_NAME;
+        String query = "SELECT DISTINCT id _id, album, albumId FROM "
+                + MusicLibraryDbContract.MusicLibraryEntry.TABLE_NAME
+                + " GROUP BY artist"
+                + " ORDER BY album ASC";
 
         Cursor cursor = db.rawQuery(query,null);
         AlbumListAdapter adapter = new AlbumListAdapter(cursor, getActivity());

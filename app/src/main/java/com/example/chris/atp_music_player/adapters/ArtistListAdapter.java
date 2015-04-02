@@ -1,19 +1,23 @@
 package com.example.chris.atp_music_player.adapters;
 
 
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.ui.activities.SongSubsetActivity;
 import com.example.chris.atp_music_player.utils.Constants;
+import com.squareup.picasso.Picasso;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -24,6 +28,7 @@ public class ArtistListAdapter extends CursorRecyclerAdapter<ArtistListAdapter.V
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @InjectView(R.id.item_artist_list_label) TextView mLabel;
+        @InjectView(R.id.item_artist_list_img) ImageView mImage;
 
         public ViewHolder(View view){
             super(view);
@@ -34,6 +39,10 @@ public class ArtistListAdapter extends CursorRecyclerAdapter<ArtistListAdapter.V
 
         public void bind(Cursor cursor) {
             mLabel.setText(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST)));
+            int albumId = Integer.parseInt(cursor.getString(cursor.getColumnIndex("albumId")));
+            Uri artworkUri =  Uri.parse("content://media/external/audio/albumart");
+            Uri result = ContentUris.withAppendedId(artworkUri, albumId);
+            Picasso.with(mContext).load(result).into(mImage);
         }
 
         @Override
