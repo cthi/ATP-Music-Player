@@ -2,6 +2,7 @@ package com.example.chris.atp_music_player.adapters;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.chris.atp_music_player.R;
+import com.example.chris.atp_music_player.ui.activities.SongSubsetActivity;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -38,7 +40,7 @@ public class SongSubsetListAdapter extends CursorRecyclerAdapter<SongSubsetListA
 
         @Override
         public void onClick(View view) {
-
+           ((SongSubsetActivity) mContext).pushMedia(mTitle.getText().toString(), mSubtitle.getText().toString(), Uri.parse(media_uri));
         }
     }
 

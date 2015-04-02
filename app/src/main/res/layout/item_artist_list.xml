@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="160dp"
             android:scaleType="fitXY"
-            android:background="@color/green"/>
+            android:background="@color/material_blue_grey_800"/>
 
         <RelativeLayout
             android:layout_below="@id/item_artist_list_img"
