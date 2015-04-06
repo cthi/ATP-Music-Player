@@ -1,6 +1,7 @@
 package com.example.chris.atp_music_player.ui.activities;
 
 import android.content.ComponentName;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -12,6 +13,7 @@ import android.os.IBinder;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.widget.ImageView;
 
 import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.adapters.SongSubsetListAdapter;
@@ -19,6 +21,7 @@ import com.example.chris.atp_music_player.db.MusicLibraryDbContract;
 import com.example.chris.atp_music_player.db.MusicLibraryDbHelper;
 import com.example.chris.atp_music_player.services.LocalPlaybackService;
 import com.example.chris.atp_music_player.utils.Constants;
+import com.squareup.picasso.Picasso;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -29,6 +32,7 @@ public class SongSubsetActivity extends BaseActivity {
 
     @InjectView(R.id.toolbar) Toolbar mToolbar;
     @InjectView(R.id.song_subset_recycler_view) RecyclerView mRecyclerView;
+    @InjectView(R.id.song_subset_img) ImageView mAlbumImage;
 
     private boolean mServiceBound;
 
@@ -77,6 +81,11 @@ public class SongSubsetActivity extends BaseActivity {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(adapter);
+
+        Uri artworkUri =  Uri.parse("content://media/external/audio/albumart");
+        Uri result = ContentUris.withAppendedId(artworkUri, getIntent().getIntExtra(Constants.DATA_ALBUM_ID, 0));
+
+        Picasso.with(this).load(result).into(mAlbumImage);
     }
 
     @Override

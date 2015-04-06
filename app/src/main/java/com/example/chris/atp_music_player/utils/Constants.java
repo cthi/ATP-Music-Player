@@ -6,4 +6,6 @@ public class Constants {
     public static final String QUERY_TYPE = "type";
     public static final int QUERY_TYPE_ARTIST = 1;
     public static final int QUERY_TYPE_ALBUM = 2;
+
+    public static final String DATA_ALBUM_ID = "album_id";
 }

@@ -28,6 +28,7 @@ public class AlbumListAdapter extends CursorRecyclerAdapter<AlbumListAdapter.Vie
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @InjectView(R.id.item_artist_list_label) TextView mLabel;
         @InjectView(R.id.item_artist_list_img) ImageView mImage;
+        int mAlbumId;
 
         public ViewHolder(View view) {
             super(view);
@@ -38,9 +39,9 @@ public class AlbumListAdapter extends CursorRecyclerAdapter<AlbumListAdapter.Vie
 
         public void bind(Cursor cursor) {
             mLabel.setText(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM)));
-            int albumId = Integer.parseInt(cursor.getString(cursor.getColumnIndex("albumId")));
+            mAlbumId = Integer.parseInt(cursor.getString(cursor.getColumnIndex("albumId")));
             Uri artworkUri =  Uri.parse("content://media/external/audio/albumart");
-            Uri result = ContentUris.withAppendedId(artworkUri, albumId);
+            Uri result = ContentUris.withAppendedId(artworkUri, mAlbumId);
             Picasso.with(mContext).load(result).into(mImage);
         }
 
@@ -49,6 +50,7 @@ public class AlbumListAdapter extends CursorRecyclerAdapter<AlbumListAdapter.Vie
             Intent intent = new Intent(mContext, SongSubsetActivity.class);
             intent.putExtra(Constants.QUERY_CONSTRAINT, mLabel.getText().toString());
             intent.putExtra(Constants.QUERY_TYPE, Constants.QUERY_TYPE_ALBUM);
+            intent.putExtra(Constants.DATA_ALBUM_ID, mAlbumId);
 
             mContext.startActivity(intent);
         }

@@ -1,17 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent">
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_alignParentTop="true"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@color/black"/>
+
+        <ImageView
+            android:layout_alignParentTop="true"
+            android:id="@+id/song_subset_img"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:alpha="0.7"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/song_subset_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/song_subset_img"
+            android:orientation="vertical" />
+    </RelativeLayout>
 
     <include
-        layout="@layout/base_toolbar"
-        android:id="@+id/toolbar"/>
-
-    <android.support.v7.widget.RecyclerView
-        android:layout_below="@id/toolbar"
-        android:id="@+id/song_subset_recycler_view"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-</RelativeLayout>
+        android:id="@+id/toolbar"
+        layout="@layout/transparent_toolbar" />
+</FrameLayout>
