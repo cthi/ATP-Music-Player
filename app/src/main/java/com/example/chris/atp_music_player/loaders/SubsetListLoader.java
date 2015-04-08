@@ -16,6 +16,7 @@ import java.util.List;
 public class SubsetListLoader extends AsyncTaskLoader<List<Song>> {
 
     String mSelectionClause;
+    String[] mSelectionArgs;
 
     public SubsetListLoader(Context context, int queryType, String queryCondition) {
         super(context);
@@ -24,7 +25,7 @@ public class SubsetListLoader extends AsyncTaskLoader<List<Song>> {
 
     public List<Song> loadInBackground() {
         List<Song> songList = new ArrayList<>();
-        Cursor cursor = MediaStoreDBHelper.getSongsCursor(getContext(), mSelectionClause);
+        Cursor cursor = MediaStoreDBHelper.getSongsCursor(getContext(), mSelectionClause, mSelectionArgs);
 
         while (cursor.moveToNext()) {
 
@@ -43,9 +44,11 @@ public class SubsetListLoader extends AsyncTaskLoader<List<Song>> {
 
     public void constructQuery(int queryType, String queryCondition) {
         if (queryType == Constants.QUERY_TYPE_ALBUM) {
-            mSelectionClause = "album='" + queryCondition + "'";
+            mSelectionClause = "album=?";
         } else if (queryType == Constants.QUERY_TYPE_ARTIST) {
-            mSelectionClause = "artist='" + queryCondition + "'";
+            mSelectionClause = "artist=?";
         }
+        mSelectionArgs = new String[1];
+        mSelectionArgs[0] = queryCondition;
     }
 }

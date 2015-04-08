@@ -61,8 +61,8 @@ public class MediaStoreDBHelper {
         return contentResolver.query(MEDIA_URI, ALBUM_PROJECTION, SONG_SELECTION_CLAUSE, null, ALBUM_ORDER);
     }
 
-    public static Cursor getSongsCursor(Context context, String selectionClause) {
+    public static Cursor getSongsCursor(Context context, String selectionClause, String[] selectionArgs) {
         ContentResolver contentResolver = context.getContentResolver();
-        return contentResolver.query(MEDIA_URI, SONG_PROJECTION, selectionClause, null, SONG_ORDER);
+        return contentResolver.query(MEDIA_URI, SONG_PROJECTION, selectionClause, selectionArgs, SONG_ORDER);
     }
 }
