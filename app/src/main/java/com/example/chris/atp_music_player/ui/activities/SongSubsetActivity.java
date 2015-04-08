@@ -1,15 +1,16 @@
 package com.example.chris.atp_music_player.ui.activities;
 
+
+import android.support.v4.app.LoaderManager;
 import android.content.ComponentName;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -17,16 +18,22 @@ import android.widget.ImageView;
 
 import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.adapters.SongSubsetListAdapter;
-import com.example.chris.atp_music_player.db.MusicLibraryDbContract;
-import com.example.chris.atp_music_player.db.MusicLibraryDbHelper;
+import com.example.chris.atp_music_player.loaders.SubsetListLoader;
+import com.example.chris.atp_music_player.models.Song;
 import com.example.chris.atp_music_player.services.LocalPlaybackService;
 import com.example.chris.atp_music_player.utils.Constants;
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class SongSubsetActivity extends BaseActivity {
+public class SongSubsetActivity extends BaseActivity implements LoaderManager.LoaderCallbacks<List<Song>> {
+
+    private int LOADER = 10000;
+    private int mQueryType;
+    private String mQueryCondition;
 
     private LocalPlaybackService mService;
 
@@ -59,33 +66,24 @@ public class SongSubsetActivity extends BaseActivity {
         ButterKnife.inject(this);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        SQLiteDatabase db = new MusicLibraryDbHelper(this).getReadableDatabase();
 
-        String where = "";
-        String condition = getIntent().getStringExtra(Constants.QUERY_CONSTRAINT);
-        int queryType = getIntent().getIntExtra(Constants.QUERY_TYPE,0);
+        mQueryCondition = getIntent().getStringExtra(Constants.QUERY_CONSTRAINT);
+        mQueryType = getIntent().getIntExtra(Constants.QUERY_TYPE,0);
 
-        getSupportActionBar().setTitle(condition.toUpperCase());
-
-        if (queryType == Constants.QUERY_TYPE_ALBUM) {
-            where = " WHERE album='" + condition + "'";
-        } else if (queryType == Constants.QUERY_TYPE_ARTIST) {
-            where = " WHERE artist='" + condition + "'";
-        }
-
-        String query = "SELECT id _id, title, artist, album, data  FROM " + MusicLibraryDbContract.MusicLibraryEntry.TABLE_NAME + where;
-
-        Cursor cursor = db.rawQuery(query,null);
-        SongSubsetListAdapter adapter = new SongSubsetListAdapter(cursor, this);
+        getSupportActionBar().setTitle(mQueryCondition.toUpperCase());
 
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setAdapter(adapter);
 
-        Uri artworkUri =  Uri.parse("content://media/external/audio/albumart");
-        Uri result = ContentUris.withAppendedId(artworkUri, getIntent().getIntExtra(Constants.DATA_ALBUM_ID, 0));
+        int albumId = getIntent().getIntExtra(Constants.DATA_ALBUM_ID, 0);
 
-        Picasso.with(this).load(result).into(mAlbumImage);
+        if (albumId != 0) {
+            Uri artworkUri =  Uri.parse("content://media/external/audio/albumart");
+            Uri result = ContentUris.withAppendedId(artworkUri, getIntent().getIntExtra(Constants.DATA_ALBUM_ID, 0));
+            Picasso.with(this).load(result).into(mAlbumImage);
+        }
+
+        getSupportLoaderManager().initLoader(LOADER, null, this).forceLoad();
     }
 
     @Override
@@ -108,5 +106,21 @@ public class SongSubsetActivity extends BaseActivity {
 
     public void pushMedia(String title, String artist, Uri uri) {
         mService.play(title, artist, uri);
+    }
+
+    @Override
+    public Loader<List<Song>> onCreateLoader(int id, Bundle args) {
+        return new SubsetListLoader(this, mQueryType, mQueryCondition);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<List<Song>> loader, List<Song> result) {
+
+        SongSubsetListAdapter adapter = new SongSubsetListAdapter(this, result);
+        mRecyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onLoaderReset(Loader loader) {
     }
 }

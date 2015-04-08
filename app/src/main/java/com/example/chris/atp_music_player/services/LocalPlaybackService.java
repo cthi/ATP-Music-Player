@@ -249,6 +249,6 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
     }
 
     public Song getLastSong() {
-        return new Song(mLastTitle, mLastArtist);
+        return new Song(mLastTitle, mLastArtist, "");
     }
 }

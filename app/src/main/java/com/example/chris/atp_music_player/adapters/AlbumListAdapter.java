@@ -3,9 +3,7 @@ package com.example.chris.atp_music_player.adapters;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,20 +12,28 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.chris.atp_music_player.R;
+import com.example.chris.atp_music_player.models.Album;
 import com.example.chris.atp_music_player.ui.activities.SongSubsetActivity;
 import com.example.chris.atp_music_player.utils.Constants;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class AlbumListAdapter extends CursorRecyclerAdapter<AlbumListAdapter.ViewHolder> {
+public class
+        AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.ViewHolder> {
 
     private Context mContext;
+    private List<Album> mAlbumList;
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @InjectView(R.id.item_artist_list_label) TextView mLabel;
-        @InjectView(R.id.item_artist_list_img) ImageView mImage;
+        @InjectView(R.id.item_artist_list_label)
+        TextView mLabel;
+        @InjectView(R.id.item_artist_list_img)
+        ImageView mImage;
         int mAlbumId;
 
         public ViewHolder(View view) {
@@ -37,10 +43,10 @@ public class AlbumListAdapter extends CursorRecyclerAdapter<AlbumListAdapter.Vie
             ButterKnife.inject(this, view);
         }
 
-        public void bind(Cursor cursor) {
-            mLabel.setText(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM)));
-            mAlbumId = Integer.parseInt(cursor.getString(cursor.getColumnIndex("albumId")));
-            Uri artworkUri =  Uri.parse("content://media/external/audio/albumart");
+        public void bind(Album album) {
+            mLabel.setText(album.getTitle());
+            mAlbumId = album.getId();
+            Uri artworkUri = Uri.parse("content://media/external/audio/albumart");
             Uri result = ContentUris.withAppendedId(artworkUri, mAlbumId);
             Picasso.with(mContext).load(result).into(mImage);
         }
@@ -56,21 +62,36 @@ public class AlbumListAdapter extends CursorRecyclerAdapter<AlbumListAdapter.Vie
         }
     }
 
-    public AlbumListAdapter(Cursor cursor, Context context) {
-        super(cursor);
+    public AlbumListAdapter(Context context, List<Album> albumList) {
 
         mContext = context;
+        mAlbumList = albumList;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int position) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_artist_list, parent, false);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_artist_list, parent, false);
 
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolderCursor(ViewHolder viewholder, Cursor cursor){
-        viewholder.bind(cursor);
+    public void onBindViewHolder(ViewHolder viewholder, int position) {
+        viewholder.bind(mAlbumList.get(position));
+    }
+
+    @Override
+    public int getItemCount() {
+        return mAlbumList.size();
+    }
+
+    public void clear() {
+        mAlbumList = new ArrayList<>();
+        notifyDataSetChanged();
+    }
+
+    public void insert(Album album) {
+        mAlbumList.add(album);
     }
 }

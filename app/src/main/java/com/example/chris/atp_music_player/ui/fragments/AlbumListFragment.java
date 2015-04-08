@@ -1,9 +1,10 @@
 package com.example.chris.atp_music_player.ui.fragments;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+
+import android.support.v4.app.LoaderManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,15 +13,23 @@ import android.view.ViewGroup;
 
 import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.adapters.AlbumListAdapter;
-import com.example.chris.atp_music_player.db.MusicLibraryDbContract;
-import com.example.chris.atp_music_player.db.MusicLibraryDbHelper;
+import com.example.chris.atp_music_player.loaders.AlbumListLoader;
+import com.example.chris.atp_music_player.models.Album;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class AlbumListFragment extends Fragment {
-    @InjectView(R.id.artist_recycle_view) RecyclerView mRecyclerView;
+public class AlbumListFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<Album>> {
+
+    private final static int LOADER = 1000;
+
+    @InjectView(R.id.artist_recycle_view)
+    RecyclerView mRecyclerView;
+    private AlbumListAdapter mAdapter;
 
     public AlbumListFragment() {
     }
@@ -36,20 +45,39 @@ public class AlbumListFragment extends Fragment {
 
         ButterKnife.inject(this, view);
 
-
-        SQLiteDatabase db = new MusicLibraryDbHelper(getActivity()).getReadableDatabase();
-        String query = "SELECT DISTINCT id _id, album, albumId FROM "
-                + MusicLibraryDbContract.MusicLibraryEntry.TABLE_NAME
-                + " GROUP BY artist"
-                + " ORDER BY album ASC";
-
-        Cursor cursor = db.rawQuery(query,null);
-        AlbumListAdapter adapter = new AlbumListAdapter(cursor, getActivity());
-
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        mRecyclerView.setAdapter(adapter);
+
+        mAdapter = new AlbumListAdapter(getActivity(), new ArrayList<Album>());
+        mRecyclerView.setAdapter(mAdapter);
 
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        getActivity().getSupportLoaderManager().initLoader(LOADER, null, this).forceLoad();
+    }
+
+    @Override
+    public Loader<List<Album>> onCreateLoader(int id, Bundle args) {
+        return new AlbumListLoader(getActivity());
+    }
+
+    @Override
+    public void onLoadFinished(Loader<List<Album>> loader, List<Album> result) {
+        mAdapter.clear();
+
+        for (int i = 0; i < result.size(); i++) {
+            mAdapter.insert(result.get(i));
+        }
+
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onLoaderReset(Loader loader) {
     }
 }

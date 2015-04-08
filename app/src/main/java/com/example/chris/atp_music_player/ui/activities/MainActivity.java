@@ -1,5 +1,6 @@
 package com.example.chris.atp_music_player.ui.activities;
 
+
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -9,8 +10,6 @@ import android.content.ServiceConnection;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.IBinder;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
@@ -18,7 +17,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,7 +25,6 @@ import android.widget.TextView;
 
 import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.adapters.DrawerListAdapter;
-import com.example.chris.atp_music_player.loaders.MusicQueryLoader;
 import com.example.chris.atp_music_player.models.DrawerItem;
 import com.example.chris.atp_music_player.models.Song;
 import com.example.chris.atp_music_player.receivers.ReceiverMessages;
@@ -41,7 +38,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class MainActivity extends BaseActivity implements LoaderManager.LoaderCallbacks<Boolean> {
+public class MainActivity extends BaseActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -109,9 +106,6 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
 
         LibraryFragment fragment = LibraryFragment.newInstance();
         getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment,fragment).commit();
-
-      //  Loader loader = getSupportLoaderManager().initLoader(0, null, this);
-        //loader.forceLoad();
 
         Intent intent = new Intent(this, LocalPlaybackService.class);
         startService(intent);
@@ -233,20 +227,6 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
         mArtist.setText(artist);
         mTitle.setText(title);
         mActionImage.setImageResource(R.drawable.ic_pause_white_24dp);
-    }
-
-    @Override
-    public Loader onCreateLoader(int id, Bundle args) {
-        return new MusicQueryLoader(this);
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Boolean> loader, Boolean result) {
-        Log.d(TAG, "DONE");
-    }
-
-    @Override
-    public void onLoaderReset(Loader loader) {
     }
 
     public void restorePlayingView(){

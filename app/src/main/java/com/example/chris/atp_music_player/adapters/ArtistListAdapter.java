@@ -1,12 +1,8 @@
 package com.example.chris.atp_music_player.adapters;
 
 
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,19 +13,20 @@ import android.widget.TextView;
 import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.ui.activities.SongSubsetActivity;
 import com.example.chris.atp_music_player.utils.Constants;
-import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class ArtistListAdapter extends CursorRecyclerAdapter<ArtistListAdapter.ViewHolder>  {
+public class ArtistListAdapter extends RecyclerView.Adapter<ArtistListAdapter.ViewHolder>  {
 
     private Context mContext;
+    private List<String> mArtistList;
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @InjectView(R.id.item_artist_list_label) TextView mLabel;
         @InjectView(R.id.item_artist_list_img) ImageView mImage;
-        int albumId = 0;
 
         public ViewHolder(View view){
             super(view);
@@ -38,12 +35,8 @@ public class ArtistListAdapter extends CursorRecyclerAdapter<ArtistListAdapter.V
             ButterKnife.inject(this, view);
         }
 
-        public void bind(Cursor cursor) {
-            mLabel.setText(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST)));
-            albumId = Integer.parseInt(cursor.getString(cursor.getColumnIndex("albumId")));
-            Uri artworkUri =  Uri.parse("content://media/external/audio/albumart");
-            Uri result = ContentUris.withAppendedId(artworkUri, albumId);
-            Picasso.with(mContext).load(result).into(mImage);
+        public void bind(String label) {
+            mLabel.setText(label);
         }
 
         @Override
@@ -51,15 +44,15 @@ public class ArtistListAdapter extends CursorRecyclerAdapter<ArtistListAdapter.V
             Intent intent = new Intent(mContext, SongSubsetActivity.class);
             intent.putExtra(Constants.QUERY_CONSTRAINT, mLabel.getText().toString());
             intent.putExtra(Constants.QUERY_TYPE, Constants.QUERY_TYPE_ARTIST);
-            intent.putExtra(Constants.DATA_ALBUM_ID, albumId);
+            intent.putExtra(Constants.DATA_ALBUM_ID, 0);
             mContext.startActivity(intent);
         }
     }
 
-    public ArtistListAdapter(Cursor cursor, Context context) {
-        super(cursor);
+    public ArtistListAdapter(Context context, List<String> artistList) {
 
         mContext = context;
+        mArtistList = artistList;
     }
 
     @Override
@@ -70,7 +63,12 @@ public class ArtistListAdapter extends CursorRecyclerAdapter<ArtistListAdapter.V
     }
 
     @Override
-    public void onBindViewHolderCursor(ViewHolder viewholder, Cursor cursor){
-        viewholder.bind(cursor);
+    public void onBindViewHolder(ViewHolder viewholder, int position){
+        viewholder.bind(mArtistList.get(position));
+    }
+
+    @Override
+    public int getItemCount() {
+        return mArtistList.size();
     }
 }

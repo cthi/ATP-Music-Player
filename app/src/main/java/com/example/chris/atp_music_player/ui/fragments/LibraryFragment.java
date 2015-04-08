@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,14 +18,16 @@ import butterknife.InjectView;
 
 public class LibraryFragment extends Fragment {
 
-    @InjectView(R.id.library_viewpager) ViewPager mViewPager;
-    @InjectView(R.id.library_tabs) PagerSlidingTabStrip mPagerTabs;
+    @InjectView(R.id.library_viewpager)
+    ViewPager mViewPager;
+    @InjectView(R.id.library_tabs)
+    PagerSlidingTabStrip mPagerTabs;
 
     public LibraryFragment() {
         // Required empty public constructor
     }
 
-    public static LibraryFragment newInstance(){
+    public static LibraryFragment newInstance() {
         return new LibraryFragment();
     }
 
@@ -42,14 +43,14 @@ public class LibraryFragment extends Fragment {
         return view;
     }
 
-    public void initPager(){
+    public void initPager() {
         LibraryPagerAdapter adapter = new LibraryPagerAdapter(getActivity(), getChildFragmentManager());
 
         mViewPager.setAdapter(adapter);
     }
 
-    public void initPagerTabs(){
-        if (mPagerTabs != null){
+    public void initPagerTabs() {
+        if (mPagerTabs != null) {
             mPagerTabs.setBackgroundColor(((BaseActivity) getActivity()).getColorPrimary());
             mPagerTabs.setIndicatorHeight(4);
             mPagerTabs.setDividerColor(Color.TRANSPARENT);
