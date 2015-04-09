@@ -10,4 +10,5 @@
     <dimen name="double_list_text_height">62dp</dimen>
     <dimen name="double_list_text_padding_start">16dp</dimen>
     <dimen name="double_list_text_padding_top">16dp</dimen>
+    <dimen name="double_list_text_padding_top_bold">14dp</dimen>
 </resources>

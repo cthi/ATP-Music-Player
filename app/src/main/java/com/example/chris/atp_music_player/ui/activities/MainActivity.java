@@ -79,6 +79,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
         ButterKnife.inject(this);
@@ -103,6 +104,7 @@ public class MainActivity extends BaseActivity {
 
         setSupportActionBar(mToolbar);
         initDrawerLayout();
+
 
         LibraryFragment fragment = LibraryFragment.newInstance();
         getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment,fragment).commit();

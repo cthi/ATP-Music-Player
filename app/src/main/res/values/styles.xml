@@ -2,10 +2,11 @@
 
     <!-- Base application theme. -->
     <style name="ATPTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/green</item>
-        <item name="colorPrimaryDark">@color/dark_green</item>
-        <item name="colorAccent">@color/green</item>
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">@color/dark_blue</item>
+        <item name="colorAccent">@color/blue</item>
         <item name="android:textColor">@color/black</item>
+        <item name="android:windowBackground">@color/white</item>
     </style>
 
 </resources>

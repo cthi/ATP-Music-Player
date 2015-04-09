@@ -1,43 +1,50 @@
-<android.support.v4.widget.DrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <com.sothree.slidinguppanel.SlidingUpPanelLayout
-        xmlns:sothree="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/sliding_layout"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="bottom"
-        sothree:umanoPanelHeight="68dp"
-        sothree:umanoShadowHeight="4dp">
+        android:layout_height="match_parent">
 
-        <RelativeLayout
+
+        <com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:sothree="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/sliding_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:gravity="bottom"
+            sothree:umanoPanelHeight="68dp"
+            sothree:umanoShadowHeight="4dp">
 
-            <include android:id="@+id/toolbar"
-                layout="@layout/base_toolbar"/>
-
-            <FrameLayout
-                android:id="@+id/main_fragment"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@id/toolbar"/>
-        </RelativeLayout>
+                android:layout_height="match_parent">
 
-       <include layout="@layout/sliding_layout_top"/>
+                <include
+                    android:id="@+id/transparent_toolbar"
+                    layout="@layout/transparent_toolbar" />
 
-    </com.sothree.slidinguppanel.SlidingUpPanelLayout>
+                <FrameLayout
+                    android:id="@+id/main_fragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/transparent_toolbar" />
+            </RelativeLayout>
+
+            <include layout="@layout/sliding_layout_top" />
+        </com.sothree.slidinguppanel.SlidingUpPanelLayout>
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/base_toolbar" />
+    </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/drawerList"
-        android:background="@android:color/white"
         android:layout_width="240dp"
         android:layout_height="match_parent"
-        android:layout_gravity="start"/>
+        android:layout_gravity="start"
+        android:background="@android:color/white" />
 
-    </android.support.v4.widget.DrawerLayout>
+</android.support.v4.widget.DrawerLayout>

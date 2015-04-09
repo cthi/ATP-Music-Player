@@ -3,18 +3,24 @@ package com.example.chris.atp_music_player.adapters;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.models.Album;
+import com.example.chris.atp_music_player.transform.PaletteTransformation;
 import com.example.chris.atp_music_player.ui.activities.SongSubsetActivity;
 import com.example.chris.atp_music_player.utils.Constants;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -34,6 +40,9 @@ public class
         TextView mLabel;
         @InjectView(R.id.item_artist_list_img)
         ImageView mImage;
+        @InjectView(R.id.item_artist_list_info_view)
+        RelativeLayout mInfoView;
+
         int mAlbumId;
 
         public ViewHolder(View view) {
@@ -48,7 +57,23 @@ public class
             mAlbumId = album.getId();
             Uri artworkUri = Uri.parse("content://media/external/audio/albumart");
             Uri result = ContentUris.withAppendedId(artworkUri, mAlbumId);
-            Picasso.with(mContext).load(result).into(mImage);
+
+            final PaletteTransformation paletteTransformation = PaletteTransformation.instance();
+            Picasso.with(mContext).load(result).transform(paletteTransformation)
+                    .into(mImage, new Callback.EmptyCallback() {
+                        @Override
+                        public void onSuccess() {
+                            Bitmap bmp = ((BitmapDrawable) mImage.getDrawable()).getBitmap();
+                            Palette palette = PaletteTransformation.getPalette(bmp);
+
+                            if (palette.getLightVibrantSwatch() != null) {
+                                mInfoView.setBackgroundColor(palette.getLightVibrantSwatch().getRgb());
+                                mLabel.setTextColor(palette.getLightVibrantSwatch().getTitleTextColor());
+                            } else {
+                                mInfoView.setBackgroundResource(R.color.blue);
+                            }
+                        }
+                    });
         }
 
         @Override

@@ -4,11 +4,13 @@
     android:clickable="true"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:cardView="http://schemas.android.com/apk/res-auto"
-    android:elevation="4dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    cardView:cardCornerRadius="3dp"
-    android:layout_margin="5dp">
+    android:layout_marginLeft="2dp"
+    android:layout_marginRight="2dp"
+    android:layout_marginBottom="4dp"
+    cardView:cardCornerRadius="0dp"
+    cardView:cardElevation="0dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -20,13 +22,15 @@
             android:layout_width="match_parent"
             android:layout_height="160dp"
             android:scaleType="fitXY"
-            android:background="@color/material_blue_grey_800"/>
+            android:src="@color/material_blue_grey_800"/>
 
         <RelativeLayout
+            android:id="@+id/item_artist_list_info_view"
             android:layout_below="@id/item_artist_list_img"
             android:layout_width="match_parent"
             android:background="@android:color/white"
-            android:paddingLeft="4dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
             android:layout_height="40dp">
 
             <TextView
@@ -34,7 +38,7 @@
                 android:id="@+id/item_artist_list_label"
                 android:maxLines="1"
                 android:textStyle="bold"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
 
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"/>

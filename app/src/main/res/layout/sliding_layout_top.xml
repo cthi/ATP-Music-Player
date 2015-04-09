@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="68dp"
         android:padding="@dimen/activity_horizontal_margin"
-        android:background="@color/green">
+        android:background="@color/blue">
 
         <ImageView
             android:layout_width="36dp"

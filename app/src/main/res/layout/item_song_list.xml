@@ -9,11 +9,12 @@
     android:layout_height="@dimen/double_list_text_height"
     android:paddingLeft="@dimen/double_list_text_padding_start"
     android:paddingRight="@dimen/double_list_text_padding_start"
-    android:paddingTop="@dimen/double_list_text_padding_top">
+    android:paddingTop="@dimen/double_list_text_padding_top_bold">
 
     <TextView
         android:id="@+id/item_song_list_title"
         tools:text="Forever"
+        android:fontFamily="sans-serif-light"
         android:textStyle="bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,6 +24,7 @@
 
     <TextView
         android:id="@+id/item_song_list_subtitle"
+        android:fontFamily="sans-serif-light"
         tools:text="Drake - Album "
         android:layout_width="match_parent"
         android:maxLines="1"
