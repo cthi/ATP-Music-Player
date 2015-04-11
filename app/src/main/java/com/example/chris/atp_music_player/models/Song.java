@@ -4,11 +4,15 @@ public class Song {
     String title;
     String artist;
     String mediaLocation;
+    String album;
+    int albumId;
 
-    public Song(String title, String artist, String mediaLocation) {
+    public Song(String title, String artist, String mediaLocation, int albumId, String album) {
         this.title = title;
         this.artist = artist;
         this.mediaLocation = mediaLocation;
+        this.albumId = albumId;
+        this.album = album;
     }
 
     public String getArtist() {
@@ -22,5 +26,13 @@ public class Song {
 
     public String getMediaLocation() {
         return mediaLocation;
+    }
+
+    public int getAlbumId() {
+        return albumId;
+    }
+
+    public String getAlbum(){
+        return album;
     }
 }

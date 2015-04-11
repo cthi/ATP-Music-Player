@@ -21,7 +21,7 @@
             android:layout_alignParentTop="true"
             android:layout_width="match_parent"
             android:layout_height="160dp"
-            android:scaleType="fitXY"
+            android:scaleType="centerCrop"
             android:src="@color/material_blue_grey_800"/>
 
         <RelativeLayout

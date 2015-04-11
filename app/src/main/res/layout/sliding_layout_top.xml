@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center|top">
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@+id/sliding_layout_top"
+        android:elevation="8dp"
         android:layout_width="match_parent"
         android:layout_height="68dp"
         android:padding="@dimen/activity_horizontal_margin"
@@ -17,42 +18,77 @@
             android:layout_height="36dp"
             android:id="@+id/sliding_layout_action_ico"
             android:clickable="true"
-
             android:layout_alignParentRight="true"
-            android:layout_centerHorizontal="true"/>
+            android:layout_alignParentEnd="true"
+            android:layout_centerHorizontal="true" />
 
-        <RelativeLayout
-            android:id="@+id/drag_view"
+        <TextView
+            android:id="@+id/sliding_layout_song_title"
             android:layout_alignParentTop="true"
-            android:layout_width="wrap_content"
-            android:layout_toLeftOf="@id/sliding_layout_action_ico"
-            android:layout_height="match_parent">
-            <TextView
-                android:id="@+id/sliding_layout_song_title"
-                android:layout_alignParentTop="true"
-                android:textStyle="bold"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                tools:text="TEST"/>
+            android:textStyle="bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            tools:text="TEST" />
 
-            <TextView
-                android:id="@+id/sliding_layout_song_artist"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:layout_below="@id/sliding_layout_song_title"
-                tools:text="TEST"/>
-            </RelativeLayout>
+        <TextView
+            android:id="@+id/sliding_layout_song_artist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_below="@id/sliding_layout_song_title"
+            tools:text="TEST" />
 
     </RelativeLayout>
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:orientation="vertical"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/sliding_layout_top"
-        android:background="@color/white">
-    </LinearLayout>
+    <ImageView
+        android:layout_weight="3"
+        android:id="@+id/sliding_layout_top_song_img"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"/>
 
-</RelativeLayout>
+    <RelativeLayout
+        android:layout_weight="1"
+        android:id="@+id/sliding_layout_top_song_info_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/sliding_layout_top_artist"
+            tools:text="Tupac Shakur"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/blue"
+            android:textStyle="bold"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:paddingBottom="10dp" />
+
+        <TextView
+            android:id="@+id/sliding_layout_top_title"
+            tools:text="Placeholder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:fontFamily="sans-serif-light"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/sliding_layout_top_artist" />
+
+        <TextView
+            android:id="@+id/sliding_layout_top_album"
+            tools:text="Placeholder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:fontFamily="sans-serif-light"
+            android:layout_alignParentLeft="true"
+             android:layout_alignParentStart="true"
+            android:layout_below="@+id/sliding_layout_top_title" />
+    </RelativeLayout>
+
+</LinearLayout>

@@ -3,11 +3,9 @@ package com.example.chris.atp_music_player.ui.activities;
 
 import android.support.v4.app.LoaderManager;
 import android.content.ComponentName;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.content.Loader;
@@ -21,6 +19,7 @@ import com.example.chris.atp_music_player.adapters.SongSubsetListAdapter;
 import com.example.chris.atp_music_player.loaders.SubsetListLoader;
 import com.example.chris.atp_music_player.models.Song;
 import com.example.chris.atp_music_player.services.LocalPlaybackService;
+import com.example.chris.atp_music_player.utils.AlbumArtUtils;
 import com.example.chris.atp_music_player.utils.Constants;
 import com.squareup.picasso.Picasso;
 
@@ -78,9 +77,7 @@ public class SongSubsetActivity extends BaseActivity implements LoaderManager.Lo
         int albumId = getIntent().getIntExtra(Constants.DATA_ALBUM_ID, 0);
 
         if (albumId != 0) {
-            Uri artworkUri =  Uri.parse("content://media/external/audio/albumart");
-            Uri result = ContentUris.withAppendedId(artworkUri, getIntent().getIntExtra(Constants.DATA_ALBUM_ID, 0));
-            Picasso.with(this).load(result).into(mAlbumImage);
+            Picasso.with(this).load(AlbumArtUtils.albumArtUriFromId(albumId)).into(mAlbumImage);
         }
 
         getSupportLoaderManager().initLoader(LOADER, null, this).forceLoad();
@@ -104,8 +101,8 @@ public class SongSubsetActivity extends BaseActivity implements LoaderManager.Lo
         }
     }
 
-    public void pushMedia(String title, String artist, Uri uri) {
-        mService.play(title, artist, uri);
+    public void pushMedia(Song song) {
+        mService.play(song);
     }
 
     @Override

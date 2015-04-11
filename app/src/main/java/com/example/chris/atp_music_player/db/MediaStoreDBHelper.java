@@ -27,6 +27,8 @@ public class MediaStoreDBHelper {
             MediaStore.Audio.Media._ID,
             MediaStore.Audio.Media.TITLE,
             MediaStore.Audio.Media.ARTIST,
+            MediaStore.Audio.Media.ALBUM,
+            MediaStore.Audio.Media.ALBUM_ID,
             MediaStore.Audio.Media.DATA
     };
     final static String SONG_SELECTION_CLAUSE = MediaStore.Audio.Media.IS_MUSIC + "!= 0";

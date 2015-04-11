@@ -39,9 +39,7 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
     private MediaPlayer mMediaPlayer;
     private AudioManager mAudioManager;
 
-    private String mLastTitle;
-    private String mLastArtist;
-    private Uri mLastPlayed;
+    private Song mLastSong;
 
     public class LocalBinder extends Binder {
         public LocalPlaybackService getService() {
@@ -87,7 +85,7 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
     }
 
     @Override
-    public void play(String title, String artist, Uri uri) {
+    public void play(Song song) {
 
         if (requestAudioFocus()) {
             try {
@@ -101,11 +99,9 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
                     mMediaPlayer.reset();
                 }
 
-                mLastPlayed = uri;
-                mLastTitle = title;
-                mLastArtist = artist;
+                mLastSong = song;
 
-                mMediaPlayer.setDataSource(this, mLastPlayed);
+                mMediaPlayer.setDataSource(this, Uri.parse(song.getMediaLocation()));
                 mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
                 mMediaPlayer.prepareAsync();
 
@@ -157,7 +153,6 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
         releaseResources();
 
         mPlaybackState = STATE_STOPPED;
-        mLastPlayed = null;
         mCurrentPlaybackPosition = 0;
     }
 
@@ -249,6 +244,6 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
     }
 
     public Song getLastSong() {
-        return new Song(mLastTitle, mLastArtist, "");
+        return mLastSong;
     }
 }

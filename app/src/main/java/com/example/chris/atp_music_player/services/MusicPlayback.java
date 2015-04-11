@@ -1,10 +1,10 @@
 package com.example.chris.atp_music_player.services;
 
-import android.net.Uri;
+import com.example.chris.atp_music_player.models.Song;
 
 public interface MusicPlayback {
 
-    void play(String title, String artist, Uri uri);
+    void play(Song song);
 
     void pause();
 

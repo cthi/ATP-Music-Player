@@ -3,6 +3,7 @@ package com.example.chris.atp_music_player.ui.activities;
 
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -17,6 +18,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,7 +32,9 @@ import com.example.chris.atp_music_player.models.Song;
 import com.example.chris.atp_music_player.receivers.ReceiverMessages;
 import com.example.chris.atp_music_player.services.LocalPlaybackService;
 import com.example.chris.atp_music_player.ui.fragments.LibraryFragment;
+import com.example.chris.atp_music_player.utils.AlbumArtUtils;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -45,16 +49,33 @@ public class MainActivity extends BaseActivity {
     private LocalPlaybackService mService;
     private BroadcastReceiver mServiceReceiver;
 
-    @InjectView(R.id.toolbar) Toolbar mToolbar;
+    @InjectView(R.id.toolbar)
+    Toolbar mToolbar;
     private ActionBarDrawerToggle mDrawerToggle;
-    @InjectView(R.id.drawerLayout) DrawerLayout mDrawerLayout;
-    @InjectView(R.id.drawerList) RecyclerView mDrawerList;
+    @InjectView(R.id.drawerLayout)
+    DrawerLayout mDrawerLayout;
+    @InjectView(R.id.drawerList)
+    RecyclerView mDrawerList;
 
     // move this
-    @InjectView(R.id.sliding_layout_song_title) TextView mTitle;
-    @InjectView(R.id.sliding_layout_song_artist) TextView mArtist;
-    @InjectView(R.id.sliding_layout_action_ico) ImageView mActionImage;
-    @InjectView(R.id.sliding_layout) SlidingUpPanelLayout mSlidingPanel;
+    @InjectView(R.id.sliding_layout_song_title)
+    TextView mTitle;
+    @InjectView(R.id.sliding_layout_song_artist)
+    TextView mArtist;
+    @InjectView(R.id.sliding_layout_action_ico)
+    ImageView mActionImage;
+    @InjectView(R.id.sliding_layout_top_artist)
+    TextView mTopArtist;
+    @InjectView(R.id.sliding_layout_top_title)
+    TextView mTopTitle;
+    @InjectView(R.id.sliding_layout_top_album)
+    TextView mTopAlbum;
+    @InjectView(R.id.sliding_layout_top_song_img)
+    ImageView mTopImage;
+
+    @InjectView(R.id.sliding_layout)
+    SlidingUpPanelLayout mSlidingPanel;
+
 
     private boolean mServiceBound;
     private boolean mReceiverRegistered;
@@ -92,7 +113,7 @@ public class MainActivity extends BaseActivity {
         DrawerItem d = new DrawerItem("TEST");
         DrawerItem e = new DrawerItem("TEST");
 
-        ArrayList<DrawerItem> test  = new ArrayList<>();
+        ArrayList<DrawerItem> test = new ArrayList<>();
         test.add(a);
         test.add(b);
         test.add(c);
@@ -107,13 +128,11 @@ public class MainActivity extends BaseActivity {
 
 
         LibraryFragment fragment = LibraryFragment.newInstance();
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment,fragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment, fragment).commit();
 
         Intent intent = new Intent(this, LocalPlaybackService.class);
         startService(intent);
-
         mSlidingPanel.setEnableDragViewTouchEvents(true);
-        mSlidingPanel.setDragView(findViewById(R.id.drag_view));
 
         initListeners();
     }
@@ -142,7 +161,7 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    protected void onPause(){
+    protected void onPause() {
         super.onPause();
 
         if (mReceiverRegistered) {
@@ -151,10 +170,10 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    public void initListeners(){
+    public void initListeners() {
         mActionImage.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
+            public void onClick(View view) {
                 if (mService.isPlaying()) {
                     mService.pause();
                     mActionImage.setImageResource(R.drawable.ic_play_arrow_white_24dp);
@@ -191,13 +210,13 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    public void setTitle(CharSequence title){
+    public void setTitle(CharSequence title) {
         super.setTitle(title);
         mToolbar.setTitle(title);
     }
 
     @Override
-    protected void onStart(){
+    protected void onStart() {
         super.onStart();
 
         Intent intent = new Intent(this, LocalPlaybackService.class);
@@ -205,7 +224,7 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    protected void onStop(){
+    protected void onStop() {
         super.onStop();
 
         if (mServiceBound) {
@@ -214,7 +233,7 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    public void initDrawerLayout(){
+    public void initDrawerLayout() {
         if (mDrawerLayout != null) {
             mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
             mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close);
@@ -223,15 +242,24 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    public void pushMedia(String title, String artist, Uri uri) {
-        mService.play(title, artist, uri);
+    public void pushMedia(Song song) {
+        mService.play(song);
 
-        mArtist.setText(artist);
-        mTitle.setText(title);
-        mActionImage.setImageResource(R.drawable.ic_pause_white_24dp);
+        updateNowPlayingView(song);
     }
 
-    public void restorePlayingView(){
+    public void updateNowPlayingView(Song song) {
+        mArtist.setText(song.getArtist());
+        mTitle.setText(song.getTitle());
+        mTopArtist.setText(song.getArtist());
+        mTopTitle.setText(song.getTitle());
+        mTopAlbum.setText(song.getAlbum());
+        mActionImage.setImageResource(R.drawable.ic_pause_white_24dp);
+
+        Picasso.with(this).load(AlbumArtUtils.albumArtUriFromId(song.getAlbumId())).into(mTopImage);
+    }
+
+    public void restorePlayingView() {
         if (mServiceBound) {
             if (mService.isPlaying()) {
                 mActionImage.setImageResource(R.drawable.ic_pause_white_24dp);
@@ -239,10 +267,9 @@ public class MainActivity extends BaseActivity {
                 mActionImage.setImageResource(R.drawable.ic_play_arrow_white_24dp);
             }
 
-            Song song = mService.getLastSong();
-
-            mArtist.setText(song.getArtist());
-            mTitle.setText(song.getTitle());
+            if (mService.getLastSong() != null) {
+                updateNowPlayingView(mService.getLastSong());
+            }
         }
     }
 }

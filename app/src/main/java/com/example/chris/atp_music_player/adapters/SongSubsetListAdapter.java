@@ -1,7 +1,6 @@
 package com.example.chris.atp_music_player.adapters;
 
 import android.content.Context;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +26,6 @@ public class SongSubsetListAdapter extends RecyclerView.Adapter<SongSubsetListAd
         TextView mTitle;
         @InjectView(R.id.item_song_list_subtitle)
         TextView mSubtitle;
-        String media_uri;
 
         public ViewHolder(View view) {
             super(view);
@@ -39,12 +37,12 @@ public class SongSubsetListAdapter extends RecyclerView.Adapter<SongSubsetListAd
         public void bind(Song song) {
             mTitle.setText(song.getTitle());
             mSubtitle.setText(song.getArtist());
-            media_uri = song.getMediaLocation();
         }
 
         @Override
         public void onClick(View view) {
-            ((SongSubsetActivity) mContext).pushMedia(mTitle.getText().toString(), mSubtitle.getText().toString(), Uri.parse(media_uri));
+            Song song = mSongList.get(getPosition());
+            ((SongSubsetActivity) mContext).pushMedia(song);
         }
     }
 
