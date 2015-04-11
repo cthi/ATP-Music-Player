@@ -66,12 +66,12 @@ public class
                             Bitmap bmp = ((BitmapDrawable) mImage.getDrawable()).getBitmap();
                             Palette palette = PaletteTransformation.getPalette(bmp);
 
-                            if (palette.getLightVibrantSwatch() != null) {
-                                mInfoView.setBackgroundColor(palette.getLightVibrantSwatch().getRgb());
-                                mLabel.setTextColor(palette.getLightVibrantSwatch().getTitleTextColor());
+                            if (palette.getLightMutedSwatch() != null) {
+                                mInfoView.setBackgroundColor(palette.getLightMutedSwatch().getRgb());
                             } else {
-                                mInfoView.setBackgroundResource(R.color.blue);
+                                mInfoView.setBackgroundResource(R.color.muted_blue);
                             }
+                            mLabel.setTextColor(mContext.getResources().getColor(R.color.light_grey));
                         }
                     });
         }
