@@ -59,7 +59,8 @@ public class
             Uri result = ContentUris.withAppendedId(artworkUri, mAlbumId);
 
             final PaletteTransformation paletteTransformation = PaletteTransformation.instance();
-            Picasso.with(mContext).load(result).transform(paletteTransformation)
+            Picasso.with(mContext).load(result).placeholder(R.drawable.placeholder_aa)
+                    .transform(paletteTransformation)
                     .into(mImage, new Callback.EmptyCallback() {
                         @Override
                         public void onSuccess() {

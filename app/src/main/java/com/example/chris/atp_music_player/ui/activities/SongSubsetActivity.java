@@ -77,7 +77,10 @@ public class SongSubsetActivity extends BaseActivity implements LoaderManager.Lo
         int albumId = getIntent().getIntExtra(Constants.DATA_ALBUM_ID, 0);
 
         if (albumId != 0) {
-            Picasso.with(this).load(AlbumArtUtils.albumArtUriFromId(albumId)).into(mAlbumImage);
+            Picasso.with(this).load(AlbumArtUtils.albumArtUriFromId(albumId))
+                    .placeholder(R.drawable.placeholder_aa).into(mAlbumImage);
+        } else {
+            Picasso.with(this).load(R.drawable.placeholder_aa).into(mAlbumImage);
         }
 
         getSupportLoaderManager().initLoader(LOADER, null, this).forceLoad();
