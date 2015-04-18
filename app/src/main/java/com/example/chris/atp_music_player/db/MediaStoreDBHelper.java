@@ -8,6 +8,7 @@ import android.provider.MediaStore;
 
 public class MediaStoreDBHelper {
     final static Uri MEDIA_URI = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+    final static Uri GENRE_URI = MediaStore.Audio.Genres.EXTERNAL_CONTENT_URI;
 
     final static String[] PROJECTION = {MediaStore.Audio.Media.TITLE,
             MediaStore.Audio.Media.ARTIST,
@@ -46,6 +47,12 @@ public class MediaStoreDBHelper {
     };
     final static String ALBUM_ORDER = MediaStore.Audio.Media.ALBUM + " ASC";
 
+    final static String[] GENRE_PROJECTION = {
+            MediaStore.Audio.Genres._ID,
+            MediaStore.Audio.Genres.NAME
+    };
+    final static String GENRE_ORDER = MediaStore.Audio.Genres.NAME + " ASC";
+
     public static Cursor getSongsCursor(Context context) {
         ContentResolver contentResolver = context.getContentResolver();
         return contentResolver.query(MEDIA_URI, SONG_PROJECTION, SONG_SELECTION_CLAUSE, null, SONG_ORDER);
@@ -64,5 +71,10 @@ public class MediaStoreDBHelper {
     public static Cursor getSongsCursor(Context context, String selectionClause, String[] selectionArgs) {
         ContentResolver contentResolver = context.getContentResolver();
         return contentResolver.query(MEDIA_URI, SONG_PROJECTION, selectionClause, selectionArgs, SONG_ORDER);
+    }
+
+    public static Cursor getGenresCursor(Context context) {
+        ContentResolver contentResolver = context.getContentResolver();
+        return contentResolver.query(GENRE_URI, GENRE_PROJECTION, null, null, GENRE_ORDER);
     }
 }

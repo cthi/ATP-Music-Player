@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.ui.fragments.AlbumListFragment;
 import com.example.chris.atp_music_player.ui.fragments.ArtistListFragment;
+import com.example.chris.atp_music_player.ui.fragments.GenreListFragment;
 import com.example.chris.atp_music_player.ui.fragments.SongListFragment;
 
 public class LibraryPagerAdapter extends FragmentPagerAdapter {
@@ -27,7 +28,7 @@ public class LibraryPagerAdapter extends FragmentPagerAdapter {
             case 1:
                 return AlbumListFragment.newInstance();
             case 2:
-                return AlbumListFragment.newInstance();
+                return GenreListFragment.newInstance();
             case 3:
                 return SongListFragment.newInstance();
             default:

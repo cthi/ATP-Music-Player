@@ -29,6 +29,7 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
     private static final int STATE_PAUSED = 0;
     private static final int STATE_PLAYING = 1;
     private static final int STATE_STOPPED = 2;
+    private static final int STATE_LOADING = 3;
 
     private int mPlaybackState;
     private boolean mReceiverRegistered;
@@ -91,6 +92,8 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
     public void play(List<Song> songList, int position) {
 
         if (requestAudioFocus()) {
+
+            mPlaybackState = STATE_LOADING;
             try {
                 if (mMediaPlayer == null) {
                     mMediaPlayer = new MediaPlayer();
@@ -165,7 +168,7 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
 
     @Override
     public boolean isPlaying() {
-        return mMediaPlayer != null && mMediaPlayer.isPlaying();
+        return mPlaybackState == STATE_PLAYING || mPlaybackState == STATE_LOADING;
     }
 
     @Override
