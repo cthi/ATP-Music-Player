@@ -104,8 +104,8 @@ public class SongSubsetActivity extends BaseActivity implements LoaderManager.Lo
         }
     }
 
-    public void pushMedia(Song song) {
-        mService.play(song);
+    public void pushMedia(List<Song> songList, int position) {
+        mService.play(songList, position);
     }
 
     @Override

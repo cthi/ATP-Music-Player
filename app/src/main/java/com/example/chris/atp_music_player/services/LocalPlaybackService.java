@@ -16,6 +16,8 @@ import com.example.chris.atp_music_player.models.Song;
 import com.example.chris.atp_music_player.receivers.ReceiverMessages;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Random;
 
 public class LocalPlaybackService extends Service implements MusicPlayback,
         AudioManager.OnAudioFocusChangeListener, MediaPlayer.OnPreparedListener,
@@ -39,7 +41,8 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
     private MediaPlayer mMediaPlayer;
     private AudioManager mAudioManager;
 
-    private Song mLastSong;
+    private List<Song> mCurrentSongList;
+    private int mCurrentSongPosition;
 
     public class LocalBinder extends Binder {
         public LocalPlaybackService getService() {
@@ -85,7 +88,7 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
     }
 
     @Override
-    public void play(Song song) {
+    public void play(List<Song> songList, int position) {
 
         if (requestAudioFocus()) {
             try {
@@ -99,9 +102,10 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
                     mMediaPlayer.reset();
                 }
 
-                mLastSong = song;
+                mCurrentSongList = songList;
+                mCurrentSongPosition = position;
 
-                mMediaPlayer.setDataSource(this, Uri.parse(song.getMediaLocation()));
+                mMediaPlayer.setDataSource(this, Uri.parse(mCurrentSongList.get(mCurrentSongPosition).getMediaLocation()));
                 mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
                 mMediaPlayer.prepareAsync();
 
@@ -244,6 +248,36 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
     }
 
     public Song getLastSong() {
-        return mLastSong;
+        if (mCurrentSongList == null) {
+            return null;
+        }
+        return mCurrentSongList.get(mCurrentSongPosition);
+    }
+
+    public void playNext() {
+        if (mCurrentSongPosition + 1 > mCurrentSongList.size() - 1) {
+            mCurrentSongPosition = 0;
+        } else {
+            mCurrentSongPosition++;
+        }
+
+        play(mCurrentSongList, mCurrentSongPosition);
+    }
+
+    public void playLast() {
+        if (mCurrentSongPosition - 1 < 0) {
+            mCurrentSongPosition = mCurrentSongList.size() - 1;
+        } else {
+            mCurrentSongPosition--;
+        }
+
+        play(mCurrentSongList, mCurrentSongPosition);
+    }
+
+    public void repeat(){
+        play(mCurrentSongList, mCurrentSongPosition);
+    }
+    public void playRandom() {
+        play(mCurrentSongList, new Random().nextInt(mCurrentSongList.size()));
     }
 }

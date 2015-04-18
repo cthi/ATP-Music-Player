@@ -37,6 +37,7 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -73,9 +74,22 @@ public class MainActivity extends BaseActivity {
     @InjectView(R.id.sliding_layout_top_song_img)
     ImageView mTopImage;
 
+    @InjectView(R.id.sliding_layout_top_repeat)
+    ImageView mTopRepeat;
+    @InjectView(R.id.sliding_layout_top_back)
+    ImageView mTopBack;
+    @InjectView(R.id.sliding_layout_top_fwrd)
+    ImageView mTopForward;
+    @InjectView(R.id.sliding_layout_top_play_pause)
+    ImageView mTopPlayPause;
+    @InjectView(R.id.sliding_layout_top_shuffle)
+    ImageView mTopShuffle;
+
     @InjectView(R.id.sliding_layout)
     SlidingUpPanelLayout mSlidingPanel;
 
+    private boolean mShuffle = false;
+    private boolean mRepeat = false;
 
     private boolean mServiceBound;
     private boolean mReceiverRegistered;
@@ -147,10 +161,18 @@ public class MainActivity extends BaseActivity {
                 public void onReceive(Context context, Intent intent) {
                     int result = intent.getIntExtra(ReceiverMessages.PLAYBACK_INTENT_TAG, 0);
 
+
                     if (result == ReceiverMessages.PLAYBACK_STOPPED) {
-                        // update gui
+
                     } else if (result == ReceiverMessages.STREAM_ENDED) {
-                        // send a new song to the service
+
+                        if (mRepeat) {
+                            mService.repeat();
+                        } else if (mShuffle) {
+                            mService.playRandom();
+                        }
+                       
+                        updateNowPlayingView(mService.getLastSong());
                     }
                 }
             };
@@ -176,10 +198,81 @@ public class MainActivity extends BaseActivity {
             public void onClick(View view) {
                 if (mService.isPlaying()) {
                     mService.pause();
-                    mActionImage.setImageResource(R.drawable.ic_play_arrow_white_24dp);
+                    mActionImage.setImageResource(R.drawable.ic_play_arrow_white_36dp);
+                    mTopPlayPause.setImageResource(R.drawable.ic_play_arrow_white_36dp);
                 } else {
                     mService.resume();
-                    mActionImage.setImageResource(R.drawable.ic_pause_white_24dp);
+                    mActionImage.setImageResource(R.drawable.ic_pause_white_36dp);
+                    mTopPlayPause.setImageResource(R.drawable.ic_pause_white_36dp);
+                }
+            }
+        });
+
+        mTopPlayPause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mService.isPlaying()) {
+                    mService.pause();
+                    mActionImage.setImageResource(R.drawable.ic_play_arrow_white_36dp);
+                    mTopPlayPause.setImageResource(R.drawable.ic_play_arrow_white_36dp);
+                } else {
+                    mService.resume();
+                    mActionImage.setImageResource(R.drawable.ic_pause_white_36dp);
+                    mTopPlayPause.setImageResource(R.drawable.ic_pause_white_36dp);
+                }
+            }
+        });
+
+        mTopForward.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (mShuffle) {
+                    mService.playRandom();
+                } else {
+                    mService.playNext();
+                }
+
+                updateNowPlayingView(mService.getLastSong());
+            }
+        });
+
+        mTopBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (mShuffle) {
+                    mService.playRandom();
+                } else {
+                    mService.playLast();
+                }
+
+                updateNowPlayingView(mService.getLastSong());
+            }
+        });
+
+        mTopShuffle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mShuffle = !mShuffle;
+                if (mShuffle) {
+                    mTopShuffle.setImageResource(R.drawable.ic_shuffle_cyan_36dp);
+                } else {
+                    mTopShuffle.setImageResource(R.drawable.ic_shuffle_white_36dp);
+                }
+
+            }
+        });
+
+        mTopRepeat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mRepeat = !mRepeat;
+
+                if (mRepeat) {
+                    mTopRepeat.setImageResource(R.drawable.ic_replay_cyan_36dp);
+                } else {
+                    mTopRepeat.setImageResource(R.drawable.ic_replay_white_36dp);
                 }
             }
         });
@@ -251,10 +344,10 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    public void pushMedia(Song song) {
-        mService.play(song);
+    public void pushMedia(List<Song> songList, int position) {
+        mService.play(songList, position);
 
-        updateNowPlayingView(song);
+        updateNowPlayingView(songList.get(position));
     }
 
     public void updateNowPlayingView(Song song) {
@@ -263,7 +356,8 @@ public class MainActivity extends BaseActivity {
         mTopArtist.setText(song.getArtist());
         mTopTitle.setText(song.getTitle());
         mTopAlbum.setText(song.getAlbum());
-        mActionImage.setImageResource(R.drawable.ic_pause_white_24dp);
+        mActionImage.setImageResource(R.drawable.ic_pause_white_36dp);
+        mTopPlayPause.setImageResource(R.drawable.ic_pause_white_36dp);
 
         Picasso.with(this).load(AlbumArtUtils.albumArtUriFromId(song.getAlbumId())).into(mTopImage);
     }
@@ -271,9 +365,11 @@ public class MainActivity extends BaseActivity {
     public void restorePlayingView() {
         if (mServiceBound) {
             if (mService.isPlaying()) {
-                mActionImage.setImageResource(R.drawable.ic_pause_white_24dp);
+                mActionImage.setImageResource(R.drawable.ic_pause_white_36dp);
+                mTopPlayPause.setImageResource(R.drawable.ic_pause_white_36dp);
             } else {
-                mActionImage.setImageResource(R.drawable.ic_play_arrow_white_24dp);
+                mActionImage.setImageResource(R.drawable.ic_play_arrow_white_36dp);
+                mTopPlayPause.setImageResource(R.drawable.ic_play_arrow_white_36dp);
             }
 
             if (mService.getLastSong() != null) {

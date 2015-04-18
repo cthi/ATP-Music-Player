@@ -41,8 +41,7 @@ public class SongSubsetListAdapter extends RecyclerView.Adapter<SongSubsetListAd
 
         @Override
         public void onClick(View view) {
-            Song song = mSongList.get(getPosition());
-            ((SongSubsetActivity) mContext).pushMedia(song);
+            ((SongSubsetActivity) mContext).pushMedia(mSongList, getPosition());
         }
     }
 
