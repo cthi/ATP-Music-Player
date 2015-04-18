@@ -4,6 +4,7 @@ import android.content.ContentUris;
 import android.net.Uri;
 
 public class AlbumArtUtils {
+
     private final static Uri artworkUri = Uri.parse("content://media/external/audio/albumart");
 
     public static Uri albumArtUriFromId(int albumId) {

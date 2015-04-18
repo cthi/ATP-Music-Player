@@ -1,6 +1,5 @@
 package com.example.chris.atp_music_player.ui.fragments;
 
-
 import android.support.v4.app.LoaderManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

@@ -2,8 +2,8 @@ package com.example.chris.atp_music_player.models;
 
 public class DrawerItem {
 
-    String label;
-    int imgId;
+    private String label;
+    private int imgId;
 
     public DrawerItem(String label, int imgId){
         this.label = label;

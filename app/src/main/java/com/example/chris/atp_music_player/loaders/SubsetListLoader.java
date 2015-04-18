@@ -1,6 +1,5 @@
 package com.example.chris.atp_music_player.loaders;
 
-
 import android.content.Context;
 import android.database.Cursor;
 import android.provider.MediaStore;

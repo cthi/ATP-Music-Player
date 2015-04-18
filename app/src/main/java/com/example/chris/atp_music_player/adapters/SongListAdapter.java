@@ -1,6 +1,5 @@
 package com.example.chris.atp_music_player.adapters;
 
-
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -54,7 +53,8 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.ViewHo
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int position) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_song_list, parent, false);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_song_list, parent, false);
 
         return new ViewHolder(view);
     }

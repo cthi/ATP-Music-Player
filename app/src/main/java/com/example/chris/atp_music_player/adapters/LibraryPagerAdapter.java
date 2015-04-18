@@ -10,7 +10,6 @@ import com.example.chris.atp_music_player.ui.fragments.AlbumListFragment;
 import com.example.chris.atp_music_player.ui.fragments.ArtistListFragment;
 import com.example.chris.atp_music_player.ui.fragments.SongListFragment;
 
-
 public class LibraryPagerAdapter extends FragmentPagerAdapter {
 
     private final String[] TAB_TITLES;

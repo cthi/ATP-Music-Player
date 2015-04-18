@@ -1,6 +1,5 @@
 package com.example.chris.atp_music_player.adapters;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -42,7 +41,7 @@ public class ArtistListAdapter extends RecyclerView.Adapter<ArtistListAdapter.Vi
         @Override
         public void onClick(View view) {
             Intent intent = new Intent(mContext, SongSubsetActivity.class);
-            intent.putExtra(Constants.QUERY_CONSTRAINT, mLabel.getText().toString());
+            intent.putExtra(Constants.QUERY_CONSTRAINT, mArtistList.get(getPosition()));
             intent.putExtra(Constants.QUERY_TYPE, Constants.QUERY_TYPE_ARTIST);
             intent.putExtra(Constants.DATA_ALBUM_ID, 0);
             mContext.startActivity(intent);
@@ -57,7 +56,8 @@ public class ArtistListAdapter extends RecyclerView.Adapter<ArtistListAdapter.Vi
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int position) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_artist_list, parent, false);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_artist_list, parent, false);
 
         return new ViewHolder(view);
     }

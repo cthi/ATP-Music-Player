@@ -32,7 +32,8 @@ public class LibraryFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_library, container, false);
 
         ButterKnife.inject(this, view);
@@ -44,7 +45,8 @@ public class LibraryFragment extends Fragment {
     }
 
     public void initPager() {
-        LibraryPagerAdapter adapter = new LibraryPagerAdapter(getActivity(), getChildFragmentManager());
+        LibraryPagerAdapter adapter = new LibraryPagerAdapter(getActivity(),
+                getChildFragmentManager());
 
         mViewPager.setAdapter(adapter);
     }

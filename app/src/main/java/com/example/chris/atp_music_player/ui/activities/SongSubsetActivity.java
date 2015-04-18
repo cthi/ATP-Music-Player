@@ -1,6 +1,5 @@
 package com.example.chris.atp_music_player.ui.activities;
 
-
 import android.support.v4.app.LoaderManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -28,7 +27,8 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class SongSubsetActivity extends BaseActivity implements LoaderManager.LoaderCallbacks<List<Song>> {
+public class SongSubsetActivity extends BaseActivity
+        implements LoaderManager.LoaderCallbacks<List<Song>> {
 
     private int LOADER = 10000;
     private int mQueryType;

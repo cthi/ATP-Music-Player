@@ -6,8 +6,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 
-import com.example.chris.atp_music_player.utils.Constants;
-
 public class MediaStoreDBHelper {
     final static Uri MEDIA_URI = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
 

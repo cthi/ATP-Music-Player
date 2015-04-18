@@ -1,6 +1,5 @@
 package com.example.chris.atp_music_player.loaders;
 
-
 import android.support.v4.content.AsyncTaskLoader;
 import android.content.Context;
 import android.database.Cursor;

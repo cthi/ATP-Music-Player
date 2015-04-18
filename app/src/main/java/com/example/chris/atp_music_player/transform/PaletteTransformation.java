@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.WeakHashMap;
 
 public class PaletteTransformation implements Transformation {
+
     private static final PaletteTransformation INSTANCE = new PaletteTransformation();
     private static final Map<Bitmap, Palette> CACHE = new WeakHashMap<>();
 

@@ -94,7 +94,8 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
             try {
                 if (mMediaPlayer == null) {
                     mMediaPlayer = new MediaPlayer();
-                    mMediaPlayer.setWakeMode(this.getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
+                    mMediaPlayer.setWakeMode(this.getApplicationContext(),
+                            PowerManager.PARTIAL_WAKE_LOCK);
                     mMediaPlayer.setOnCompletionListener(this);
                     mMediaPlayer.setOnPreparedListener(this);
                     mMediaPlayer.setOnErrorListener(this);
@@ -105,7 +106,8 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
                 mCurrentSongList = songList;
                 mCurrentSongPosition = position;
 
-                mMediaPlayer.setDataSource(this, Uri.parse(mCurrentSongList.get(mCurrentSongPosition).getMediaLocation()));
+                mMediaPlayer.setDataSource(this, Uri.parse(mCurrentSongList.
+                        get(mCurrentSongPosition).getMediaLocation()));
                 mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
                 mMediaPlayer.prepareAsync();
 
@@ -137,7 +139,8 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
         if (requestAudioFocus()) {
             if (mMediaPlayer == null && mPlaybackState == STATE_PAUSED) {
                 mMediaPlayer = new MediaPlayer();
-                mMediaPlayer.setWakeMode(this.getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
+                mMediaPlayer.setWakeMode(this.getApplicationContext(),
+                        PowerManager.PARTIAL_WAKE_LOCK);
                 mMediaPlayer.setOnPreparedListener(this);
             } else {
                 registerMusicIntentReceiver();
@@ -226,7 +229,8 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
 
     public boolean requestAudioFocus() {
         return AudioManager.AUDIOFOCUS_REQUEST_GRANTED ==
-                mAudioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+                mAudioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC,
+                        AudioManager.AUDIOFOCUS_GAIN);
     }
 
     public boolean releaseAudioFocus() {
@@ -277,6 +281,7 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
     public void repeat(){
         play(mCurrentSongList, mCurrentSongPosition);
     }
+
     public void playRandom() {
         play(mCurrentSongList, new Random().nextInt(mCurrentSongList.size()));
     }

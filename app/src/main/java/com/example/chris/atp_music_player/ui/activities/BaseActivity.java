@@ -5,10 +5,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.TypedValue;
 
 import com.example.chris.atp_music_player.R;
-import com.example.chris.atp_music_player.services.LocalPlaybackService;
 
 public class BaseActivity extends ActionBarActivity {
-
 
     public int getColorPrimary(){
         TypedArray tmp = obtainStyledAttributes(new TypedValue().data, new int[] { R.attr.colorPrimary });

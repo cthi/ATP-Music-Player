@@ -1,11 +1,12 @@
 package com.example.chris.atp_music_player.models;
 
 public class Song {
-    String title;
-    String artist;
-    String mediaLocation;
-    String album;
-    int albumId;
+
+    private String title;
+    private String artist;
+    private String mediaLocation;
+    private String album;
+    private int albumId;
 
     public Song(String title, String artist, String mediaLocation, int albumId, String album) {
         this.title = title;

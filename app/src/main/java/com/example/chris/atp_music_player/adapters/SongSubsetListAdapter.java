@@ -53,7 +53,8 @@ public class SongSubsetListAdapter extends RecyclerView.Adapter<SongSubsetListAd
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int position) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_song_list, parent, false);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_song_list, parent, false);
 
         return new ViewHolder(view);
     }

@@ -1,15 +1,12 @@
 package com.example.chris.atp_music_player.ui.activities;
 
-
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.IBinder;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -18,7 +15,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -160,7 +156,6 @@ public class MainActivity extends BaseActivity {
                 @Override
                 public void onReceive(Context context, Intent intent) {
                     int result = intent.getIntExtra(ReceiverMessages.PLAYBACK_INTENT_TAG, 0);
-
 
                     if (result == ReceiverMessages.PLAYBACK_STOPPED) {
 
@@ -356,25 +351,21 @@ public class MainActivity extends BaseActivity {
         mTopArtist.setText(song.getArtist());
         mTopTitle.setText(song.getTitle());
         mTopAlbum.setText(song.getAlbum());
-        mActionImage.setImageResource(R.drawable.ic_pause_white_36dp);
-        mTopPlayPause.setImageResource(R.drawable.ic_pause_white_36dp);
+
+        if (mService.isPlaying()) {
+            mActionImage.setImageResource(R.drawable.ic_pause_white_36dp);
+            mTopPlayPause.setImageResource(R.drawable.ic_pause_white_36dp);
+        } else {
+            mActionImage.setImageResource(R.drawable.ic_play_arrow_white_36dp);
+            mTopPlayPause.setImageResource(R.drawable.ic_play_arrow_white_36dp);
+        }
 
         Picasso.with(this).load(AlbumArtUtils.albumArtUriFromId(song.getAlbumId())).into(mTopImage);
     }
 
     public void restorePlayingView() {
-        if (mServiceBound) {
-            if (mService.isPlaying()) {
-                mActionImage.setImageResource(R.drawable.ic_pause_white_36dp);
-                mTopPlayPause.setImageResource(R.drawable.ic_pause_white_36dp);
-            } else {
-                mActionImage.setImageResource(R.drawable.ic_play_arrow_white_36dp);
-                mTopPlayPause.setImageResource(R.drawable.ic_play_arrow_white_36dp);
-            }
-
-            if (mService.getLastSong() != null) {
-                updateNowPlayingView(mService.getLastSong());
-            }
+        if (mServiceBound && mService.getLastSong() != null) {
+            updateNowPlayingView(mService.getLastSong());
         }
     }
 }
