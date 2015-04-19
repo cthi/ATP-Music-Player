@@ -1,6 +1,7 @@
 package com.example.chris.atp_music_player.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.chris.atp_music_player.R;
+import com.example.chris.atp_music_player.models.Genre;
+import com.example.chris.atp_music_player.ui.activities.SongSubsetActivity;
+import com.example.chris.atp_music_player.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +22,7 @@ import butterknife.InjectView;
 public class GenreListAdapter extends RecyclerView.Adapter<GenreListAdapter.ViewHolder> {
 
     private Context mContext;
-    private List<String> mGenreList;
+    private List<Genre> mGenreList;
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @InjectView(R.id.item_genre_list_title)
@@ -31,17 +35,20 @@ public class GenreListAdapter extends RecyclerView.Adapter<GenreListAdapter.View
             ButterKnife.inject(this, view);
         }
 
-        public void bind(String genre) {
-            mGenreTitle.setText(genre);
+        public void bind(Genre genre) {
+            mGenreTitle.setText(genre.getName());
         }
 
         @Override
         public void onClick(View view) {
-
+            Intent intent = new Intent(mContext, SongSubsetActivity.class);
+            intent.putExtra(Constants.QUERY_CONSTRAINT, Integer.toString(mGenreList.get(getPosition()).getId()));
+            intent.putExtra(Constants.QUERY_TYPE, Constants.QUERY_TYPE_GENRE);
+            mContext.startActivity(intent);
         }
     }
 
-    public GenreListAdapter(Context context, List<String> genreList) {
+    public GenreListAdapter(Context context, List<Genre> genreList) {
         mContext = context;
         mGenreList = genreList;
     }
@@ -69,7 +76,7 @@ public class GenreListAdapter extends RecyclerView.Adapter<GenreListAdapter.View
         notifyDataSetChanged();
     }
 
-    public void insert(String genre) {
+    public void insert(Genre genre) {
         mGenreList.add(genre);
     }
 }

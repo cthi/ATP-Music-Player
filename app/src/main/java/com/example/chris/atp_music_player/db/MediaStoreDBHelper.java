@@ -49,7 +49,7 @@ public class MediaStoreDBHelper {
 
     final static String[] GENRE_PROJECTION = {
             MediaStore.Audio.Genres._ID,
-            MediaStore.Audio.Genres.NAME
+            MediaStore.Audio.Genres.NAME,
     };
     final static String GENRE_ORDER = MediaStore.Audio.Genres.NAME + " ASC";
 
@@ -76,5 +76,11 @@ public class MediaStoreDBHelper {
     public static Cursor getGenresCursor(Context context) {
         ContentResolver contentResolver = context.getContentResolver();
         return contentResolver.query(GENRE_URI, GENRE_PROJECTION, null, null, GENRE_ORDER);
+    }
+
+    public static Cursor getSongsFromGenreCursor(Context context, int genreId) {
+        ContentResolver contentResolver = context.getContentResolver();
+        final Uri GENRE_MEMBERS_URI = MediaStore.Audio.Genres.Members.getContentUri("external", genreId);
+        return contentResolver.query(GENRE_MEMBERS_URI, SONG_PROJECTION, null, null, SONG_ORDER);
     }
 }

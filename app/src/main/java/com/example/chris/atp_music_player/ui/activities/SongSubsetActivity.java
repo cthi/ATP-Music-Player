@@ -15,6 +15,7 @@ import android.widget.ImageView;
 
 import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.adapters.SongSubsetListAdapter;
+import com.example.chris.atp_music_player.loaders.GenreSubsetListLoader;
 import com.example.chris.atp_music_player.loaders.SubsetListLoader;
 import com.example.chris.atp_music_player.models.Song;
 import com.example.chris.atp_music_player.services.LocalPlaybackService;
@@ -110,7 +111,13 @@ public class SongSubsetActivity extends BaseActivity
 
     @Override
     public Loader<List<Song>> onCreateLoader(int id, Bundle args) {
-        return new SubsetListLoader(this, mQueryType, mQueryCondition);
+
+        if (mQueryType == Constants.QUERY_TYPE_GENRE) {
+            return new GenreSubsetListLoader(this, Integer.parseInt(mQueryCondition));
+        } else {
+            return new SubsetListLoader(this, mQueryType, mQueryCondition);
+        }
+
     }
 
     @Override

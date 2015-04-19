@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.adapters.GenreListAdapter;
 import com.example.chris.atp_music_player.loaders.GenreListLoader;
+import com.example.chris.atp_music_player.models.Genre;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class GenreListFragment extends Fragment
-        implements LoaderManager.LoaderCallbacks<List<String>> {
+        implements LoaderManager.LoaderCallbacks<List<Genre>> {
 
     private final static int LOADER = 225;
 
@@ -43,7 +44,7 @@ public class GenreListFragment extends Fragment
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        mAdapter = new GenreListAdapter(getActivity(), new ArrayList<String>());
+        mAdapter = new GenreListAdapter(getActivity(), new ArrayList<Genre>());
         mRecyclerView.setAdapter(mAdapter);
 
         return view;
@@ -57,12 +58,12 @@ public class GenreListFragment extends Fragment
     }
 
     @Override
-    public Loader<List<String>> onCreateLoader(int id, Bundle args) {
+    public Loader<List<Genre>> onCreateLoader(int id, Bundle args) {
         return new GenreListLoader(getActivity());
     }
 
     @Override
-    public void onLoadFinished(Loader<List<String>> loader, List<String> result) {
+    public void onLoadFinished(Loader<List<Genre>> loader, List<Genre> result) {
         mAdapter.clear();
 
         for (int i = 0; i < result.size(); i++) {
