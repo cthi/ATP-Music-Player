@@ -9,15 +9,8 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ed48426c-5c03-4119-9f6f-b1836f02b78c" name="Default" comment="completed genre support">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/chris/atp_music_player/ui/activities/SongGenreSubsetActivity.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_song_genre_subset.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/chris/atp_music_player/ui/activities/BaseActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/chris/atp_music_player/ui/activities/BaseActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/chris/atp_music_player/utils/Constants.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/chris/atp_music_player/utils/Constants.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/chris/atp_music_player/adapters/GenreListAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/chris/atp_music_player/adapters/GenreListAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/chris/atp_music_player/ui/activities/SongSubsetActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/chris/atp_music_player/ui/activities/SongSubsetActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/chris/atp_music_player/adapters/SongSubsetListAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/chris/atp_music_player/adapters/SongSubsetListAdapter.java" />
+    <list default="true" id="ed48426c-5c03-4119-9f6f-b1836f02b78c" name="Default" comment="created a separate subset activity for genre">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/chris/atp_music_player/services/LocalPlaybackService.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/chris/atp_music_player/services/LocalPlaybackService.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="ATP-Music-Player.iws" />
@@ -47,16 +40,24 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="SongSubsetActivity.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/chris/atp_music_player/ui/activities/SongSubsetActivity.java">
+      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/chris/atp_music_player/ui/activities/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.08945687">
-              <caret line="86" column="41" selection-start-line="86" selection-start-column="41" selection-end-line="86" selection-end-column="41" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="209" column="37" selection-start-line="209" selection-start-column="37" selection-end-line="209" selection-end-column="37" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LocalPlaybackService.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/chris/atp_music_player/services/LocalPlaybackService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="1.5008347">
+              <caret line="166" column="0" selection-start-line="166" selection-start-column="0" selection-end-line="166" selection-end-column="0" />
               <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="class#1617:2099" expanded="false" />
-                <element signature="e#3674#3675#0" expanded="true" />
-                <element signature="e#3723#3724#0" expanded="true" />
+                <element signature="e#6007#6008#0" expanded="true" />
+                <element signature="e#6035#6036#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -872,7 +873,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/chris/atp_music_player/ui/fragments/ArtistListFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/chris/atp_music_player/ui/fragments/AlbumListFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/chris/atp_music_player/ui/fragments/SongListFragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/chris/atp_music_player/services/LocalPlaybackService.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_genre_list.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/item_genre_list.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/chris/atp_music_player/adapters/LibraryPagerAdapter.java" />
@@ -890,6 +890,7 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_song_genre_subset.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/chris/atp_music_player/ui/activities/SongGenreSubsetActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/chris/atp_music_player/ui/activities/SongSubsetActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/chris/atp_music_player/services/LocalPlaybackService.java" />
       </list>
     </option>
   </component>
@@ -1771,7 +1772,13 @@
       <option name="project" value="LOCAL" />
       <updated>1429419488222</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="created a separate subset activity for genre">
+      <created>1429492262906</created>
+      <option name="number" value="00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1429492262906</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1856,7 +1863,8 @@
     <MESSAGE value="Large refactor" />
     <MESSAGE value="Added genre views" />
     <MESSAGE value="completed genre support" />
-    <option name="LAST_COMMIT_MESSAGE" value="completed genre support" />
+    <MESSAGE value="created a separate subset activity for genre" />
+    <option name="LAST_COMMIT_MESSAGE" value="created a separate subset activity for genre" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -1974,20 +1982,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.28753993">
           <caret line="12" column="18" selection-start-line="12" selection-start-column="18" selection-end-line="12" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/chris/atp_music_player/services/LocalPlaybackService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.22537562">
-          <caret line="116" column="32" selection-start-line="116" selection-start-column="32" selection-end-line="116" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/chris/atp_music_player/ui/activities/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.47284344">
-          <caret line="354" column="35" selection-start-line="354" selection-start-column="35" selection-end-line="354" selection-end-column="35" />
         </state>
       </provider>
     </entry>
@@ -2308,6 +2302,25 @@
             <element signature="class#1617:2099" expanded="false" />
             <element signature="e#3674#3675#0" expanded="true" />
             <element signature="e#3723#3724#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/chris/atp_music_player/ui/activities/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="209" column="37" selection-start-line="209" selection-start-column="37" selection-end-line="209" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/chris/atp_music_player/services/LocalPlaybackService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.5008347">
+          <caret line="166" column="0" selection-start-line="166" selection-start-column="0" selection-end-line="166" selection-end-column="0" />
+          <folding>
+            <element signature="e#6007#6008#0" expanded="true" />
+            <element signature="e#6035#6036#0" expanded="true" />
           </folding>
         </state>
       </provider>
