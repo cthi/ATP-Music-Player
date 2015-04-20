@@ -5,8 +5,11 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.TypedValue;
 
 import com.example.chris.atp_music_player.R;
+import com.example.chris.atp_music_player.models.Song;
 
-public class BaseActivity extends ActionBarActivity {
+import java.util.List;
+
+public abstract class BaseActivity extends ActionBarActivity {
 
     public int getColorPrimary(){
         TypedArray tmp = obtainStyledAttributes(new TypedValue().data, new int[] { R.attr.colorPrimary });
@@ -15,4 +18,6 @@ public class BaseActivity extends ActionBarActivity {
 
         return color;
     }
+
+    public abstract void pushMedia(List<Song> songList, int position);
 }

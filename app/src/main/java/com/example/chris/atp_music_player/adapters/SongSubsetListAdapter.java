@@ -8,9 +8,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.chris.atp_music_player.R;
+import com.example.chris.atp_music_player.models.Album;
 import com.example.chris.atp_music_player.models.Song;
+import com.example.chris.atp_music_player.ui.activities.BaseActivity;
 import com.example.chris.atp_music_player.ui.activities.SongSubsetActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -41,7 +44,7 @@ public class SongSubsetListAdapter extends RecyclerView.Adapter<SongSubsetListAd
 
         @Override
         public void onClick(View view) {
-            ((SongSubsetActivity) mContext).pushMedia(mSongList, getPosition());
+            ((BaseActivity) mContext).pushMedia(mSongList, getPosition());
         }
     }
 
@@ -67,5 +70,14 @@ public class SongSubsetListAdapter extends RecyclerView.Adapter<SongSubsetListAd
     @Override
     public int getItemCount(){
         return mSongList.size();
+    }
+
+    public void clear() {
+        mSongList = new ArrayList<>();
+        notifyDataSetChanged();
+    }
+
+    public void insert(Song song) {
+        mSongList.add(song);
     }
 }

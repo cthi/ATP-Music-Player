@@ -9,7 +9,8 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/ATPTheme" >
+        android:theme="@style/ATPTheme">
+
         <activity
             android:name=".ui.activities.MainActivity"
             android:label="@string/app_name"
@@ -31,10 +32,17 @@
                 android:value=".ui.activities.MainActivity" />
          </activity>
 
+        <activity
+            android:name=".ui.activities.SongGenreSubsetActivity"
+            android:parentActivityName=".ui.activities.MainActivity"
+            android:label="Subset">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.activities.MainActivity" />
+        </activity>
+
         <service android:name=".services.LocalPlaybackService"
             android:exported="false"/>
     </application>
-
-
-
 </manifest>

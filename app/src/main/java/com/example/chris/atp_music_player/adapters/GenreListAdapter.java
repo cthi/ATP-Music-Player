@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.models.Genre;
-import com.example.chris.atp_music_player.ui.activities.SongSubsetActivity;
+import com.example.chris.atp_music_player.ui.activities.SongGenreSubsetActivity;
 import com.example.chris.atp_music_player.utils.Constants;
 
 import java.util.ArrayList;
@@ -41,9 +41,9 @@ public class GenreListAdapter extends RecyclerView.Adapter<GenreListAdapter.View
 
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent(mContext, SongSubsetActivity.class);
-            intent.putExtra(Constants.QUERY_CONSTRAINT, Integer.toString(mGenreList.get(getPosition()).getId()));
-            intent.putExtra(Constants.QUERY_TYPE, Constants.QUERY_TYPE_GENRE);
+            Intent intent = new Intent(mContext, SongGenreSubsetActivity.class);
+            intent.putExtra(Constants.GENRE, mGenreList.get(getPosition()).getName());
+            intent.putExtra(Constants.GENRE_ID, mGenreList.get(getPosition()).getId());
             mContext.startActivity(intent);
         }
     }

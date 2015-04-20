@@ -11,37 +11,33 @@ import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.widget.ImageView;
 
 import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.adapters.SongSubsetListAdapter;
-import com.example.chris.atp_music_player.loaders.SubsetListLoader;
+import com.example.chris.atp_music_player.loaders.GenreSubsetListLoader;
 import com.example.chris.atp_music_player.models.Song;
 import com.example.chris.atp_music_player.services.LocalPlaybackService;
-import com.example.chris.atp_music_player.utils.AlbumArtUtils;
 import com.example.chris.atp_music_player.utils.Constants;
-import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class SongSubsetActivity extends BaseActivity
+public class SongGenreSubsetActivity extends BaseActivity
         implements LoaderManager.LoaderCallbacks<List<Song>> {
 
-    private int LOADER = 10000;
-    private int mQueryType;
-    private String mQueryCondition;
+    private int LOADER = 57;
 
     private LocalPlaybackService mService;
     private boolean mServiceBound;
 
-    @InjectView(R.id.toolbar)
+    @InjectView(R.id.song_genre_subset_toolbar)
     Toolbar mToolbar;
-    @InjectView(R.id.song_subset_recycler_view)
+    @InjectView(R.id.song_genre_subset_recycle_view)
     RecyclerView mRecyclerView;
-    @InjectView(R.id.song_subset_img) ImageView mAlbumImage;
+    private SongSubsetListAdapter mAdapter;
 
     private ServiceConnection mConnection = new ServiceConnection() {
 
@@ -59,36 +55,28 @@ public class SongSubsetActivity extends BaseActivity
         }
     };
 
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_song_subset);
+        setContentView(R.layout.activity_song_genre_subset);
 
         ButterKnife.inject(this);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mQueryCondition = getIntent().getStringExtra(Constants.QUERY_CONSTRAINT);
-        mQueryType = getIntent().getIntExtra(Constants.QUERY_TYPE, 0);
-
-        getSupportActionBar().setTitle(mQueryCondition.toUpperCase());
+        getSupportActionBar().setTitle(getIntent().getStringExtra(Constants.GENRE));
 
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        int albumId = getIntent().getIntExtra(Constants.DATA_ALBUM_ID, 0);
-
-        if (albumId != 0) {
-            Picasso.with(this).load(AlbumArtUtils.albumArtUriFromId(albumId))
-                    .placeholder(R.drawable.placeholder_aa).into(mAlbumImage);
-        } else {
-            Picasso.with(this).load(R.drawable.placeholder_aa).into(mAlbumImage);
-        }
+        mAdapter = new SongSubsetListAdapter(this, new ArrayList<Song>());
+        mRecyclerView.setAdapter(mAdapter);
 
         getSupportLoaderManager().initLoader(LOADER, null, this).forceLoad();
     }
 
     @Override
-    protected void onStart(){
+    protected void onStart() {
         super.onStart();
 
         Intent intent = new Intent(this, LocalPlaybackService.class);
@@ -96,7 +84,7 @@ public class SongSubsetActivity extends BaseActivity
     }
 
     @Override
-    protected void onStop(){
+    protected void onStop() {
         super.onStop();
 
         if (mServiceBound) {
@@ -112,16 +100,18 @@ public class SongSubsetActivity extends BaseActivity
 
     @Override
     public Loader<List<Song>> onCreateLoader(int id, Bundle args) {
-
-        return new SubsetListLoader(this, mQueryType, mQueryCondition);
-
+        return new GenreSubsetListLoader(this, getIntent().getIntExtra(Constants.GENRE_ID, 0));
     }
 
     @Override
     public void onLoadFinished(Loader<List<Song>> loader, List<Song> result) {
+        mAdapter.clear();
 
-        SongSubsetListAdapter adapter = new SongSubsetListAdapter(this, result);
-        mRecyclerView.setAdapter(adapter);
+        for (Song song : result) {
+            mAdapter.insert(song);
+        }
+
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override
