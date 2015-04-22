@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.astuetz.PagerSlidingTabStrip;
 import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.adapters.LibraryPagerAdapter;
-import com.example.chris.atp_music_player.ui.activities.BaseActivity;
+import com.example.chris.atp_music_player.ui.activities.BaseServiceActivity;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -53,7 +53,7 @@ public class LibraryFragment extends Fragment {
 
     public void initPagerTabs() {
         if (mPagerTabs != null) {
-            mPagerTabs.setBackgroundColor(((BaseActivity) getActivity()).getColorPrimary());
+            mPagerTabs.setBackgroundColor(((BaseServiceActivity) getActivity()).getColorPrimary());
             mPagerTabs.setIndicatorHeight(4);
             mPagerTabs.setDividerColor(Color.TRANSPARENT);
             mPagerTabs.setTextColor(Color.WHITE);

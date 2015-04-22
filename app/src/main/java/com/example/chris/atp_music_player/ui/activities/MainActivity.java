@@ -1,13 +1,10 @@
 package com.example.chris.atp_music_player.ui.activities;
 
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.ServiceConnection;
 import android.content.res.Configuration;
-import android.os.IBinder;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
@@ -40,11 +37,10 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseServiceActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    private LocalPlaybackService mService;
     private BroadcastReceiver mServiceReceiver;
 
     @InjectView(R.id.toolbar)
@@ -88,25 +84,7 @@ public class MainActivity extends BaseActivity {
     private boolean mShuffle = false;
     private boolean mRepeat = false;
 
-    private boolean mServiceBound;
     private boolean mReceiverRegistered;
-
-    private ServiceConnection mConnection = new ServiceConnection() {
-
-        @Override
-        public void onServiceConnected(ComponentName className,
-                                       IBinder service) {
-            LocalPlaybackService.LocalBinder binder = (LocalPlaybackService.LocalBinder) service;
-            mService = binder.getService();
-            mServiceBound = true;
-            restorePlayingView();
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName arg0) {
-            mServiceBound = false;
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,13 +116,11 @@ public class MainActivity extends BaseActivity {
         setSupportActionBar(mToolbar);
         initDrawerLayout();
 
-
         LibraryFragment fragment = LibraryFragment.newInstance();
         getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment, fragment).commit();
 
         Intent intent = new Intent(this, LocalPlaybackService.class);
         startService(intent);
-        mSlidingPanel.setEnableDragViewTouchEvents(true);
 
         initListeners();
     }
@@ -306,24 +282,6 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-
-        Intent intent = new Intent(this, LocalPlaybackService.class);
-        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        if (mServiceBound) {
-            unbindService(mConnection);
-            mServiceBound = false;
-        }
-    }
-
-    @Override
     public void onBackPressed() {
         if (mSlidingPanel.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
             mSlidingPanel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
@@ -342,8 +300,9 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    @Override
     public void pushMedia(List<Song> songList, int position) {
-        mService.play(songList, position);
+        super.pushMedia(songList, position);
 
         updateNowPlayingView(songList.get(position));
     }
