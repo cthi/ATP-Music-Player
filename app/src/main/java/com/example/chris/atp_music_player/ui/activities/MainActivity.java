@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -128,6 +129,7 @@ public class MainActivity extends BaseServiceActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        restorePlayingView();
 
         if (!mReceiverRegistered) {
             mServiceReceiver = new BroadcastReceiver() {
@@ -326,6 +328,7 @@ public class MainActivity extends BaseServiceActivity {
     }
 
     public void restorePlayingView() {
+
         if (mServiceBound && mService.getLastSong() != null) {
             updateNowPlayingView(mService.getLastSong());
         }

@@ -7,6 +7,7 @@ import android.content.ServiceConnection;
 import android.content.res.TypedArray;
 import android.os.IBinder;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.util.TypedValue;
 
 import com.example.chris.atp_music_player.R;
@@ -32,8 +33,7 @@ public abstract class BaseServiceActivity extends ActionBarActivity {
     private ServiceConnection mConnection = new ServiceConnection() {
 
         @Override
-        public void onServiceConnected(ComponentName className,
-                                       IBinder service) {
+        public void onServiceConnected(ComponentName className, IBinder service) {
             LocalPlaybackService.LocalBinder binder = (LocalPlaybackService.LocalBinder) service;
             mService = binder.getService();
             mServiceBound = true;
@@ -59,7 +59,6 @@ public abstract class BaseServiceActivity extends ActionBarActivity {
 
         if (mServiceBound) {
             unbindService(mConnection);
-            mServiceBound = false;
         }
     }
 
