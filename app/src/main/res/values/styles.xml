@@ -7,7 +7,20 @@
         <item name="colorAccent">@color/blue</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:windowBackground">@color/white</item>
+    </style>
 
+    <style name="ATPTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">@color/dark_blue</item>
+        <item name="colorAccent">@color/blue</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:windowBackground">@color/white</item>
+    </style>
+
+    <style name="FontStyleMedium">
+        <item name="android:fontFamily">@string/font_fontFamily_medium</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#D9000000</item>
     </style>
 
 </resources>

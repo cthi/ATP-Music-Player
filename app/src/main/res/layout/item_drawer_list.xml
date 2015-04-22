@@ -12,11 +12,18 @@
     android:paddingLeft="@dimen/single_list_text_padding_start"
     android:paddingRight="@dimen/single_list_text_padding_start">
 
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_lib_24dp"
+        android:layout_gravity="center_vertical" />
+
     <TextView
         android:id="@+id/drawer_list_item_text"
         tools:text="Library"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"/>
-
+        style="@style/FontStyleMedium"
+        android:layout_gravity="center_vertical"
+        android:paddingLeft="32dp" />
 </LinearLayout>

@@ -11,7 +11,6 @@ import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
 import android.os.PowerManager;
-import android.util.Log;
 
 import com.example.chris.atp_music_player.models.Song;
 import com.example.chris.atp_music_player.receivers.ReceiverMessages;
@@ -171,7 +170,6 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
 
     @Override
     public boolean isPlaying() {
-        Log.d("STATE", Integer.toString(mPlaybackState));
         return mPlaybackState == STATE_PLAYING || mPlaybackState == STATE_LOADING;
     }
 

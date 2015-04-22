@@ -25,7 +25,8 @@
         <activity
             android:name=".ui.activities.SongSubsetActivity"
             android:parentActivityName=".ui.activities.MainActivity"
-            android:label="Subset">
+            android:label="Subset"
+            android:theme="@style/ATPTheme.Base">
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -35,7 +36,8 @@
         <activity
             android:name=".ui.activities.SongGenreSubsetActivity"
             android:parentActivityName=".ui.activities.MainActivity"
-            android:label="Subset">
+            android:label="Subset"
+            android:theme="@style/ATPTheme.Base">
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -44,5 +46,6 @@
 
         <service android:name=".services.LocalPlaybackService"
             android:exported="false"/>
+
     </application>
 </manifest>

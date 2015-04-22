@@ -117,18 +117,16 @@ public class MainActivity extends BaseActivity {
 
         mDrawerList.setLayoutManager(new LinearLayoutManager(this));
         // test
+        DrawerItem header = new DrawerItem("Header");
         DrawerItem a = new DrawerItem("Library");
         DrawerItem b = new DrawerItem("Favorites");
-        DrawerItem c = new DrawerItem("Recently Added");
-        DrawerItem d = new DrawerItem("TEST");
-        DrawerItem e = new DrawerItem("TEST");
+        DrawerItem c = new DrawerItem("Recently Played");
 
         ArrayList<DrawerItem> test = new ArrayList<>();
+        test.add(header);
         test.add(a);
         test.add(b);
         test.add(c);
-        test.add(d);
-        test.add(e);
         DrawerListAdapter adapter = new DrawerListAdapter(test);
         //
         mDrawerList.setAdapter(adapter);
@@ -333,6 +331,7 @@ public class MainActivity extends BaseActivity {
     public void initDrawerLayout() {
         if (mDrawerLayout != null) {
             mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+            mDrawerLayout.setStatusBarBackgroundColor(getResources().getColor(R.color.dark_blue));
             mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close);
             mDrawerToggle.setDrawerIndicatorEnabled(true);
             mDrawerLayout.setDrawerListener(mDrawerToggle);
