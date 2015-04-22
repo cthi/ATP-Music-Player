@@ -29,6 +29,7 @@ import com.example.chris.atp_music_player.receivers.ReceiverMessages;
 import com.example.chris.atp_music_player.services.LocalPlaybackService;
 import com.example.chris.atp_music_player.ui.fragments.LibraryFragment;
 import com.example.chris.atp_music_player.utils.AlbumArtUtils;
+import com.example.chris.atp_music_player.utils.ResourceUtils;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.squareup.picasso.Picasso;
 
@@ -118,9 +119,12 @@ public class MainActivity extends BaseActivity {
         mDrawerList.setLayoutManager(new LinearLayoutManager(this));
         // test
         DrawerItem header = new DrawerItem("Header");
-        DrawerItem a = new DrawerItem("Library");
-        DrawerItem b = new DrawerItem("Favorites");
-        DrawerItem c = new DrawerItem("Recently Played");
+        DrawerItem a = new DrawerItem("Library",
+                ResourceUtils.getDrawableResourceId("ic_lib_24dp", this));
+        DrawerItem b = new DrawerItem("Favorites",
+                ResourceUtils.getDrawableResourceId("ic_favorites_24dp", this));
+        DrawerItem c = new DrawerItem("Recently Played",
+                ResourceUtils.getDrawableResourceId("ic_playlist_24dp", this));
 
         ArrayList<DrawerItem> test = new ArrayList<>();
         test.add(header);

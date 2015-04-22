@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.chris.atp_music_player.R;
@@ -23,7 +24,10 @@ public class DrawerListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private ArrayList<DrawerItem> mDrawerItems;
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @InjectView(R.id.drawer_list_item_text) TextView mTextView;
+        @InjectView(R.id.drawer_list_item_text)
+        TextView mDrawerText;
+        @InjectView(R.id.drawer_list_item_img)
+        ImageView mDrawerIcon;
 
         public ViewHolder(View view) {
             super(view);
@@ -32,7 +36,8 @@ public class DrawerListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
 
         public void bind(DrawerItem draweritem) {
-            mTextView.setText(draweritem.getLabel());
+            mDrawerText.setText(draweritem.getLabel());
+            mDrawerIcon.setImageResource(draweritem.getImgId());
         }
 
         @Override
@@ -48,13 +53,12 @@ public class DrawerListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
 
-    public DrawerListAdapter(ArrayList<DrawerItem> drawerItems){
+    public DrawerListAdapter(ArrayList<DrawerItem> drawerItems) {
         this.mDrawerItems = drawerItems;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int position) {
-        Log.d("POS", Integer.toString(position));
         if (getItemViewType(position) == TYPE_HEADER) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_drawer_list_header, parent, false);
 
@@ -75,7 +79,7 @@ public class DrawerListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     @Override
-    public int getItemCount(){
+    public int getItemCount() {
         return mDrawerItems.size();
     }
 
