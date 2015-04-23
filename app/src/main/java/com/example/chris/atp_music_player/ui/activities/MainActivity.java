@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
@@ -118,6 +119,7 @@ public class MainActivity extends BaseServiceActivity implements DrawerListAdapt
 
         LibraryFragment fragment = LibraryFragment.newInstance();
         getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment, fragment).commit();
+        getSupportActionBar().setTitle("Music Library");
 
         Intent intent = new Intent(this, LocalPlaybackService.class);
         startService(intent);
@@ -295,7 +297,22 @@ public class MainActivity extends BaseServiceActivity implements DrawerListAdapt
         if (mDrawerLayout != null) {
             mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
             mDrawerLayout.setStatusBarBackgroundColor(getResources().getColor(R.color.dark_blue));
-            mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close);
+            mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close) {
+                @Override
+                public void onDrawerClosed(View view) {
+                    super.onDrawerClosed(view);
+                }
+
+                @Override
+                public void onDrawerOpened(View drawerView) {
+                    super.onDrawerOpened(drawerView);
+                }
+
+                @Override
+                public void onDrawerSlide(View drawerView, float slideOffset) {
+                    super.onDrawerSlide(drawerView, 0); // this disables the animation
+                }
+            };
             mDrawerToggle.setDrawerIndicatorEnabled(true);
             mDrawerLayout.setDrawerListener(mDrawerToggle);
         }
@@ -335,18 +352,22 @@ public class MainActivity extends BaseServiceActivity implements DrawerListAdapt
 
     @Override
     public void onItemClick(int position) {
+        Fragment fragment;
+
         if (position == 1) {
-            LibraryFragment fragment = LibraryFragment.newInstance();
-            getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment, fragment).commit();
+            fragment = LibraryFragment.newInstance();
             setTitle("Music Library");
         } else if (position == 2) {
-            RecentSongsFragment fragment = RecentSongsFragment.newInstance();
-            getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment, fragment).commit();
+            fragment = RecentSongsFragment.newInstance();
             setTitle("Favorites");
-        } else if (position == 3) {
-            RecentSongsFragment fragment = RecentSongsFragment.newInstance();
-            getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment, fragment).commit();
+        } else {
+            fragment = RecentSongsFragment.newInstance();
             setTitle("Recently Played");
+        }
+
+        Fragment current = getSupportFragmentManager().findFragmentById(R.id.main_fragment);
+        if (!current.getClass().equals(fragment.getClass())) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment, fragment).commit();
         }
 
         mDrawerLayout.closeDrawers();
