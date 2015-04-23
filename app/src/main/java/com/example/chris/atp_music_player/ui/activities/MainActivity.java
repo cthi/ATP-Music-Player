@@ -12,7 +12,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,7 +37,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class MainActivity extends BaseServiceActivity {
+public class MainActivity extends BaseServiceActivity implements DrawerListAdapter.ViewHolder.DrawerListClick {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -110,7 +109,7 @@ public class MainActivity extends BaseServiceActivity {
         test.add(a);
         test.add(b);
         test.add(c);
-        DrawerListAdapter adapter = new DrawerListAdapter(test);
+        DrawerListAdapter adapter = new DrawerListAdapter(this, test);
         //
         mDrawerList.setAdapter(adapter);
 
@@ -332,5 +331,31 @@ public class MainActivity extends BaseServiceActivity {
         if (mServiceBound && mService.getLastSong() != null) {
             updateNowPlayingView(mService.getLastSong());
         }
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        if (position == 1) {
+            LibraryFragment fragment = LibraryFragment.newInstance();
+            getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment, fragment).commit();
+            setTitle("Music Library");
+        } else if (position == 2) {
+            RecentSongsFragment fragment = RecentSongsFragment.newInstance();
+            getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment, fragment).commit();
+            setTitle("Favorites");
+        } else if (position == 3) {
+            RecentSongsFragment fragment = RecentSongsFragment.newInstance();
+            getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment, fragment).commit();
+            setTitle("Recently Played");
+        }
+
+        mDrawerLayout.closeDrawers();
+    }
+
+    public LocalPlaybackService getService() {
+        if (mServiceBound) {
+            return mService;
+        }
+        return null;
     }
 }

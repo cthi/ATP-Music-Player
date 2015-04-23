@@ -7,7 +7,6 @@ import android.content.ServiceConnection;
 import android.content.res.TypedArray;
 import android.os.IBinder;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.util.TypedValue;
 
 import com.example.chris.atp_music_player.R;

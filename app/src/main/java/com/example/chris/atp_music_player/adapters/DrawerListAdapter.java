@@ -1,5 +1,6 @@
 package com.example.chris.atp_music_player.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.models.DrawerItem;
+import com.example.chris.atp_music_player.ui.activities.MainActivity;
 
 import java.util.ArrayList;
 
@@ -21,6 +23,7 @@ public class DrawerListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private static int TYPE_HEADER = 0;
     private static int TYPE_ITEM = 1;
 
+    private Context mContext;
     private ArrayList<DrawerItem> mDrawerItems;
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -29,10 +32,19 @@ public class DrawerListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         @InjectView(R.id.drawer_list_item_img)
         ImageView mDrawerIcon;
 
-        public ViewHolder(View view) {
+        DrawerListClick mCallback;
+
+        public static interface DrawerListClick {
+            public void onItemClick(int position);
+        }
+
+        public ViewHolder(View view, DrawerListClick listener) {
             super(view);
 
             ButterKnife.inject(this, view);
+
+            view.setOnClickListener(this);
+            mCallback = listener;
         }
 
         public void bind(DrawerItem draweritem) {
@@ -42,7 +54,7 @@ public class DrawerListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         @Override
         public void onClick(View view) {
-
+            mCallback.onItemClick(getPosition());
         }
     }
 
@@ -53,7 +65,8 @@ public class DrawerListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
 
-    public DrawerListAdapter(ArrayList<DrawerItem> drawerItems) {
+    public DrawerListAdapter(Context context, ArrayList<DrawerItem> drawerItems) {
+        this.mContext = context;
         this.mDrawerItems = drawerItems;
     }
 
@@ -66,7 +79,7 @@ public class DrawerListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         } else {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_drawer_list, parent, false);
 
-            return new ViewHolder(view);
+            return new ViewHolder(view, (MainActivity) mContext);
         }
 
     }

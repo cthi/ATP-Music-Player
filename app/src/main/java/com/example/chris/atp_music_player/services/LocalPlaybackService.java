@@ -16,6 +16,7 @@ import com.example.chris.atp_music_player.models.Song;
 import com.example.chris.atp_music_player.receivers.ReceiverMessages;
 
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -45,6 +46,8 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
     private List<Song> mCurrentSongList;
     private int mCurrentSongPosition;
 
+    private LinkedList<Song> mRecentQueue;
+
     public class LocalBinder extends Binder {
         public LocalPlaybackService getService() {
             return LocalPlaybackService.this;
@@ -69,6 +72,8 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
 
         mAudioNoisyIntentFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
         mMusicIntentReceiver = new MusicIntentReceiver();
+
+        mRecentQueue = new LinkedList<>();
     }
 
     @Override
@@ -108,6 +113,11 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
 
                 mCurrentSongList = songList;
                 mCurrentSongPosition = position;
+                mRecentQueue.add(mCurrentSongList.get(mCurrentSongPosition));
+
+                if (mRecentQueue.size() > 20) {
+                    mRecentQueue.removeLast();
+                }
 
                 mMediaPlayer.setDataSource(this, Uri.parse(mCurrentSongList.
                         get(mCurrentSongPosition).getMediaLocation()));
@@ -282,11 +292,15 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
         play(mCurrentSongList, mCurrentSongPosition);
     }
 
-    public void repeat(){
+    public void repeat() {
         play(mCurrentSongList, mCurrentSongPosition);
     }
 
     public void playRandom() {
         play(mCurrentSongList, new Random().nextInt(mCurrentSongList.size()));
+    }
+
+    public LinkedList<Song> getRecentSongs() {
+        return mRecentQueue;
     }
 }
