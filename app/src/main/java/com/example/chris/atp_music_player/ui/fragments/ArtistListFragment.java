@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.adapters.ArtistListAdapter;
 import com.example.chris.atp_music_player.loaders.ArtistListLoader;
+import com.example.chris.atp_music_player.models.Artist;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class ArtistListFragment extends Fragment
-        implements LoaderManager.LoaderCallbacks<List<String>> {
+        implements LoaderManager.LoaderCallbacks<List<Artist>> {
 
     private final static int LOADER = 0;
 
@@ -55,12 +56,12 @@ public class ArtistListFragment extends Fragment
     }
 
     @Override
-    public Loader<List<String>> onCreateLoader(int id, Bundle args) {
+    public Loader<List<Artist>> onCreateLoader(int id, Bundle args) {
         return new ArtistListLoader(getActivity());
     }
 
     @Override
-    public void onLoadFinished(Loader<List<String>> loader, List<String> result) {
+    public void onLoadFinished(Loader<List<Artist>> loader, List<Artist> result) {
         ArtistListAdapter adapter = new ArtistListAdapter(getActivity(), result);
         mRecyclerView.setAdapter(adapter);
     }

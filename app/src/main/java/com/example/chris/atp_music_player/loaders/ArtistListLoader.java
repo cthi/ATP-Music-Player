@@ -6,18 +6,19 @@ import android.database.Cursor;
 import android.provider.MediaStore;
 
 import com.example.chris.atp_music_player.db.MediaStoreDBHelper;
+import com.example.chris.atp_music_player.models.Artist;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArtistListLoader extends AsyncTaskLoader<List<String>> {
+public class ArtistListLoader extends AsyncTaskLoader<List<Artist>> {
 
     public ArtistListLoader(Context context) {
         super(context);
     }
 
-    public List<String> loadInBackground() {
-        List<String> artistList = new ArrayList<>();
+    public List<Artist> loadInBackground() {
+        List<Artist> artistList = new ArrayList<>();
         Cursor cursor = MediaStoreDBHelper.getArtistsCursor(getContext());
 
         int lastArtistId = -1;
@@ -32,9 +33,10 @@ public class ArtistListLoader extends AsyncTaskLoader<List<String>> {
             }
             lastArtistId = id;
 
-            String title = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST));
-
-            artistList.add(title);
+            String name = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST));
+            int albumID = Integer.parseInt(cursor.getString(cursor.getColumnIndex(
+                    MediaStore.Audio.Media.ALBUM_ID)));
+            artistList.add(new Artist(name, id, albumID));
         }
 
         cursor.close();

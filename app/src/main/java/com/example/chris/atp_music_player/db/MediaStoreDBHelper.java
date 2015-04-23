@@ -37,6 +37,7 @@ public class MediaStoreDBHelper {
             MediaStore.Audio.Media._ID,
             MediaStore.Audio.Media.ARTIST,
             MediaStore.Audio.Media.ARTIST_ID,
+            MediaStore.Audio.Media.ALBUM_ID
     };
     final static String ARTIST_ORDER = MediaStore.Audio.Media.ARTIST + " ASC";
 

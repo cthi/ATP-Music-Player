@@ -38,8 +38,6 @@ public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.View
         TextView mLabel;
         @InjectView(R.id.item_artist_list_img)
         ImageView mImage;
-        @InjectView(R.id.item_artist_list_info_view)
-        RelativeLayout mInfoView;
 
         public ViewHolder(View view) {
             super(view);
@@ -64,12 +62,10 @@ public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.View
                             Palette palette = PaletteTransformation.getPalette(bmp);
 
                             if (palette.getLightMutedSwatch() != null) {
-                                mInfoView.setBackgroundColor(palette.getLightMutedSwatch().getRgb());
+                                mLabel.setBackgroundColor(palette.getLightMutedSwatch().getRgb());
                             } else {
-                                mInfoView.setBackgroundResource(R.color.muted_blue);
+                                mLabel.setBackgroundResource(R.color.muted_blue);
                             }
-
-                            mLabel.setTextColor(mContext.getResources().getColor(R.color.light_grey));
                         }
                     });
         }

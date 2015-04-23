@@ -1,48 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    android:foreground="?android:attr/selectableItemBackground"
-    android:clickable="true"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:cardView="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginBottom="4dp"
     android:layout_marginLeft="2dp"
     android:layout_marginRight="2dp"
-    android:layout_marginBottom="4dp"
-    cardView:cardCornerRadius="0dp"
-    cardView:cardElevation="0dp">
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground">
 
-    <RelativeLayout
+    <ImageView
+        android:id="@+id/item_artist_list_img"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="160dp"
+        android:layout_alignParentTop="true"
+        android:scaleType="centerCrop" />
 
-        <ImageView
-            android:id="@+id/item_artist_list_img"
-            android:layout_alignParentTop="true"
-            android:layout_width="match_parent"
-            android:layout_height="160dp"
-            android:scaleType="centerCrop"
-            android:src="@color/material_blue_grey_800"/>
-
-        <RelativeLayout
-            android:id="@+id/item_artist_list_info_view"
-            android:layout_below="@id/item_artist_list_img"
-            android:layout_width="match_parent"
-            android:background="@android:color/white"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:layout_height="40dp">
-
-            <TextView
-                android:gravity="center_vertical"
-                android:id="@+id/item_artist_list_label"
-                android:maxLines="1"
-                android:textStyle="bold"
-                android:textColor="@color/white"
-
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"/>
-            </RelativeLayout>
-
-    </RelativeLayout>
-</android.support.v7.widget.CardView>
+    <TextView
+        android:id="@+id/item_artist_list_label"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/item_artist_list_img"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:textColor="@color/light_grey"
+        android:textStyle="bold" />
+</RelativeLayout>
