@@ -32,7 +32,7 @@
 
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 
-    <com.example.chris.atp_music_player.widgets.ScrimInsetsFrameLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    <com.example.chris.atp_music_player.ui.widgets.ScrimInsetsFrameLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/scrimInsetsFrameLayout"
         android:layout_width="300dp"
         android:layout_height="match_parent"
@@ -45,6 +45,6 @@
             android:id="@+id/drawerList"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    </com.example.chris.atp_music_player.widgets.ScrimInsetsFrameLayout>
+    </com.example.chris.atp_music_player.ui.widgets.ScrimInsetsFrameLayout>
 
 </android.support.v4.widget.DrawerLayout>

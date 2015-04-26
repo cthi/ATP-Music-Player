@@ -1,4 +1,4 @@
-package com.example.chris.atp_music_player.widgets;
+package com.example.chris.atp_music_player.ui.widgets;
 
 /*
  * Copyright 2014 Google Inc.
