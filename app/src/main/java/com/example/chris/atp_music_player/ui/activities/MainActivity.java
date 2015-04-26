@@ -26,6 +26,7 @@ import com.example.chris.atp_music_player.models.Song;
 import com.example.chris.atp_music_player.receivers.ReceiverMessages;
 import com.example.chris.atp_music_player.services.LocalPlaybackService;
 import com.example.chris.atp_music_player.ui.fragments.LibraryFragment;
+import com.example.chris.atp_music_player.ui.fragments.RecentSongsFragment;
 import com.example.chris.atp_music_player.utils.AlbumArtUtils;
 import com.example.chris.atp_music_player.utils.ResourceUtils;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
@@ -147,7 +148,7 @@ public class MainActivity extends BaseServiceActivity implements DrawerListAdapt
                         } else if (mShuffle) {
                             mService.playRandom();
                         }
-                       
+
                         updateNowPlayingView(mService.getLastSong());
                     }
                 }

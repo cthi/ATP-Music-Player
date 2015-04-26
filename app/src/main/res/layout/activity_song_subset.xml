@@ -9,18 +9,20 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:layout_alignParentTop="true"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:background="@color/black"/>
+            android:layout_alignParentTop="true"
+            android:background="@color/black"
+            android:elevation="4dp" />
 
         <ImageView
-            android:layout_alignParentTop="true"
             android:id="@+id/song_subset_img"
             android:layout_width="match_parent"
             android:layout_height="200dp"
+            android:layout_alignParentTop="true"
+            android:alpha="0.7"
             android:scaleType="centerCrop"
-            android:alpha="0.7"/>
+            android:elevation="4dp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/song_subset_recycler_view"
@@ -30,7 +32,15 @@
             android:orientation="vertical" />
     </RelativeLayout>
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/transparent_toolbar" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/transparent_toolbar"
+            android:fitsSystemWindows="true" />
+    </FrameLayout>
+
 </FrameLayout>

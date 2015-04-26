@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.chris.atp_music_player" >
+    package="com.example.chris.atp_music_player">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:allowBackup="true"
@@ -26,12 +26,12 @@
             android:name=".ui.activities.SongSubsetActivity"
             android:parentActivityName=".ui.activities.MainActivity"
             android:label="Subset"
-            android:theme="@style/ATPTheme.Base">
+            android:theme="@style/ATPTheme.TranslucentStatusBar">
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activities.MainActivity" />
-         </activity>
+        </activity>
 
         <activity
             android:name=".ui.activities.SongGenreSubsetActivity"
@@ -44,8 +44,9 @@
                 android:value=".ui.activities.MainActivity" />
         </activity>
 
-        <service android:name=".services.LocalPlaybackService"
-            android:exported="false"/>
+        <service
+            android:name=".services.LocalPlaybackService"
+            android:exported="false" />
 
     </application>
 </manifest>
