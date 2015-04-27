@@ -39,7 +39,6 @@ public class AlbumListLoader extends AsyncTaskLoader<List<Album>> {
         }
 
         cursor.close();
-        cursor = null;
 
         return albumList;
     }

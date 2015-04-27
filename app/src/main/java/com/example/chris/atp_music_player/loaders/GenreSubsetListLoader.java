@@ -37,7 +37,6 @@ public class GenreSubsetListLoader extends AsyncTaskLoader<List<Song>> {
         }
 
         cursor.close();
-        cursor = null;
 
         return songList;
     }

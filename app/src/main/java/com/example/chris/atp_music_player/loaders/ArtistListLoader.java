@@ -40,7 +40,6 @@ public class ArtistListLoader extends AsyncTaskLoader<List<Artist>> {
         }
 
         cursor.close();
-        cursor = null;
 
         return artistList;
     }

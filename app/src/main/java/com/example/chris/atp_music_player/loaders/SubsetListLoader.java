@@ -34,11 +34,10 @@ public class SubsetListLoader extends AsyncTaskLoader<List<Song>> {
             String album = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM));
             int albumId = Integer.parseInt(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)));
 
-            songList.add(new Song(title, artist, mediaLocation, albumId,album));
+            songList.add(new Song(title, artist, mediaLocation, albumId, album));
         }
 
         cursor.close();
-        cursor = null;
 
         return songList;
     }

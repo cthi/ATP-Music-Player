@@ -31,7 +31,7 @@ public class GenreListLoader extends AsyncTaskLoader<List<Genre>> {
         }
 
         cursor.close();
-        cursor = null;
+
 
         return genreList;
     }
