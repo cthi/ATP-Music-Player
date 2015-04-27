@@ -6,12 +6,10 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.chris.atp_music_player.R;
@@ -75,7 +73,7 @@ public class ArtistListAdapter extends RecyclerView.Adapter<ArtistListAdapter.Vi
             Intent intent = new Intent(mContext, SongSubsetActivity.class);
             intent.putExtra(Constants.QUERY_CONSTRAINT, mArtistList.get(getPosition()).getName());
             intent.putExtra(Constants.QUERY_TYPE, Constants.QUERY_TYPE_ARTIST);
-            intent.putExtra(Constants.DATA_ALBUM_ID, 0);
+            intent.putExtra(Constants.DATA_ALBUM_ID, mArtistList.get(getPosition()).getAlbumID());
             mContext.startActivity(intent);
         }
     }
