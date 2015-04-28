@@ -13,7 +13,6 @@ import android.os.IBinder;
 import android.os.PowerManager;
 
 import com.example.chris.atp_music_player.models.Song;
-import com.example.chris.atp_music_player.receivers.ReceiverMessages;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -35,6 +34,9 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
     private int mPlaybackState;
     private boolean mReceiverRegistered;
     private volatile int mCurrentPlaybackPosition;
+
+    private boolean mRepeat;
+    private boolean mShuffle;
 
     private BroadcastReceiver mMusicIntentReceiver;
     private IntentFilter mAudioNoisyIntentFilter;
@@ -214,9 +216,13 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
 
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
-        Intent intent = new Intent("android.intent.action.MAIN");
-        intent.putExtra(ReceiverMessages.PLAYBACK_INTENT_TAG, ReceiverMessages.STREAM_ENDED);
-        sendBroadcast(intent);
+        if (mRepeat) {
+            playRepeat();
+        } else if (mShuffle) {
+            playRandom();
+        } else {
+            playNext();
+        }
     }
 
     @Override
@@ -292,7 +298,7 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
         play(mCurrentSongList, mCurrentSongPosition);
     }
 
-    public void repeat() {
+    public void playRepeat() {
         play(mCurrentSongList, mCurrentSongPosition);
     }
 
@@ -302,5 +308,43 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
 
     public LinkedList<Song> getRecentSongs() {
         return mRecentQueue;
+    }
+
+    public void toggleRepeat() {
+        mRepeat = !mRepeat;
+        mShuffle = false;
+    }
+
+    public void toggleShuffle() {
+        mShuffle = !mShuffle;
+        mRepeat = false;
+    }
+
+    public boolean isShuffling() {
+        return mShuffle;
+    }
+
+    public boolean isRepeating() {
+        return mRepeat;
+    }
+
+    public void playNextSong() {
+        if (mShuffle) {
+            playRandom();
+        } else if (mRepeat) {
+            playRepeat();
+        } else {
+            playNext();
+        }
+    }
+
+    public void playLastSong() {
+        if (mShuffle) {
+            playRandom();
+        } else if (mRepeat) {
+            playRepeat();
+        } else {
+            playLast();
+        }
     }
 }

@@ -1,9 +1,6 @@
 package com.example.chris.atp_music_player.ui.activities;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
@@ -23,7 +20,6 @@ import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.adapters.DrawerListAdapter;
 import com.example.chris.atp_music_player.models.DrawerItem;
 import com.example.chris.atp_music_player.models.Song;
-import com.example.chris.atp_music_player.receivers.ReceiverMessages;
 import com.example.chris.atp_music_player.services.LocalPlaybackService;
 import com.example.chris.atp_music_player.ui.fragments.LibraryFragment;
 import com.example.chris.atp_music_player.ui.fragments.RecentSongsFragment;
@@ -42,8 +38,6 @@ import butterknife.InjectView;
 public class MainActivity extends BaseServiceActivity implements DrawerListAdapter.ViewHolder.DrawerListClick {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-
-    private BroadcastReceiver mServiceReceiver;
 
     @InjectView(R.id.toolbar)
     Toolbar mToolbar;
@@ -82,11 +76,6 @@ public class MainActivity extends BaseServiceActivity implements DrawerListAdapt
 
     @InjectView(R.id.sliding_layout)
     SlidingUpPanelLayout mSlidingPanel;
-
-    private boolean mShuffle = false;
-    private boolean mRepeat = false;
-
-    private boolean mReceiverRegistered;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,41 +121,11 @@ public class MainActivity extends BaseServiceActivity implements DrawerListAdapt
     protected void onResume() {
         super.onResume();
         restorePlayingView();
-
-        if (!mReceiverRegistered) {
-            mServiceReceiver = new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context context, Intent intent) {
-                    int result = intent.getIntExtra(ReceiverMessages.PLAYBACK_INTENT_TAG, 0);
-
-                    if (result == ReceiverMessages.PLAYBACK_STOPPED) {
-
-                    } else if (result == ReceiverMessages.STREAM_ENDED) {
-
-                        if (mRepeat) {
-                            mService.repeat();
-                        } else if (mShuffle) {
-                            mService.playRandom();
-                        }
-
-                        updateNowPlayingView(mService.getLastSong());
-                    }
-                }
-            };
-
-            registerReceiver(mServiceReceiver, new IntentFilter("android.intent.action.MAIN"));
-            mReceiverRegistered = true;
-        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-
-        if (mReceiverRegistered) {
-            unregisterReceiver(mServiceReceiver);
-            mReceiverRegistered = false;
-        }
     }
 
     public void initListeners() {
@@ -204,12 +163,7 @@ public class MainActivity extends BaseServiceActivity implements DrawerListAdapt
             @Override
             public void onClick(View view) {
 
-                if (mShuffle) {
-                    mService.playRandom();
-                } else {
-                    mService.playNext();
-                }
-
+                mService.playNextSong();
                 updateNowPlayingView(mService.getLastSong());
             }
         });
@@ -218,12 +172,7 @@ public class MainActivity extends BaseServiceActivity implements DrawerListAdapt
             @Override
             public void onClick(View view) {
 
-                if (mShuffle) {
-                    mService.playRandom();
-                } else {
-                    mService.playLast();
-                }
-
+                mService.playLastSong();
                 updateNowPlayingView(mService.getLastSong());
             }
         });
@@ -231,26 +180,28 @@ public class MainActivity extends BaseServiceActivity implements DrawerListAdapt
         mTopShuffle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mShuffle = !mShuffle;
-                if (mShuffle) {
-                    mTopShuffle.setImageResource(R.drawable.ic_shuffle_cyan_36dp);
-                } else {
+                if (mService.isShuffling()) {
                     mTopShuffle.setImageResource(R.drawable.ic_shuffle_white_36dp);
+                } else {
+                    mTopShuffle.setImageResource(R.drawable.ic_shuffle_cyan_36dp);
                 }
+                mTopRepeat.setImageResource(R.drawable.ic_replay_white_36dp);
 
+                mService.toggleShuffle();
             }
         });
 
         mTopRepeat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mRepeat = !mRepeat;
-
-                if (mRepeat) {
-                    mTopRepeat.setImageResource(R.drawable.ic_replay_cyan_36dp);
-                } else {
+                if (mService.isRepeating()) {
                     mTopRepeat.setImageResource(R.drawable.ic_replay_white_36dp);
+                } else {
+                    mTopRepeat.setImageResource(R.drawable.ic_replay_cyan_36dp);
                 }
+                mTopShuffle.setImageResource(R.drawable.ic_shuffle_white_36dp);
+
+                mService.toggleRepeat();
             }
         });
     }
