@@ -28,7 +28,11 @@
             android:textStyle="bold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/sliding_layout_action_ico"
+            android:layout_toStartOf="@id/sliding_layout_action_ico"
             android:textColor="@color/white"
+            android:paddingLeft="4dp"
+            android:maxLines="1"
             tools:text="TEST" />
 
         <TextView
@@ -37,6 +41,10 @@
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:layout_below="@id/sliding_layout_song_title"
+            android:layout_toLeftOf="@id/sliding_layout_action_ico"
+            android:layout_toStartOf="@id/sliding_layout_action_ico"
+            android:paddingLeft="4dp"
+            android:maxLines="1"
             tools:text="TEST" />
 
     </RelativeLayout>
