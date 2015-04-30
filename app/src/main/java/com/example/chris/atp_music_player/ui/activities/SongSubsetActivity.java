@@ -14,7 +14,7 @@ import com.example.chris.atp_music_player.loaders.SubsetListLoader;
 import com.example.chris.atp_music_player.models.Song;
 import com.example.chris.atp_music_player.utils.AlbumArtUtils;
 import com.example.chris.atp_music_player.utils.Constants;
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,10 +60,12 @@ public class SongSubsetActivity extends BaseServiceActivity
         int albumId = getIntent().getIntExtra(Constants.DATA_ALBUM_ID, 0);
 
         if (albumId != 0) {
-            Picasso.with(this).load(AlbumArtUtils.albumArtUriFromId(albumId))
+            Glide.with(this).load(AlbumArtUtils.albumArtUriFromId(albumId))
+                    .fitCenter()
                     .placeholder(R.drawable.placeholder_aa).into(mAlbumImage);
         } else {
-            Picasso.with(this).load(R.drawable.placeholder_aa).into(mAlbumImage);
+            Glide.with(this).
+                    load(R.drawable.placeholder_aa).into(mAlbumImage);
         }
 
         getSupportLoaderManager().initLoader(LOADER, null, this).forceLoad();

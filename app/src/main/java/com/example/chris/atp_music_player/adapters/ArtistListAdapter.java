@@ -2,9 +2,6 @@ package com.example.chris.atp_music_player.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,12 +11,10 @@ import android.widget.TextView;
 
 import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.models.Artist;
-import com.example.chris.atp_music_player.transform.PaletteTransformation;
 import com.example.chris.atp_music_player.ui.activities.SongSubsetActivity;
 import com.example.chris.atp_music_player.utils.AlbumArtUtils;
 import com.example.chris.atp_music_player.utils.Constants;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -47,25 +42,10 @@ public class ArtistListAdapter extends RecyclerView.Adapter<ArtistListAdapter.Vi
         public void bind(Artist artist) {
             mLabel.setText(artist.getName());
 
-            final PaletteTransformation paletteTransformation = PaletteTransformation.instance();
-
-            Picasso.with(mContext)
+            Glide.with(mContext)
                     .load(AlbumArtUtils.albumArtUriFromId(artist.getAlbumID()))
                     .placeholder(R.drawable.placeholder_aa)
-                    .transform(paletteTransformation)
-                    .into(mImage, new Callback.EmptyCallback() {
-                        @Override
-                        public void onSuccess() {
-                            Bitmap bmp = ((BitmapDrawable) mImage.getDrawable()).getBitmap();
-                            Palette palette = PaletteTransformation.getPalette(bmp);
-
-                            if (palette.getLightMutedSwatch() != null) {
-                                mLabel.setBackgroundColor(palette.getLightMutedSwatch().getRgb());
-                            } else {
-                                mLabel.setBackgroundResource(R.color.muted_blue);
-                            }
-                        }
-                    });
+                    .into(mImage);
         }
 
         @Override

@@ -28,7 +28,7 @@ import com.example.chris.atp_music_player.ui.fragments.RecentSongsFragment;
 import com.example.chris.atp_music_player.utils.AlbumArtUtils;
 import com.example.chris.atp_music_player.utils.ResourceUtils;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -301,7 +301,7 @@ public class MainActivity extends BaseServiceActivity implements DrawerListAdapt
             mTopPlayPause.setImageResource(R.drawable.ic_play_arrow_white_36dp);
         }
 
-        Picasso.with(this).load(AlbumArtUtils.albumArtUriFromId(song.getAlbumId())).into(mTopImage);
+        Glide.with(this).load(AlbumArtUtils.albumArtUriFromId(song.getAlbumId())).into(mTopImage);
     }
 
     public void restorePlayingView() {
