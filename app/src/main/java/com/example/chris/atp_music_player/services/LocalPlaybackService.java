@@ -105,6 +105,7 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
             try {
                 if (mMediaPlayer == null) {
                     mMediaPlayer = new MediaPlayer();
+                    mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
                     mMediaPlayer.setWakeMode(this.getApplicationContext(),
                             PowerManager.PARTIAL_WAKE_LOCK);
                     mMediaPlayer.setOnCompletionListener(this);
@@ -127,7 +128,6 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
 
                 mMediaPlayer.setDataSource(this, Uri.parse(mCurrentSongList.
                         get(mCurrentSongPosition).getMediaLocation()));
-                mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
                 mMediaPlayer.prepareAsync();
 
                 registerMusicIntentReceiver();
