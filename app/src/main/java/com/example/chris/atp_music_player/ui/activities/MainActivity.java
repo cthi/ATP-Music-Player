@@ -2,7 +2,9 @@ package com.example.chris.atp_music_player.ui.activities;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
@@ -310,24 +312,32 @@ public class MainActivity extends BaseServiceActivity implements DrawerListAdapt
     }
 
     @Override
-    public void onItemClick(int position) {
-        Fragment fragment;
+    public void onItemClick(final int position) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Fragment fragment;
 
-        if (position == 1) {
-            fragment = LibraryFragment.newInstance();
-            setTitle("Music Library");
-        } else if (position == 2) {
-            fragment = RecentSongsFragment.newInstance();
-            setTitle("Favorites");
-        } else {
-            fragment = RecentSongsFragment.newInstance();
-            setTitle("Recently Played");
-        }
+                if (position == 1) {
+                    fragment = LibraryFragment.newInstance();
+                    setTitle("Music Library");
+                } else if (position == 2) {
+                    fragment = RecentSongsFragment.newInstance();
+                    setTitle("Favorites");
+                } else {
+                    fragment = RecentSongsFragment.newInstance();
+                    setTitle("Recently Played");
+                }
 
-        Fragment current = getSupportFragmentManager().findFragmentById(R.id.main_fragment);
-        if (!current.getClass().equals(fragment.getClass())) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment, fragment).commit();
-        }
+                Fragment current = getSupportFragmentManager().findFragmentById(R.id.main_fragment);
+                if (!current.getClass().equals(fragment.getClass())) {
+
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    ft.setCustomAnimations(R.anim.abc_fade_in, R.anim.abc_fade_out);
+                    ft.replace(R.id.main_fragment, fragment).commit();
+                }
+            }
+        }, 350);
 
         mDrawerLayout.closeDrawers();
     }
