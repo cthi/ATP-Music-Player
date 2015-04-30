@@ -277,6 +277,13 @@ public class MainActivity extends BaseServiceActivity implements DrawerListAdapt
         updateNowPlayingView(songList.get(position));
     }
 
+    @Override
+    public void pushMediaDontQueue(List<Song> songList, int position) {
+        super.pushMediaDontQueue(songList, position);
+
+        updateNowPlayingView(songList.get(position));
+    }
+
     public void updateNowPlayingView(Song song) {
         mArtist.setText(song.getArtist());
         mTitle.setText(song.getTitle());

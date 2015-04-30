@@ -37,6 +37,7 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
 
     private boolean mRepeat;
     private boolean mShuffle;
+    private boolean mShouldNotQueue;
 
     private BroadcastReceiver mMusicIntentReceiver;
     private IntentFilter mAudioNoisyIntentFilter;
@@ -115,7 +116,10 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
 
                 mCurrentSongList = songList;
                 mCurrentSongPosition = position;
-                mRecentQueue.add(mCurrentSongList.get(mCurrentSongPosition));
+
+                if (!mShouldNotQueue) {
+                    mRecentQueue.add(mCurrentSongList.get(mCurrentSongPosition));
+                }
 
                 if (mRecentQueue.size() > 20) {
                     mRecentQueue.removeLast();
@@ -134,6 +138,12 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
         } else {
             releaseResources();
         }
+    }
+
+    public void playDontQueue(List<Song> songList, int position) {
+        mShouldNotQueue = true;
+        play(songList, position);
+        mShouldNotQueue = false;
     }
 
     @Override

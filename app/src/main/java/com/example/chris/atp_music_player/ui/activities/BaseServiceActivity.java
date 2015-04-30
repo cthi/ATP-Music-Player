@@ -64,4 +64,8 @@ public abstract class BaseServiceActivity extends ActionBarActivity {
     public void pushMedia(List<Song> songList, int position) {
         mService.play(songList, position);
     }
+
+    public void pushMediaDontQueue(List<Song> songList, int position) {
+        mService.playDontQueue(songList, position);
+    }
 }
