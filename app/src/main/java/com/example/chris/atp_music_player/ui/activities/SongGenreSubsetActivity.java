@@ -70,4 +70,9 @@ public class SongGenreSubsetActivity extends BaseServiceActivity
     @Override
     public void onLoaderReset(Loader loader) {
     }
+
+    @Override
+    void onServiceBound() {
+
+    }
 }

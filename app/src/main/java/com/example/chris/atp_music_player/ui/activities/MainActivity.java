@@ -25,6 +25,7 @@ import com.example.chris.atp_music_player.models.Song;
 import com.example.chris.atp_music_player.services.LocalPlaybackService;
 import com.example.chris.atp_music_player.ui.fragments.LibraryFragment;
 import com.example.chris.atp_music_player.ui.fragments.RecentSongsFragment;
+import com.example.chris.atp_music_player.ui.widgets.NowPlayingWidget;
 import com.example.chris.atp_music_player.utils.AlbumArtUtils;
 import com.example.chris.atp_music_player.utils.ResourceUtils;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
@@ -43,41 +44,18 @@ public class MainActivity extends BaseServiceActivity implements DrawerListAdapt
 
     @InjectView(R.id.toolbar)
     Toolbar mToolbar;
-    private ActionBarDrawerToggle mDrawerToggle;
     @InjectView(R.id.drawerLayout)
     DrawerLayout mDrawerLayout;
     @InjectView(R.id.drawerList)
     RecyclerView mDrawerList;
 
-    // move this
-    @InjectView(R.id.sliding_layout_song_title)
-    TextView mTitle;
-    @InjectView(R.id.sliding_layout_song_artist)
-    TextView mArtist;
-    @InjectView(R.id.sliding_layout_action_ico)
-    ImageView mActionImage;
-    @InjectView(R.id.sliding_layout_top_artist)
-    TextView mTopArtist;
-    @InjectView(R.id.sliding_layout_top_title)
-    TextView mTopTitle;
-    @InjectView(R.id.sliding_layout_top_album)
-    TextView mTopAlbum;
-    @InjectView(R.id.sliding_layout_top_song_img)
-    ImageView mTopImage;
-
-    @InjectView(R.id.sliding_layout_top_repeat)
-    ImageView mTopRepeat;
-    @InjectView(R.id.sliding_layout_top_back)
-    ImageView mTopBack;
-    @InjectView(R.id.sliding_layout_top_fwrd)
-    ImageView mTopForward;
-    @InjectView(R.id.sliding_layout_top_play_pause)
-    ImageView mTopPlayPause;
-    @InjectView(R.id.sliding_layout_top_shuffle)
-    ImageView mTopShuffle;
-
     @InjectView(R.id.sliding_layout)
     SlidingUpPanelLayout mSlidingPanel;
+
+    @InjectView(R.id.now_playing)
+    NowPlayingWidget mNowPlayingWidget;
+
+    private ActionBarDrawerToggle mDrawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,8 +93,6 @@ public class MainActivity extends BaseServiceActivity implements DrawerListAdapt
 
         Intent intent = new Intent(this, LocalPlaybackService.class);
         startService(intent);
-
-        initListeners();
     }
 
     @Override
@@ -130,83 +106,6 @@ public class MainActivity extends BaseServiceActivity implements DrawerListAdapt
         super.onPause();
     }
 
-    public void initListeners() {
-        mActionImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mService.isPlaying()) {
-                    mService.pause();
-                    mActionImage.setImageResource(R.drawable.ic_play_arrow_white_36dp);
-                    mTopPlayPause.setImageResource(R.drawable.ic_play_arrow_white_36dp);
-                } else {
-                    mService.resume();
-                    mActionImage.setImageResource(R.drawable.ic_pause_white_36dp);
-                    mTopPlayPause.setImageResource(R.drawable.ic_pause_white_36dp);
-                }
-            }
-        });
-
-        mTopPlayPause.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mService.isPlaying()) {
-                    mService.pause();
-                    mActionImage.setImageResource(R.drawable.ic_play_arrow_white_36dp);
-                    mTopPlayPause.setImageResource(R.drawable.ic_play_arrow_white_36dp);
-                } else {
-                    mService.resume();
-                    mActionImage.setImageResource(R.drawable.ic_pause_white_36dp);
-                    mTopPlayPause.setImageResource(R.drawable.ic_pause_white_36dp);
-                }
-            }
-        });
-
-        mTopForward.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                mService.playNextSong();
-                updateNowPlayingView(mService.getLastSong());
-            }
-        });
-
-        mTopBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                mService.playLastSong();
-                updateNowPlayingView(mService.getLastSong());
-            }
-        });
-
-        mTopShuffle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mService.isShuffling()) {
-                    mTopShuffle.setImageResource(R.drawable.ic_shuffle_white_36dp);
-                } else {
-                    mTopShuffle.setImageResource(R.drawable.ic_shuffle_cyan_36dp);
-                }
-                mTopRepeat.setImageResource(R.drawable.ic_replay_white_36dp);
-
-                mService.toggleShuffle();
-            }
-        });
-
-        mTopRepeat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mService.isRepeating()) {
-                    mTopRepeat.setImageResource(R.drawable.ic_replay_white_36dp);
-                } else {
-                    mTopRepeat.setImageResource(R.drawable.ic_replay_cyan_36dp);
-                }
-                mTopShuffle.setImageResource(R.drawable.ic_shuffle_white_36dp);
-
-                mService.toggleRepeat();
-            }
-        });
-    }
 
     @Override
     public void onPostCreate(Bundle savedInstanceState) {
@@ -276,38 +175,20 @@ public class MainActivity extends BaseServiceActivity implements DrawerListAdapt
     public void pushMedia(List<Song> songList, int position) {
         super.pushMedia(songList, position);
 
-        updateNowPlayingView(songList.get(position));
+        mNowPlayingWidget.updateNowPlayingView(songList.get(position));
     }
 
     @Override
     public void pushMediaDontQueue(List<Song> songList, int position) {
         super.pushMediaDontQueue(songList, position);
 
-        updateNowPlayingView(songList.get(position));
-    }
-
-    public void updateNowPlayingView(Song song) {
-        mArtist.setText(song.getArtist());
-        mTitle.setText(song.getTitle());
-        mTopArtist.setText(song.getArtist());
-        mTopTitle.setText(song.getTitle());
-        mTopAlbum.setText(song.getAlbum());
-
-        if (mService.isPlaying()) {
-            mActionImage.setImageResource(R.drawable.ic_pause_white_36dp);
-            mTopPlayPause.setImageResource(R.drawable.ic_pause_white_36dp);
-        } else {
-            mActionImage.setImageResource(R.drawable.ic_play_arrow_white_36dp);
-            mTopPlayPause.setImageResource(R.drawable.ic_play_arrow_white_36dp);
-        }
-
-        Glide.with(this).load(AlbumArtUtils.albumArtUriFromId(song.getAlbumId())).into(mTopImage);
+        mNowPlayingWidget.updateNowPlayingView(songList.get(position));
     }
 
     public void restorePlayingView() {
 
         if (mServiceBound && mService.getLastSong() != null) {
-            updateNowPlayingView(mService.getLastSong());
+            mNowPlayingWidget.updateNowPlayingView(mService.getLastSong());
         }
     }
 
@@ -347,5 +228,10 @@ public class MainActivity extends BaseServiceActivity implements DrawerListAdapt
             return mService;
         }
         return null;
+    }
+
+    @Override
+    void onServiceBound() {
+        mNowPlayingWidget.setService(mService);
     }
 }

@@ -28,7 +28,7 @@
 
         </RelativeLayout>
 
-        <include layout="@layout/sliding_layout_top" />
+        <include layout="@layout/now_playing_view" />
 
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 

@@ -1,60 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<com.example.chris.atp_music_player.ui.widgets.NowPlayingWidget
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/now_playing">
 
     <RelativeLayout
         android:id="@+id/sliding_layout_top"
-        android:elevation="8dp"
         android:layout_width="match_parent"
         android:layout_height="68dp"
-        android:padding="@dimen/activity_horizontal_margin"
-        android:background="@color/blue">
+        android:background="@color/blue"
+        android:elevation="8dp"
+        android:padding="@dimen/activity_horizontal_margin">
 
         <ImageView
+            android:id="@+id/sliding_layout_action_ico"
             android:layout_width="36dp"
             android:layout_height="36dp"
-            android:id="@+id/sliding_layout_action_ico"
-            android:clickable="true"
-            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_alignParentRight="true"
+            android:layout_centerHorizontal="true"
+            android:clickable="true"/>
 
         <TextView
             android:id="@+id/sliding_layout_song_title"
-            android:layout_alignParentTop="true"
-            android:textStyle="bold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
             android:layout_toLeftOf="@id/sliding_layout_action_ico"
             android:layout_toStartOf="@id/sliding_layout_action_ico"
-            android:textColor="@color/white"
-            android:paddingLeft="4dp"
             android:maxLines="1"
-            tools:text="TEST" />
+            android:paddingLeft="4dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            tools:text="TEST"/>
 
         <TextView
             android:id="@+id/sliding_layout_song_artist"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
             android:layout_below="@id/sliding_layout_song_title"
             android:layout_toLeftOf="@id/sliding_layout_action_ico"
             android:layout_toStartOf="@id/sliding_layout_action_ico"
-            android:paddingLeft="4dp"
             android:maxLines="1"
-            tools:text="TEST" />
+            android:paddingLeft="4dp"
+            android:textColor="@color/white"
+            tools:text="TEST"/>
 
     </RelativeLayout>
 
     <ImageView
-        android:layout_weight="5"
         android:id="@+id/sliding_layout_top_song_img"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:scaleType="centerCrop" />
+        android:layout_weight="5"
+        android:scaleType="centerCrop"/>
 
     <RelativeLayout
         android:id="@+id/sliding_layout_top_song_info_view"
@@ -64,41 +66,41 @@
 
         <TextView
             android:id="@+id/sliding_layout_top_artist"
-            tools:text="Tupac Shakur"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textColor="@color/blue"
-            android:textStyle="bold"
-            android:maxLines="1"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:paddingBottom="5dp" />
+            android:maxLines="1"
+            android:paddingBottom="5dp"
+            android:textColor="@color/blue"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:text="Tupac Shakur"/>
 
         <TextView
             android:id="@+id/sliding_layout_top_title"
-            tools:text="Placeholder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="25sp"
-            android:maxLines="1"
-            android:fontFamily="sans-serif-light"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/sliding_layout_top_artist" />
+            android:layout_below="@+id/sliding_layout_top_artist"
+            android:fontFamily="sans-serif-light"
+            android:maxLines="1"
+            android:textSize="25sp"
+            tools:text="Placeholder"/>
 
         <TextView
             android:id="@+id/sliding_layout_top_album"
-            tools:text="Placeholder"
             android:layout_width="match_parent"
-            android:maxLines="1"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:fontFamily="sans-serif-light"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/sliding_layout_top_title" />
+            android:layout_below="@+id/sliding_layout_top_title"
+            android:fontFamily="sans-serif-light"
+            android:maxLines="1"
+            android:textSize="20sp"
+            tools:text="Placeholder"/>
 
     </RelativeLayout>
 
@@ -106,46 +108,46 @@
         android:id="@+id/control_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="15dp"
+        android:background="@color/blue"
         android:orientation="horizontal"
-        android:background="@color/blue">
+        android:padding="15dp">
 
         <ImageView
-            android:layout_weight="1"
             android:id="@+id/sliding_layout_top_repeat"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_replay_white_36dp" />
+            android:layout_weight="1"
+            android:src="@drawable/ic_replay_white_36dp"/>
 
         <ImageView
-            android:layout_weight="1"
             android:id="@+id/sliding_layout_top_back"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_fast_rewind_white_36dp" />
+            android:layout_weight="1"
+            android:src="@drawable/ic_fast_rewind_white_36dp"/>
 
         <ImageView
-            android:layout_weight="1"
             android:id="@+id/sliding_layout_top_play_pause"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_play_arrow_white_36dp" />
+            android:layout_weight="1"
+            android:src="@drawable/ic_play_arrow_white_36dp"/>
 
         <ImageView
-            android:layout_weight="1"
-            android:layout_gravity="center_vertical"
             android:id="@+id/sliding_layout_top_fwrd"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_fast_forward_white_36dp" />
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:src="@drawable/ic_fast_forward_white_36dp"/>
 
         <ImageView
-            android:layout_weight="1"
-            android:layout_gravity="center_vertical"
             android:id="@+id/sliding_layout_top_shuffle"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_shuffle_white_36dp" />
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:src="@drawable/ic_shuffle_white_36dp"/>
     </LinearLayout>
 
-</LinearLayout>
+</com.example.chris.atp_music_player.ui.widgets.NowPlayingWidget>

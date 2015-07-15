@@ -35,6 +35,7 @@ public abstract class BaseServiceActivity extends ActionBarActivity {
         public void onServiceConnected(ComponentName className, IBinder service) {
             LocalPlaybackService.LocalBinder binder = (LocalPlaybackService.LocalBinder) service;
             mService = binder.getService();
+            onServiceBound();
             mServiceBound = true;
         }
 
@@ -68,4 +69,6 @@ public abstract class BaseServiceActivity extends ActionBarActivity {
     public void pushMediaDontQueue(List<Song> songList, int position) {
         mService.playDontQueue(songList, position);
     }
+
+    abstract void onServiceBound();
 }
