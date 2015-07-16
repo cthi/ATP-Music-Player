@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.chris.atp_music_player.ATPApplication;
 import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.models.Album;
 import com.example.chris.atp_music_player.ui.activities.SongSubsetActivity;
@@ -56,7 +57,7 @@ public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.View
             intent.putExtra(Constants.QUERY_CONSTRAINT, mAlbumList.get(getPosition()).getTitle());
             intent.putExtra(Constants.QUERY_TYPE, Constants.QUERY_TYPE_ALBUM);
             intent.putExtra(Constants.DATA_ALBUM_ID, mAlbumList.get(getPosition()).getId());
-
+            ATPApplication.subActivityWillBeVisible();
             mContext.startActivity(intent);
         }
     }

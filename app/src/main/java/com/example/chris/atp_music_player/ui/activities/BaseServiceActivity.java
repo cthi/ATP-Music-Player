@@ -12,6 +12,7 @@ import android.util.TypedValue;
 import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.models.Song;
 import com.example.chris.atp_music_player.services.LocalPlaybackService;
+import com.example.chris.atp_music_player.utils.Constants;
 
 import java.util.List;
 
@@ -50,6 +51,7 @@ public abstract class BaseServiceActivity extends ActionBarActivity {
         super.onStart();
 
         Intent intent = new Intent(this, LocalPlaybackService.class);
+        intent.setAction(Constants.PLAYBACK_STOP_FOREGROUND);
         bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
     }
 

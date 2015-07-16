@@ -6,8 +6,10 @@ import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.ImageView;
 
+import com.example.chris.atp_music_player.ATPApplication;
 import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.adapters.SongSubsetListAdapter;
 import com.example.chris.atp_music_player.loaders.SubsetListLoader;
@@ -69,6 +71,22 @@ public class SongSubsetActivity extends BaseServiceActivity
         }
 
         getSupportLoaderManager().initLoader(LOADER, null, this).forceLoad();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        ATPApplication.subActivityWillDissapear();
+        super.onBackPressed();
     }
 
     @Override

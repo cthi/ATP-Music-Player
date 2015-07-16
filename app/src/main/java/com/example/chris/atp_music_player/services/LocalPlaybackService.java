@@ -1,5 +1,6 @@
 package com.example.chris.atp_music_player.services;
 
+import android.app.Notification;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -11,8 +12,10 @@ import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
 import android.os.PowerManager;
+import android.support.v7.app.NotificationCompat;
 
 import com.example.chris.atp_music_player.models.Song;
+import com.example.chris.atp_music_player.utils.Constants;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -23,6 +26,7 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
         AudioManager.OnAudioFocusChangeListener, MediaPlayer.OnPreparedListener,
         MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener {
 
+    public static final int FOREGROUND_SERVICE_ID = 1;
     public static final float VOLUME_DUCK = 0.2f;
     public static final float VOLUME_NORMAL = 1.0f;
 
@@ -81,6 +85,22 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        if (intent.getAction() == null) {
+            return START_STICKY;
+        }
+
+        if (intent.getAction().equals(Constants.PLAYBACK_START_FOREGROUND)) {
+            Notification notification = new NotificationCompat.Builder(this)
+                    .setContentTitle("test")
+                    .setTicker("ticker")
+                    .build();
+
+            startForeground(FOREGROUND_SERVICE_ID, notification);
+
+        } else if (intent.getAction().equals(Constants.PLAYBACK_STOP_FOREGROUND)) {
+            stopForeground(true);
+        }
+
         return START_STICKY;
     }
 

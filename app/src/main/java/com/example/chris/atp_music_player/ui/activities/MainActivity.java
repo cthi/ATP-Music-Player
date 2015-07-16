@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.chris.atp_music_player.ATPApplication;
 import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.adapters.DrawerListAdapter;
 import com.example.chris.atp_music_player.models.DrawerItem;
@@ -27,6 +28,7 @@ import com.example.chris.atp_music_player.ui.fragments.LibraryFragment;
 import com.example.chris.atp_music_player.ui.fragments.RecentSongsFragment;
 import com.example.chris.atp_music_player.ui.widgets.NowPlayingWidget;
 import com.example.chris.atp_music_player.utils.AlbumArtUtils;
+import com.example.chris.atp_music_player.utils.Constants;
 import com.example.chris.atp_music_player.utils.ResourceUtils;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.bumptech.glide.Glide;
@@ -90,9 +92,6 @@ public class MainActivity extends BaseServiceActivity implements DrawerListAdapt
         LibraryFragment fragment = LibraryFragment.newInstance();
         getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment, fragment).commit();
         getSupportActionBar().setTitle("Music Library");
-
-        Intent intent = new Intent(this, LocalPlaybackService.class);
-        startService(intent);
     }
 
     @Override
@@ -101,9 +100,28 @@ public class MainActivity extends BaseServiceActivity implements DrawerListAdapt
         restorePlayingView();
     }
 
+
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onStart() {
+        super.onStart();
+        Intent intent = new Intent(this, LocalPlaybackService.class);
+        intent.setAction(Constants.PLAYBACK_STOP_FOREGROUND);
+        startService(intent);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        Intent intent = new Intent(this, LocalPlaybackService.class);
+
+        if (ATPApplication.willSubActivityBeVisible()) {
+            intent.setAction(Constants.PLAYBACK_STOP_FOREGROUND);
+        } else {
+            intent.setAction(Constants.PLAYBACK_START_FOREGROUND);
+        }
+
+        startService(intent);
     }
 
 
