@@ -112,16 +112,16 @@ public class MainActivity extends BaseServiceActivity implements DrawerListAdapt
     @Override
     protected void onStop() {
         super.onStop();
-
         Intent intent = new Intent(this, LocalPlaybackService.class);
+        if (mService.isPlaying()) {
+            if (ATPApplication.willSubActivityBeVisible()) {
+                intent.setAction(Constants.PLAYBACK_STOP_FOREGROUND);
+            } else {
+                intent.setAction(Constants.PLAYBACK_START_FOREGROUND);
+            }
 
-        if (ATPApplication.willSubActivityBeVisible()) {
-            intent.setAction(Constants.PLAYBACK_STOP_FOREGROUND);
-        } else {
-            intent.setAction(Constants.PLAYBACK_START_FOREGROUND);
+            startService(intent);
         }
-
-        startService(intent);
     }
 
 

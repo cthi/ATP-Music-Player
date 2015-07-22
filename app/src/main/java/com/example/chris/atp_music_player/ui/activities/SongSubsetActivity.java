@@ -1,5 +1,6 @@
 package com.example.chris.atp_music_player.ui.activities;
 
+import android.content.Intent;
 import android.support.v4.app.LoaderManager;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
@@ -14,6 +15,7 @@ import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.adapters.SongSubsetListAdapter;
 import com.example.chris.atp_music_player.loaders.SubsetListLoader;
 import com.example.chris.atp_music_player.models.Song;
+import com.example.chris.atp_music_player.services.LocalPlaybackService;
 import com.example.chris.atp_music_player.utils.AlbumArtUtils;
 import com.example.chris.atp_music_player.utils.Constants;
 import com.bumptech.glide.Glide;
@@ -38,6 +40,7 @@ public class SongSubsetActivity extends BaseServiceActivity
     @InjectView(R.id.song_subset_img)
     ImageView mAlbumImage;
 
+    private boolean shouldStartForeground = true;
     private SongSubsetListAdapter mAdapter;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,8 +88,29 @@ public class SongSubsetActivity extends BaseServiceActivity
 
     @Override
     public void onBackPressed() {
-        ATPApplication.subActivityWillDissapear();
+        shouldStartForeground = false;
         super.onBackPressed();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        Intent intent = new Intent(this, LocalPlaybackService.class);
+        intent.setAction(Constants.PLAYBACK_STOP_FOREGROUND);
+        startService(intent);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        ATPApplication.subActivityWillDissapear();
+
+        if (shouldStartForeground && null != mService && mService.isPlaying()) {
+            Intent intent = new Intent(this, LocalPlaybackService.class);
+            intent.setAction(Constants.PLAYBACK_START_FOREGROUND);
+            startService(intent);
+        }
     }
 
     @Override

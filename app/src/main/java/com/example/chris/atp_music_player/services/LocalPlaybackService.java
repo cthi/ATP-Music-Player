@@ -1,6 +1,7 @@
 package com.example.chris.atp_music_player.services;
 
-import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -12,9 +13,14 @@ import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
 import android.os.PowerManager;
+import android.app.NotificationManager;
 import android.support.v7.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat.Builder;
+import android.widget.RemoteViews;
 
+import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.models.Song;
+import com.example.chris.atp_music_player.ui.activities.MainActivity;
 import com.example.chris.atp_music_player.utils.Constants;
 
 import java.io.IOException;
@@ -49,6 +55,10 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
 
     private MediaPlayer mMediaPlayer;
     private AudioManager mAudioManager;
+
+    private NotificationManager mNotificationManager;
+    private RemoteViews mNotifView;
+    private Builder mNotifBuilder;
 
     private List<Song> mCurrentSongList;
     private int mCurrentSongPosition;
@@ -90,12 +100,20 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
         }
 
         if (intent.getAction().equals(Constants.PLAYBACK_START_FOREGROUND)) {
-            Notification notification = new NotificationCompat.Builder(this)
-                    .setContentTitle("test")
-                    .setTicker("ticker")
-                    .build();
+            mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotifView = new RemoteViews(getPackageName(), R.layout.item_remote_notif);
+            mNotifView.setImageViewResource(R.id.item_remote_notif_img, R.mipmap.ic_launcher);
+            mNotifView.setTextViewText(R.id.item_remote_notif_title, getLastSong().getTitle());
+            mNotifView.setTextViewText(R.id.item_remote_notif_artist, getLastSong().getArtist());
+            Intent openAppIntent = new Intent(this, MainActivity.class);
 
-            startForeground(FOREGROUND_SERVICE_ID, notification);
+            mNotifBuilder = new NotificationCompat.Builder(this)
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentIntent(PendingIntent.getActivity(this, 0, openAppIntent,
+                                    PendingIntent.FLAG_UPDATE_CURRENT)
+
+                    ).setContent(mNotifView);
+            startForeground(FOREGROUND_SERVICE_ID, mNotifBuilder.build());
 
         } else if (intent.getAction().equals(Constants.PLAYBACK_STOP_FOREGROUND)) {
             stopForeground(true);
@@ -151,6 +169,15 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
                 mMediaPlayer.prepareAsync();
 
                 registerMusicIntentReceiver();
+
+                if (null != mNotifView) {
+                    mNotifView.setTextViewText(R.id.item_remote_notif_title, getLastSong()
+                            .getTitle());
+                    mNotifView.setTextViewText(R.id.item_remote_notif_artist, getLastSong()
+                            .getArtist());
+
+                    mNotificationManager.notify(FOREGROUND_SERVICE_ID, mNotifBuilder.build());
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

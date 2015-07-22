@@ -12,4 +12,7 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
+    <style name="NotifTextTitleTheme" parent="@android:style/TextAppearance.Material.Notification.Title"/>
+
+    <style name="NotifTextSubtitleTheme" parent="@android:style/TextAppearance.Material.Notification"/>
 </resources>
