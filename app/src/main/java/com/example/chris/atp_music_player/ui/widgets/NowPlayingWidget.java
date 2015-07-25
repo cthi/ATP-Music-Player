@@ -1,10 +1,12 @@
 package com.example.chris.atp_music_player.ui.widgets;
 
 import android.content.Context;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -43,7 +45,18 @@ public class NowPlayingWidget extends LinearLayout {
     @InjectView(R.id.sliding_layout_top_shuffle)
     ImageView mTopShuffle;
 
+    @InjectView(R.id.sliding_layout_seekbar)
+    SeekBar mSeekbar;
+
+    private volatile boolean canUpdateSeekbar = true;
     private LocalPlaybackService mService;
+    private final Handler mSeekbarPosHandler = new Handler();
+    private final Runnable mUpdateSeekbarPos = new Runnable() {
+        @Override
+        public void run() {
+            refreshSeekbar();
+        }
+    };
 
     public NowPlayingWidget(Context context) {
         super(context);
@@ -74,10 +87,12 @@ public class NowPlayingWidget extends LinearLayout {
             public void onClick(View view) {
                 if (mService.isPlaying()) {
                     mService.pause();
+                    mSeekbarPosHandler.removeCallbacks(mUpdateSeekbarPos);
                     mActionImage.setImageResource(R.drawable.ic_play_arrow_white_36dp);
                     mTopPlayPause.setImageResource(R.drawable.ic_play_arrow_white_36dp);
                 } else {
                     mService.resume();
+                    refreshSeekbar();
                     mActionImage.setImageResource(R.drawable.ic_pause_white_36dp);
                     mTopPlayPause.setImageResource(R.drawable.ic_pause_white_36dp);
                 }
@@ -89,10 +104,12 @@ public class NowPlayingWidget extends LinearLayout {
             public void onClick(View view) {
                 if (mService.isPlaying()) {
                     mService.pause();
+                    mSeekbarPosHandler.removeCallbacks(mUpdateSeekbarPos);
                     mActionImage.setImageResource(R.drawable.ic_play_arrow_white_36dp);
                     mTopPlayPause.setImageResource(R.drawable.ic_play_arrow_white_36dp);
                 } else {
                     mService.resume();
+                    refreshSeekbar();
                     mActionImage.setImageResource(R.drawable.ic_pause_white_36dp);
                     mTopPlayPause.setImageResource(R.drawable.ic_pause_white_36dp);
                 }
@@ -144,6 +161,25 @@ public class NowPlayingWidget extends LinearLayout {
                 mService.toggleRepeat();
             }
         });
+
+        mSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (fromUser) {
+                    mService.seekTo(progress);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                canUpdateSeekbar = false;
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                canUpdateSeekbar = true;
+            }
+        });
     }
 
     public void updateNowPlayingView(Song song) {
@@ -162,7 +198,19 @@ public class NowPlayingWidget extends LinearLayout {
         }
 
         Glide.with(getContext()).load(AlbumArtUtils.albumArtUriFromId(song.getAlbumId())).into(mTopImage);
+        refreshSeekbar();
     }
 
+    public void refreshSeekbar() {
+        if (!canUpdateSeekbar) {
+            return;
+        }
 
+        if (mSeekbar.getMax() != mService.getDuration()) {
+            mSeekbar.setMax(mService.getDuration());
+        }
+        mSeekbarPosHandler.removeCallbacks(mUpdateSeekbarPos);
+        mSeekbar.setProgress(mService.getProgress());
+        mSeekbarPosHandler.postDelayed(mUpdateSeekbarPos, 1000);
+    }
 }

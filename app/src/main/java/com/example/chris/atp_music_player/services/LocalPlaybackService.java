@@ -404,4 +404,24 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
             playLast();
         }
     }
+
+    public int getProgress() {
+        if (null != mMediaPlayer && mMediaPlayer.isPlaying()) {
+            return mMediaPlayer.getCurrentPosition() / 1000;
+        }
+
+        return -1;
+    }
+
+    public int getDuration() {
+        if (null != mMediaPlayer && mMediaPlayer.isPlaying()) {
+            return mMediaPlayer.getDuration() / 1000;
+        }
+
+        return -1;
+    }
+
+    public void seekTo(int progress) {
+        mMediaPlayer.seekTo(progress * 1000);
+    }
 }
