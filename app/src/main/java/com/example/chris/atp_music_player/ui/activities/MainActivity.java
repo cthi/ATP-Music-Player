@@ -24,6 +24,7 @@ import com.example.chris.atp_music_player.adapters.DrawerListAdapter;
 import com.example.chris.atp_music_player.models.DrawerItem;
 import com.example.chris.atp_music_player.models.Song;
 import com.example.chris.atp_music_player.services.LocalPlaybackService;
+import com.example.chris.atp_music_player.ui.fragments.FavoritesFragment;
 import com.example.chris.atp_music_player.ui.fragments.LibraryFragment;
 import com.example.chris.atp_music_player.ui.fragments.RecentSongsFragment;
 import com.example.chris.atp_music_player.ui.widgets.NowPlayingWidget;
@@ -214,7 +215,7 @@ public class MainActivity extends BaseServiceActivity implements DrawerListAdapt
                     fragment = LibraryFragment.newInstance();
                     setTitle("Music Library");
                 } else if (position == 2) {
-                    fragment = RecentSongsFragment.newInstance();
+                    fragment = FavoritesFragment.newInstance();
                     setTitle("Favorites");
                 } else {
                     fragment = RecentSongsFragment.newInstance();

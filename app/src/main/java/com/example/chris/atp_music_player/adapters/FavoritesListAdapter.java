@@ -19,40 +19,40 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import io.realm.Realm;
+import io.realm.RealmResults;
 
-public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.ViewHolder> {
+public class FavoritesListAdapter extends RecyclerView.Adapter<FavoritesListAdapter.ViewHolder> {
 
     private Context mContext;
     private List<Song> mSongList;
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @InjectView(R.id.item_song_list_title)
-        TextView mTitle;
+        TextView mSongTitle;
         @InjectView(R.id.item_song_list_subtitle)
-        TextView mSubtitle;
+        TextView mSongArtist;
         @InjectView(R.id.item_song_overflow)
         ImageButton mOverflow;
 
         public ViewHolder(View view) {
             super(view);
 
-            view.setOnClickListener(this);
             ButterKnife.inject(this, view);
+            view.setOnClickListener(this);
         }
 
-        public void bind(Song song) {
-            mTitle.setText(song.getTitle());
-            mSubtitle.setText(song.getArtist());
+        public void onBind(Song song) {
+            mSongTitle.setText(song.getTitle());
+            mSongArtist.setText(song.getArtist());
         }
 
         @Override
         public void onClick(View view) {
-            ((MainActivity) mContext).pushMedia(mSongList, getPosition());
+            ((MainActivity) mContext).pushMediaDontQueue(mSongList, getPosition());
         }
     }
 
-    public SongListAdapter(Context context, List<Song> songList) {
-
+    public FavoritesListAdapter(Context context, List<Song> songList) {
         mContext = context;
         mSongList = songList;
     }
@@ -70,8 +70,9 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        viewHolder.bind(mSongList.get(position));
+        viewHolder.onBind(mSongList.get(position));
     }
+
 
     @Override
     public int getItemCount() {
@@ -90,20 +91,23 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.ViewHo
         public void onClick(View v) {
             PopupMenu popupMenu = new PopupMenu(mContext, v);
             popupMenu.setOnMenuItemClickListener(this);
-            popupMenu.inflate(R.menu.song_overflow_menu);
+            popupMenu.inflate(R.menu.song_overflow_fav_menu);
             popupMenu.show();
         }
 
         @Override
         public boolean onMenuItemClick(MenuItem item) {
             switch (item.getItemId()) {
-                case R.id.song_menu_fav:
+                case R.id.song_menu_unfav:
                     Realm realm = Realm.getInstance(mContext);
-
                     realm.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
-                            realm.copyToRealm(mSongList.get(viewHolder.getAdapterPosition()));
+                            RealmResults<Song> songRealmResults = realm.allObjects(Song.class);
+                            songRealmResults.remove(viewHolder.getAdapterPosition());
+
+                            mSongList.remove(viewHolder.getAdapterPosition());
+                            notifyItemRemoved(viewHolder.getAdapterPosition());
                         }
                     });
                     return true;

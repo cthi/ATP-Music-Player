@@ -17,6 +17,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    packagingOptions {
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
 }
 
 dependencies {
@@ -28,4 +31,5 @@ dependencies {
     compile 'com.jpardogo.materialtabstrip:library:1.0.6'
     compile 'com.sothree.slidinguppanel:library:3.0.0'
     compile 'com.github.bumptech.glide:glide:3.5.2'
+    compile 'io.realm:realm-android:0.81.1'
 }

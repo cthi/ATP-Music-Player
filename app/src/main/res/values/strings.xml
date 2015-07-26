@@ -7,6 +7,8 @@
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
 
+    <string name="overflow_fav">Favorite</string>
+    <string name="overflow_unfav">Remove</string>
     <!-- Pager Strings -->
 
     <string-array name="library_pager_items">
@@ -15,8 +17,5 @@
         <item>Genres</item>
         <item>Songs</item>
     </string-array>
-
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
