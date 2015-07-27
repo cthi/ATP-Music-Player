@@ -1,9 +1,7 @@
 package com.example.chris.atp_music_player.ui.fragments;
 
-import android.support.v4.app.LoaderManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,25 +10,20 @@ import android.view.ViewGroup;
 
 import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.adapters.AlbumListAdapter;
-import com.example.chris.atp_music_player.loaders.AlbumListLoader;
 import com.example.chris.atp_music_player.models.Album;
+import com.example.chris.atp_music_player.provider.MusicProvider;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
-public class AlbumListFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<Album>> {
-
-    private final static int LOADER = 1000;
-
+public class AlbumListFragment extends Fragment {
     @InjectView(R.id.artist_recycle_view)
     RecyclerView mRecyclerView;
-    private AlbumListAdapter mAdapter;
-
-    public AlbumListFragment() {
-    }
 
     public static AlbumListFragment newInstance() {
         return new AlbumListFragment();
@@ -40,42 +33,30 @@ public class AlbumListFragment extends Fragment implements LoaderManager.LoaderC
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_artist_list, container, false);
-
         ButterKnife.inject(this, view);
 
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
 
-        mAdapter = new AlbumListAdapter(getActivity(), new ArrayList<Album>());
-        mRecyclerView.setAdapter(mAdapter);
-
+        loadAlbums();
         return view;
     }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    private void loadAlbums() {
+        MusicProvider musicProvider = new MusicProvider(getActivity());
+        musicProvider.getAllAlbums().subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<List<Album>>() {
+            @Override
+            public void onCompleted() {
+            }
 
-        getActivity().getSupportLoaderManager().initLoader(LOADER, null, this).forceLoad();
-    }
+            @Override
+            public void onError(Throwable e) {
+            }
 
-    @Override
-    public Loader<List<Album>> onCreateLoader(int id, Bundle args) {
-        return new AlbumListLoader(getActivity());
-    }
-
-    @Override
-    public void onLoadFinished(Loader<List<Album>> loader, List<Album> result) {
-        mAdapter.clear();
-
-        for (int i = 0; i < result.size(); i++) {
-            mAdapter.insert(result.get(i));
-        }
-
-        mAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onLoaderReset(Loader loader) {
+            @Override
+            public void onNext(List<Album> albums) {
+                mRecyclerView.setAdapter(new AlbumListAdapter(getActivity(), albums));
+            }
+        });
     }
 }

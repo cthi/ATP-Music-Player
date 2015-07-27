@@ -1,35 +1,33 @@
 package com.example.chris.atp_music_player.ui.activities;
 
 import android.content.Intent;
-import android.support.v4.app.LoaderManager;
 import android.os.Bundle;
-import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.example.chris.atp_music_player.ATPApplication;
 import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.adapters.SongSubsetListAdapter;
-import com.example.chris.atp_music_player.loaders.SubsetListLoader;
 import com.example.chris.atp_music_player.models.Song;
+import com.example.chris.atp_music_player.provider.MusicProvider;
 import com.example.chris.atp_music_player.services.LocalPlaybackService;
 import com.example.chris.atp_music_player.utils.AlbumArtUtils;
 import com.example.chris.atp_music_player.utils.Constants;
-import com.bumptech.glide.Glide;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
-public class SongSubsetActivity extends BaseServiceActivity
-        implements LoaderManager.LoaderCallbacks<List<Song>> {
+public class SongSubsetActivity extends BaseServiceActivity {
 
-    private int LOADER = 10000;
     private int mQueryType;
     private String mQueryCondition;
 
@@ -41,7 +39,6 @@ public class SongSubsetActivity extends BaseServiceActivity
     ImageView mAlbumImage;
 
     private boolean shouldStartForeground = true;
-    private SongSubsetListAdapter mAdapter;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,9 +56,6 @@ public class SongSubsetActivity extends BaseServiceActivity
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        mAdapter = new SongSubsetListAdapter(this, new ArrayList<Song>());
-        mRecyclerView.setAdapter(mAdapter);
-
         int albumId = getIntent().getIntExtra(Constants.DATA_ALBUM_ID, 0);
 
         if (albumId != 0) {
@@ -73,7 +67,7 @@ public class SongSubsetActivity extends BaseServiceActivity
                     load(R.drawable.placeholder_aa).into(mAlbumImage);
         }
 
-        getSupportLoaderManager().initLoader(LOADER, null, this).forceLoad();
+        loadSongs();
     }
 
     @Override
@@ -113,24 +107,22 @@ public class SongSubsetActivity extends BaseServiceActivity
         }
     }
 
-    @Override
-    public Loader<List<Song>> onCreateLoader(int id, Bundle args) {
-        return new SubsetListLoader(this, mQueryType, mQueryCondition);
-    }
+    private void loadSongs() {
+        MusicProvider musicProvider = new MusicProvider(this);
+        musicProvider.getSongs(mQueryType, mQueryCondition).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<List<Song>>() {
+            @Override
+            public void onCompleted() {
+            }
 
-    @Override
-    public void onLoadFinished(Loader<List<Song>> loader, List<Song> result) {
-        mAdapter.clear();
+            @Override
+            public void onError(Throwable e) {
+            }
 
-        for (Song song : result) {
-            mAdapter.insert(song);
-        }
-
-        mAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onLoaderReset(Loader loader) {
+            @Override
+            public void onNext(List<Song> songs) {
+                mRecyclerView.setAdapter(new SongSubsetListAdapter(SongSubsetActivity.this, songs));
+            }
+        });
     }
 
     @Override

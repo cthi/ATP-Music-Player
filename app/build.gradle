@@ -32,4 +32,5 @@ dependencies {
     compile 'com.sothree.slidinguppanel:library:3.0.0'
     compile 'com.github.bumptech.glide:glide:3.5.2'
     compile 'io.realm:realm-android:0.81.1'
+    compile 'io.reactivex:rxandroid:0.25.0'
 }
