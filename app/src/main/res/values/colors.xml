@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <color name="black">#000000</color>
-    <color name="blue">#0277BD</color>
-    <color name="dark_blue">#01579B</color>
-    <color name="muted_blue">#80DEEA</color>
+    <color name="blue">#01579b</color>
+    <color name="dark_blue">#01508b</color>
     <color name="white">#FFFFFF</color>
-    <color name="white_half_transparent">#7Fffffff</color>
-    <color name="light_grey">#616161</color>
     <color name="grey_bg">#FAFAFA</color>
     <color name="transparent">#00000000</color>
-
 </resources>
