@@ -1,4 +1,4 @@
-package com.example.chris.atp_music_player.ui.activities;
+package com.example.chris.atp_music_player.ui;
 
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -16,9 +16,6 @@ import com.example.chris.atp_music_player.ATPApplication;
 import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.models.Song;
 import com.example.chris.atp_music_player.services.LocalPlaybackService;
-import com.example.chris.atp_music_player.ui.fragments.FavoritesFragment;
-import com.example.chris.atp_music_player.ui.fragments.LibraryFragment;
-import com.example.chris.atp_music_player.ui.fragments.RecentSongsFragment;
 import com.example.chris.atp_music_player.ui.widgets.NowPlayingWidget;
 import com.example.chris.atp_music_player.utils.Constants;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;

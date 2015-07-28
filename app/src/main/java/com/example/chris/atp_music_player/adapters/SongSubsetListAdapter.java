@@ -9,9 +9,8 @@ import android.widget.TextView;
 
 import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.models.Song;
-import com.example.chris.atp_music_player.ui.activities.BaseServiceActivity;
+import com.example.chris.atp_music_player.ui.BaseServiceActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;

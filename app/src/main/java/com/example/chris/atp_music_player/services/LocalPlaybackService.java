@@ -13,14 +13,13 @@ import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
 import android.os.PowerManager;
-import android.app.NotificationManager;
 import android.support.v7.app.NotificationCompat;
 import android.support.v4.app.NotificationCompat.Builder;
 import android.widget.RemoteViews;
 
 import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.models.Song;
-import com.example.chris.atp_music_player.ui.activities.MainActivity;
+import com.example.chris.atp_music_player.ui.MainActivity;
 import com.example.chris.atp_music_player.utils.Constants;
 
 import java.io.IOException;

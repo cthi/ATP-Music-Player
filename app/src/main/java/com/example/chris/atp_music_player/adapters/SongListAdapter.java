@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.models.Song;
-import com.example.chris.atp_music_player.ui.activities.MainActivity;
+import com.example.chris.atp_music_player.ui.MainActivity;
 
 import java.util.List;
 

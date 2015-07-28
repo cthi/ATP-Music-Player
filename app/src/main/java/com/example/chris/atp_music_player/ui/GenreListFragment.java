@@ -1,16 +1,16 @@
-package com.example.chris.atp_music_player.ui.fragments;
+package com.example.chris.atp_music_player.ui;
 
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
+import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.chris.atp_music_player.R;
-import com.example.chris.atp_music_player.adapters.ArtistListAdapter;
-import com.example.chris.atp_music_player.models.Artist;
+import com.example.chris.atp_music_player.adapters.GenreListAdapter;
+import com.example.chris.atp_music_player.models.Genre;
 import com.example.chris.atp_music_player.provider.MusicProvider;
 
 import java.util.List;
@@ -21,30 +21,30 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class ArtistListFragment extends Fragment {
-    @InjectView(R.id.artist_recycle_view)
+public class GenreListFragment extends Fragment {
+    @InjectView(R.id.genre_recycle_view)
     RecyclerView mRecyclerView;
 
-    public static ArtistListFragment newInstance() {
-        return new ArtistListFragment();
+    public static GenreListFragment newInstance() {
+        return new GenreListFragment();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_artist_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_genre_list, container, false);
         ButterKnife.inject(this, view);
 
         mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        loadArtists();
+        loadGenres();
         return view;
     }
 
-    private void loadArtists() {
+    private void loadGenres() {
         MusicProvider musicProvider = new MusicProvider(getActivity());
-        musicProvider.getAllArtists().subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<List<Artist>>() {
+        musicProvider.getAllGenres().subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<List<Genre>>() {
             @Override
             public void onCompleted() {
 
@@ -56,8 +56,8 @@ public class ArtistListFragment extends Fragment {
             }
 
             @Override
-            public void onNext(List<Artist> artists) {
-                mRecyclerView.setAdapter(new ArtistListAdapter(getActivity(), artists));
+            public void onNext(List<Genre> genres) {
+                mRecyclerView.setAdapter(new GenreListAdapter(getActivity(), genres));
             }
         });
     }

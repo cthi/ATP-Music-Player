@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.example.chris.atp_music_player.ATPApplication;
 import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.models.Artist;
-import com.example.chris.atp_music_player.ui.activities.SongSubsetActivity;
+import com.example.chris.atp_music_player.ui.SongSubsetActivity;
 import com.example.chris.atp_music_player.utils.AlbumArtUtils;
 import com.example.chris.atp_music_player.utils.Constants;
 import com.bumptech.glide.Glide;

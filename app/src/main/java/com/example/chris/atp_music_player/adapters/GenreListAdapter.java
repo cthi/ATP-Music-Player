@@ -11,10 +11,9 @@ import android.widget.TextView;
 import com.example.chris.atp_music_player.ATPApplication;
 import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.models.Genre;
-import com.example.chris.atp_music_player.ui.activities.SongGenreSubsetActivity;
+import com.example.chris.atp_music_player.ui.SongGenreSubsetActivity;
 import com.example.chris.atp_music_player.utils.Constants;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;

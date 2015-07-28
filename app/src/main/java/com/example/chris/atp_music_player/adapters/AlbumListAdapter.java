@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide;
 import com.example.chris.atp_music_player.ATPApplication;
 import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.models.Album;
-import com.example.chris.atp_music_player.ui.activities.SongSubsetActivity;
+import com.example.chris.atp_music_player.ui.SongSubsetActivity;
 import com.example.chris.atp_music_player.utils.AlbumArtUtils;
 import com.example.chris.atp_music_player.utils.Constants;
 

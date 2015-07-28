@@ -8,4 +8,4 @@
     android:id="@+id/artist_recycle_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.chris.atp_music_player.ui.fragments.ArtistListFragment"/>
+    tools:context="com.example.chris.atp_music_player.ui.ArtistListFragment"/>

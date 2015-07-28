@@ -13,7 +13,7 @@
         android:theme="@style/ATPTheme">
 
         <activity
-            android:name=".ui.activities.MainActivity"
+            android:name=".ui.MainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask">
             <intent-filter>
@@ -24,13 +24,13 @@
         </activity>
 
         <activity
-            android:name=".ui.activities.SongSubsetActivity"
+            android:name=".ui.SongSubsetActivity"
             android:label="Subset"
             android:theme="@style/ATPTheme.TranslucentStatusBar">
         </activity>
 
         <activity
-            android:name=".ui.activities.SongGenreSubsetActivity"
+            android:name=".ui.SongGenreSubsetActivity"
             android:label="Subset"
             android:theme="@style/ATPTheme.Base">
         </activity>

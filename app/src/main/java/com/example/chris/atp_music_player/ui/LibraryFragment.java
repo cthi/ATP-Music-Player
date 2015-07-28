@@ -1,4 +1,4 @@
-package com.example.chris.atp_music_player.ui.fragments;
+package com.example.chris.atp_music_player.ui;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import com.astuetz.PagerSlidingTabStrip;
 import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.adapters.LibraryPagerAdapter;
-import com.example.chris.atp_music_player.ui.activities.BaseServiceActivity;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;

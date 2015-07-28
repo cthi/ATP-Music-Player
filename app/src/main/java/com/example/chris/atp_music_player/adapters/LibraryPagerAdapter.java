@@ -6,10 +6,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.example.chris.atp_music_player.R;
-import com.example.chris.atp_music_player.ui.fragments.AlbumListFragment;
-import com.example.chris.atp_music_player.ui.fragments.ArtistListFragment;
-import com.example.chris.atp_music_player.ui.fragments.GenreListFragment;
-import com.example.chris.atp_music_player.ui.fragments.SongListFragment;
+import com.example.chris.atp_music_player.ui.AlbumListFragment;
+import com.example.chris.atp_music_player.ui.ArtistListFragment;
+import com.example.chris.atp_music_player.ui.GenreListFragment;
+import com.example.chris.atp_music_player.ui.SongListFragment;
 
 public class LibraryPagerAdapter extends FragmentPagerAdapter {
     private final String[] TAB_TITLES;

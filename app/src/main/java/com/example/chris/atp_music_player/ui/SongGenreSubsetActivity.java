@@ -1,4 +1,4 @@
-package com.example.chris.atp_music_player.ui.activities;
+package com.example.chris.atp_music_player.ui;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
