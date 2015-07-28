@@ -9,24 +9,40 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.chris.atp_music_player.ATPApplication;
 import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.models.Album;
 import com.example.chris.atp_music_player.ui.activities.SongSubsetActivity;
 import com.example.chris.atp_music_player.utils.AlbumArtUtils;
 import com.example.chris.atp_music_player.utils.Constants;
-import com.bumptech.glide.Glide;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.ViewHolder> {
-
     private Context mContext;
     private List<Album> mAlbumList;
+
+    public AlbumListAdapter(Context context, List<Album> albumList) {
+        mContext = context;
+        mAlbumList = albumList;
+    }
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int position) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_artist_list, parent, false);
+
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder viewholder, int position) {
+        viewholder.bind(mAlbumList.get(position));
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @InjectView(R.id.item_artist_list_label)
@@ -50,7 +66,6 @@ public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.View
                     .into(mImage);
         }
 
-
         @Override
         public void onClick(View view) {
             Intent intent = new Intent(mContext, SongSubsetActivity.class);
@@ -62,36 +77,8 @@ public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.View
         }
     }
 
-    public AlbumListAdapter(Context context, List<Album> albumList) {
-
-        mContext = context;
-        mAlbumList = albumList;
-    }
-
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int position) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_artist_list, parent, false);
-
-        return new ViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(ViewHolder viewholder, int position) {
-        viewholder.bind(mAlbumList.get(position));
-    }
-
     @Override
     public int getItemCount() {
         return mAlbumList.size();
-    }
-
-    public void clear() {
-        mAlbumList = new ArrayList<>();
-        notifyDataSetChanged();
-    }
-
-    public void insert(Album album) {
-        mAlbumList.add(album);
     }
 }

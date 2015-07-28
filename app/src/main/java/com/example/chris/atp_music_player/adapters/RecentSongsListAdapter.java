@@ -17,9 +17,26 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class RecentSongsListAdapter extends RecyclerView.Adapter<RecentSongsListAdapter.ViewHolder> {
-
     private Context mContext;
     private List<Song> mSongList;
+
+    public RecentSongsListAdapter(Context context, List<Song> songList) {
+        mContext = context;
+        mSongList = songList;
+    }
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int position) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_song_list, parent, false);
+
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder viewHolder, int position) {
+        viewHolder.onBind(mSongList.get(position));
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @InjectView(R.id.item_song_list_title)
@@ -43,24 +60,6 @@ public class RecentSongsListAdapter extends RecyclerView.Adapter<RecentSongsList
         public void onClick(View view) {
             ((MainActivity) mContext).pushMediaDontQueue(mSongList, getPosition());
         }
-    }
-
-    public RecentSongsListAdapter(Context context, List<Song> songList) {
-        mContext = context;
-        mSongList = songList;
-    }
-
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int position) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_song_list, parent, false);
-
-        return new ViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        viewHolder.onBind(mSongList.get(position));
     }
 
     @Override

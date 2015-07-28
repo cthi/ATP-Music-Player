@@ -22,9 +22,29 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 
 public class FavoritesListAdapter extends RecyclerView.Adapter<FavoritesListAdapter.ViewHolder> {
-
     private Context mContext;
     private List<Song> mSongList;
+
+    public FavoritesListAdapter(Context context, List<Song> songList) {
+        mContext = context;
+        mSongList = songList;
+    }
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int position) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_song_list, parent, false);
+        ViewHolder viewHolder = new ViewHolder(view);
+
+        viewHolder.mOverflow.setOnClickListener(new OnSongOverflowMenuClicked(viewHolder));
+
+        return viewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder viewHolder, int position) {
+        viewHolder.onBind(mSongList.get(position));
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @InjectView(R.id.item_song_list_title)
@@ -51,28 +71,6 @@ public class FavoritesListAdapter extends RecyclerView.Adapter<FavoritesListAdap
             ((MainActivity) mContext).pushMediaDontQueue(mSongList, getPosition());
         }
     }
-
-    public FavoritesListAdapter(Context context, List<Song> songList) {
-        mContext = context;
-        mSongList = songList;
-    }
-
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int position) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_song_list, parent, false);
-        ViewHolder viewHolder = new ViewHolder(view);
-
-        viewHolder.mOverflow.setOnClickListener(new OnSongOverflowMenuClicked(viewHolder));
-
-        return viewHolder;
-    }
-
-    @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        viewHolder.onBind(mSongList.get(position));
-    }
-
 
     @Override
     public int getItemCount() {
@@ -117,3 +115,4 @@ public class FavoritesListAdapter extends RecyclerView.Adapter<FavoritesListAdap
         }
     }
 }
+

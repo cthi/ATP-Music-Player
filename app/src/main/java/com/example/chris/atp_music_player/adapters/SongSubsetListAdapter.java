@@ -69,13 +69,4 @@ public class SongSubsetListAdapter extends RecyclerView.Adapter<SongSubsetListAd
     public int getItemCount() {
         return mSongList.size();
     }
-
-    public void clear() {
-        mSongList = new ArrayList<>();
-        notifyDataSetChanged();
-    }
-
-    public void insert(Song song) {
-        mSongList.add(song);
-    }
 }

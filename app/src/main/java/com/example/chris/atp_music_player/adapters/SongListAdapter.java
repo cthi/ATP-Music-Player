@@ -21,9 +21,29 @@ import butterknife.InjectView;
 import io.realm.Realm;
 
 public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.ViewHolder> {
-
     private Context mContext;
     private List<Song> mSongList;
+
+    public SongListAdapter(Context context, List<Song> songList) {
+        mContext = context;
+        mSongList = songList;
+    }
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int position) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_song_list, parent, false);
+        ViewHolder viewHolder = new ViewHolder(view);
+
+        viewHolder.mOverflow.setOnClickListener(new OnSongOverflowMenuClicked(viewHolder));
+
+        return viewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder viewHolder, int position) {
+        viewHolder.bind(mSongList.get(position));
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @InjectView(R.id.item_song_list_title)
@@ -49,28 +69,6 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.ViewHo
         public void onClick(View view) {
             ((MainActivity) mContext).pushMedia(mSongList, getPosition());
         }
-    }
-
-    public SongListAdapter(Context context, List<Song> songList) {
-
-        mContext = context;
-        mSongList = songList;
-    }
-
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int position) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_song_list, parent, false);
-        ViewHolder viewHolder = new ViewHolder(view);
-
-        viewHolder.mOverflow.setOnClickListener(new OnSongOverflowMenuClicked(viewHolder));
-
-        return viewHolder;
-    }
-
-    @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        viewHolder.bind(mSongList.get(position));
     }
 
     @Override

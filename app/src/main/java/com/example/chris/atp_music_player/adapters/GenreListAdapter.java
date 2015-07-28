@@ -21,9 +21,26 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class GenreListAdapter extends RecyclerView.Adapter<GenreListAdapter.ViewHolder> {
-
     private Context mContext;
     private List<Genre> mGenreList;
+
+    public GenreListAdapter(Context context, List<Genre> genreList) {
+        mContext = context;
+        mGenreList = genreList;
+    }
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int position) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_genre_list, parent, false);
+
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder viewholder, int position) {
+        viewholder.bind(mGenreList.get(position));
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @InjectView(R.id.item_genre_list_title)
@@ -50,35 +67,9 @@ public class GenreListAdapter extends RecyclerView.Adapter<GenreListAdapter.View
         }
     }
 
-    public GenreListAdapter(Context context, List<Genre> genreList) {
-        mContext = context;
-        mGenreList = genreList;
-    }
-
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int position) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_genre_list, parent, false);
-
-        return new ViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(ViewHolder viewholder, int position) {
-        viewholder.bind(mGenreList.get(position));
-    }
-
     @Override
     public int getItemCount() {
         return mGenreList.size();
     }
-
-    public void clear() {
-        mGenreList = new ArrayList<>();
-        notifyDataSetChanged();
-    }
-
-    public void insert(Genre genre) {
-        mGenreList.add(genre);
-    }
 }
+

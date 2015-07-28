@@ -12,7 +12,6 @@ import com.example.chris.atp_music_player.ui.fragments.GenreListFragment;
 import com.example.chris.atp_music_player.ui.fragments.SongListFragment;
 
 public class LibraryPagerAdapter extends FragmentPagerAdapter {
-
     private final String[] TAB_TITLES;
 
     public LibraryPagerAdapter(Context context, FragmentManager fragmentManager){

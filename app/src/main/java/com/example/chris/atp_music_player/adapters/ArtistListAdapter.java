@@ -23,9 +23,26 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class ArtistListAdapter extends RecyclerView.Adapter<ArtistListAdapter.ViewHolder> {
-
     private Context mContext;
     private List<Artist> mArtistList;
+
+    public ArtistListAdapter(Context context, List<Artist> artistList) {
+        mContext = context;
+        mArtistList = artistList;
+    }
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int position) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_artist_list, parent, false);
+
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder viewholder, int position) {
+        viewholder.bind(mArtistList.get(position));
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @InjectView(R.id.item_artist_list_label)
@@ -58,25 +75,6 @@ public class ArtistListAdapter extends RecyclerView.Adapter<ArtistListAdapter.Vi
             ATPApplication.subActivityWillBeVisible();
             mContext.startActivity(intent);
         }
-    }
-
-    public ArtistListAdapter(Context context, List<Artist> artistList) {
-
-        mContext = context;
-        mArtistList = artistList;
-    }
-
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int position) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_artist_list, parent, false);
-
-        return new ViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(ViewHolder viewholder, int position) {
-        viewholder.bind(mArtistList.get(position));
     }
 
     @Override
