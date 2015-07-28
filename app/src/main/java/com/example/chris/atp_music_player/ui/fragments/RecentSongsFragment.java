@@ -39,6 +39,8 @@ public class RecentSongsFragment extends Fragment {
 
         ButterKnife.inject(this, view);
 
+        getActivity().setTitle(R.string.menu_recent);
+
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 

@@ -38,6 +38,8 @@ public class LibraryFragment extends Fragment {
 
         ButterKnife.inject(this, view);
 
+        getActivity().setTitle(R.string.menu_lib);
+
         initPager();
         initPagerTabs();
 

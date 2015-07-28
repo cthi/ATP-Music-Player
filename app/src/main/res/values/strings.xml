@@ -1,5 +1,4 @@
 <resources>
-
     <string name="app_name">ATP</string>
 
     <string name="action_settings">Settings</string>
@@ -9,7 +8,10 @@
 
     <string name="overflow_fav">Favorite</string>
     <string name="overflow_unfav">Remove</string>
-    <!-- Pager Strings -->
+
+    <string name="menu_lib">Library</string>
+    <string name="menu_favs">Favorites</string>
+    <string name="menu_recent">Recently Played</string>
 
     <string-array name="library_pager_items">
         <item>Artists</item>
@@ -17,5 +19,4 @@
         <item>Genres</item>
         <item>Songs</item>
     </string-array>
-
 </resources>

@@ -37,6 +37,8 @@ public class FavoritesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_favorites, container, false);
         ButterKnife.inject(this, view);
 
+        getActivity().setTitle(R.string.menu_favs);
+
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         getFavorites();
         return view;

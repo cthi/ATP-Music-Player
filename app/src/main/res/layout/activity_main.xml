@@ -1,4 +1,7 @@
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -32,19 +35,11 @@
 
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 
-    <com.example.chris.atp_music_player.ui.widgets.ScrimInsetsFrameLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/scrimInsetsFrameLayout"
-        android:layout_width="300dp"
+    <android.support.design.widget.NavigationView
+        android:id="@+id/drawer"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@color/white"
         android:fitsSystemWindows="true"
-        app:insetForeground="#4000">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/drawerList"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </com.example.chris.atp_music_player.ui.widgets.ScrimInsetsFrameLayout>
-
+        app:menu="@menu/drawer_menu"/>
 </android.support.v4.widget.DrawerLayout>
