@@ -1,5 +1,6 @@
 package com.example.chris.atp_music_player.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,7 @@ import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.adapters.SongSubsetListAdapter;
 import com.example.chris.atp_music_player.models.Song;
 import com.example.chris.atp_music_player.provider.MusicProvider;
+import com.example.chris.atp_music_player.services.LocalPlaybackService;
 import com.example.chris.atp_music_player.utils.Constants;
 
 import java.util.List;
@@ -26,6 +28,8 @@ public class SongGenreSubsetActivity extends BaseServiceActivity {
     Toolbar mToolbar;
     @InjectView(R.id.song_genre_subset_recycle_view)
     RecyclerView mRecyclerView;
+
+    private boolean shouldStartForeground = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +60,20 @@ public class SongGenreSubsetActivity extends BaseServiceActivity {
 
     @Override
     public void onBackPressed() {
-        ATPApplication.subActivityWillDissapear();
+        shouldStartForeground = false;
         super.onBackPressed();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        ATPApplication.subActivityWillDissapear();
+
+        if (shouldStartForeground && null != mService && mService.isPlaying()) {
+            Intent intent = new Intent(this, LocalPlaybackService.class);
+            intent.setAction(Constants.PLAYBACK_START_FOREGROUND);
+            startService(intent);
+        }
     }
 
     private void loadSongs() {
