@@ -116,6 +116,8 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
 
         } else if (intent.getAction().equals(Constants.PLAYBACK_STOP_FOREGROUND)) {
             stopForeground(true);
+            mNotifView = null;
+            mNotifBuilder = null;
         }
 
         return START_STICKY;

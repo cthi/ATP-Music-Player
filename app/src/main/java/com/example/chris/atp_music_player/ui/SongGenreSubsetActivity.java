@@ -80,9 +80,4 @@ public class SongGenreSubsetActivity extends BaseServiceActivity {
             }
         });
     }
-
-    @Override
-    void onServiceBound() {
-
-    }
 }

@@ -4,12 +4,9 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.content.res.TypedArray;
 import android.os.IBinder;
 import android.support.v7.app.ActionBarActivity;
-import android.util.TypedValue;
 
-import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.models.Song;
 import com.example.chris.atp_music_player.services.LocalPlaybackService;
 import com.example.chris.atp_music_player.utils.Constants;
@@ -17,18 +14,8 @@ import com.example.chris.atp_music_player.utils.Constants;
 import java.util.List;
 
 public abstract class BaseServiceActivity extends ActionBarActivity {
-
     protected LocalPlaybackService mService;
     protected boolean mServiceBound;
-
-    public int getColorPrimary() {
-        TypedArray tmp = obtainStyledAttributes(new TypedValue().data,
-                new int[]{R.attr.colorPrimary});
-        int color = tmp.getColor(0, 0);
-        tmp.recycle();
-
-        return color;
-    }
 
     private ServiceConnection mConnection = new ServiceConnection() {
 
@@ -53,6 +40,7 @@ public abstract class BaseServiceActivity extends ActionBarActivity {
         Intent intent = new Intent(this, LocalPlaybackService.class);
         intent.setAction(Constants.PLAYBACK_STOP_FOREGROUND);
         bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+        startService(intent);
     }
 
     @Override
@@ -64,6 +52,9 @@ public abstract class BaseServiceActivity extends ActionBarActivity {
         }
     }
 
+    void onServiceBound() {
+    }
+
     public void pushMedia(List<Song> songList, int position) {
         mService.play(songList, position);
     }
@@ -71,6 +62,4 @@ public abstract class BaseServiceActivity extends ActionBarActivity {
     public void pushMediaDontQueue(List<Song> songList, int position) {
         mService.playDontQueue(songList, position);
     }
-
-    abstract void onServiceBound();
 }

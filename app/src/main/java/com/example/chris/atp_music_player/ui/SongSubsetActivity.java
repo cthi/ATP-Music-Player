@@ -87,15 +87,6 @@ public class SongSubsetActivity extends BaseServiceActivity {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-
-        Intent intent = new Intent(this, LocalPlaybackService.class);
-        intent.setAction(Constants.PLAYBACK_STOP_FOREGROUND);
-        startService(intent);
-    }
-
-    @Override
     public void onStop() {
         super.onStop();
         ATPApplication.subActivityWillDissapear();
@@ -123,10 +114,5 @@ public class SongSubsetActivity extends BaseServiceActivity {
                 mRecyclerView.setAdapter(new SongSubsetListAdapter(SongSubsetActivity.this, songs));
             }
         });
-    }
-
-    @Override
-    void onServiceBound() {
-
     }
 }

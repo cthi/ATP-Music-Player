@@ -54,7 +54,7 @@ public class LibraryFragment extends Fragment {
 
     public void initPagerTabs() {
         if (mPagerTabs != null) {
-            mPagerTabs.setBackgroundColor(((BaseServiceActivity) getActivity()).getColorPrimary());
+            mPagerTabs.setBackgroundColor(getResources().getColor(R.color.blue));
             mPagerTabs.setIndicatorHeight(4);
             mPagerTabs.setDividerColor(Color.TRANSPARENT);
             mPagerTabs.setTextColor(Color.WHITE);

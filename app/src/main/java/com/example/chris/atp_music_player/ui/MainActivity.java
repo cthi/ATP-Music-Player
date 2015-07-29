@@ -60,14 +60,6 @@ public class MainActivity extends BaseServiceActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        Intent intent = new Intent(this, LocalPlaybackService.class);
-        intent.setAction(Constants.PLAYBACK_STOP_FOREGROUND);
-        startService(intent);
-    }
-
-    @Override
     protected void onStop() {
         super.onStop();
         Intent intent = new Intent(this, LocalPlaybackService.class);
