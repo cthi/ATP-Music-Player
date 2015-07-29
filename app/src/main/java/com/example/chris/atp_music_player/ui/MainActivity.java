@@ -25,7 +25,6 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-
 public class MainActivity extends BaseServiceActivity {
     @InjectView(R.id.toolbar)
     Toolbar mToolbar;
@@ -49,14 +48,10 @@ public class MainActivity extends BaseServiceActivity {
         initNavView();
         linkDrawer();
 
-        LibraryFragment fragment = LibraryFragment.newInstance();
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment, fragment).commit();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        restorePlayingView();
+        if (null == savedInstanceState) {
+            LibraryFragment fragment = LibraryFragment.newInstance();
+            getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment, fragment).commit();
+        }
     }
 
     @Override
@@ -193,5 +188,6 @@ public class MainActivity extends BaseServiceActivity {
     @Override
     void onServiceBound() {
         mNowPlayingWidget.setService(mService);
+        restorePlayingView();
     }
 }

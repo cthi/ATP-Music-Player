@@ -23,8 +23,8 @@ public abstract class BaseServiceActivity extends ActionBarActivity {
         public void onServiceConnected(ComponentName className, IBinder service) {
             LocalPlaybackService.LocalBinder binder = (LocalPlaybackService.LocalBinder) service;
             mService = binder.getService();
-            onServiceBound();
             mServiceBound = true;
+            onServiceBound();
         }
 
         @Override
