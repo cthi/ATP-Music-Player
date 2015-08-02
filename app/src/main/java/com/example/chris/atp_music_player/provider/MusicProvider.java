@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.provider.MediaStore;
 
-import com.example.chris.atp_music_player.db.MediaStoreDBHelper;
 import com.example.chris.atp_music_player.models.Album;
 import com.example.chris.atp_music_player.models.Artist;
 import com.example.chris.atp_music_player.models.Genre;
@@ -31,7 +30,7 @@ public class MusicProvider {
             public void call(Subscriber<? super List<Song>> subscriber) {
                 try {
                     List<Song> songList = new ArrayList<>();
-                    Cursor cursor = MediaStoreDBHelper.getSongsCursor(mContext);
+                    Cursor cursor = MediaStoreDb.getSongsCursor(mContext);
 
                     while (cursor.moveToNext()) {
                         String title = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.TITLE));
@@ -73,7 +72,8 @@ public class MusicProvider {
                     mSelectionArgs[0] = queryCondition;
 
                     List<Song> songList = new ArrayList<>();
-                    Cursor cursor = MediaStoreDBHelper.getSongsCursor(mContext, mSelectionClause, mSelectionArgs);
+                    Cursor cursor = MediaStoreDb.getSongsCursor(mContext, mSelectionClause,
+                            mSelectionArgs);
 
                     while (cursor.moveToNext()) {
                         String title = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.TITLE));
@@ -102,7 +102,7 @@ public class MusicProvider {
             public void call(Subscriber<? super List<Album>> subscriber) {
                 try {
                     List<Album> albumList = new ArrayList<>();
-                    Cursor cursor = MediaStoreDBHelper.getAlbumsCursor(mContext);
+                    Cursor cursor = MediaStoreDb.getAlbumsCursor(mContext);
 
                     int lastAlbumId = -1;
 
@@ -138,7 +138,7 @@ public class MusicProvider {
             public void call(Subscriber<? super List<Artist>> subscriber) {
                 try {
                     List<Artist> artistList = new ArrayList<>();
-                    Cursor cursor = MediaStoreDBHelper.getArtistsCursor(mContext);
+                    Cursor cursor = MediaStoreDb.getArtistsCursor(mContext);
 
                     int lastArtistId = -1;
 
@@ -174,7 +174,7 @@ public class MusicProvider {
             public void call(Subscriber<? super List<Genre>> subscriber) {
                 try {
                     List<Genre> genreList = new ArrayList<>();
-                    Cursor cursor = MediaStoreDBHelper.getGenresCursor(mContext);
+                    Cursor cursor = MediaStoreDb.getGenresCursor(mContext);
 
                     while (cursor.moveToNext()) {
                         String title = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Genres.NAME));
@@ -201,7 +201,7 @@ public class MusicProvider {
                 try {
                     List<Song> songList = new ArrayList<>();
 
-                    Cursor cursor = MediaStoreDBHelper.getSongsFromGenreCursor(mContext, genreId);
+                    Cursor cursor = MediaStoreDb.getSongsFromGenreCursor(mContext, genreId);
 
                     while (cursor.moveToNext()) {
                         String title = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.TITLE));

@@ -1,4 +1,4 @@
-package com.example.chris.atp_music_player.db;
+package com.example.chris.atp_music_player.provider;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 
-public class MediaStoreDBHelper {
+public class MediaStoreDb {
     final static Uri MEDIA_URI = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
     final static Uri GENRE_URI = MediaStore.Audio.Genres.EXTERNAL_CONTENT_URI;
 
