@@ -1,10 +1,8 @@
 package com.example.chris.atp_music_player.adapters;
 
 import android.content.Context;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -13,13 +11,11 @@ import android.widget.TextView;
 import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.models.Song;
 import com.example.chris.atp_music_player.ui.BaseServiceActivity;
-import com.example.chris.atp_music_player.ui.MainActivity;
 
 import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import io.realm.Realm;
 
 public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.ViewHolder> {
     private Context mContext;
