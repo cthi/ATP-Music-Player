@@ -9,7 +9,7 @@ import android.view.MenuItem;
 
 import com.example.chris.atp_music_player.ATPApplication;
 import com.example.chris.atp_music_player.R;
-import com.example.chris.atp_music_player.adapters.SongSubsetListAdapter;
+import com.example.chris.atp_music_player.adapters.SongListAdapter;
 import com.example.chris.atp_music_player.models.Song;
 import com.example.chris.atp_music_player.provider.MusicProvider;
 import com.example.chris.atp_music_player.services.LocalPlaybackService;
@@ -91,7 +91,7 @@ public class SongGenreSubsetActivity extends BaseServiceActivity {
 
             @Override
             public void onNext(List<Song> songs) {
-                mRecyclerView.setAdapter(new SongSubsetListAdapter(SongGenreSubsetActivity.this,
+                mRecyclerView.setAdapter(new SongListAdapter(SongGenreSubsetActivity.this,
                         songs));
             }
         });

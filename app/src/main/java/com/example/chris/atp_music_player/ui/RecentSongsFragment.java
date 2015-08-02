@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.chris.atp_music_player.R;
-import com.example.chris.atp_music_player.adapters.RecentSongsListAdapter;
+import com.example.chris.atp_music_player.adapters.SongListAdapter;
 import com.example.chris.atp_music_player.models.Song;
 
 import java.util.Collections;
@@ -22,10 +22,6 @@ public class RecentSongsFragment extends Fragment {
 
     @InjectView(R.id.recent_songs_recycle_view)
     RecyclerView mRecyclerView;
-
-    public RecentSongsFragment() {
-
-    }
 
     public static RecentSongsFragment newInstance() {
         return new RecentSongsFragment();
@@ -45,8 +41,7 @@ public class RecentSongsFragment extends Fragment {
 
         List<Song> songList = ((MainActivity) getActivity()).getService().getRecentSongs();
         Collections.reverse(songList);
-        RecentSongsListAdapter adapter = new RecentSongsListAdapter(getActivity(), songList);
-        mRecyclerView.setAdapter(adapter);
+        mRecyclerView.setAdapter(new SongListAdapter(getActivity(), songList));
 
         return view;
     }

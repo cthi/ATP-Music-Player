@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.example.chris.atp_music_player.ATPApplication;
 import com.example.chris.atp_music_player.R;
-import com.example.chris.atp_music_player.adapters.SongSubsetListAdapter;
+import com.example.chris.atp_music_player.adapters.SongListAdapter;
 import com.example.chris.atp_music_player.models.Song;
 import com.example.chris.atp_music_player.provider.MusicProvider;
 import com.example.chris.atp_music_player.services.LocalPlaybackService;
@@ -111,7 +111,7 @@ public class SongSubsetActivity extends BaseServiceActivity {
 
             @Override
             public void onNext(List<Song> songs) {
-                mRecyclerView.setAdapter(new SongSubsetListAdapter(SongSubsetActivity.this, songs));
+                mRecyclerView.setAdapter(new SongListAdapter(SongSubsetActivity.this, songs));
             }
         });
     }

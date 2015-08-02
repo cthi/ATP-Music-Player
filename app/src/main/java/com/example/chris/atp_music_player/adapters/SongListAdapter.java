@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.models.Song;
+import com.example.chris.atp_music_player.ui.BaseServiceActivity;
 import com.example.chris.atp_music_player.ui.MainActivity;
 
 import java.util.List;
@@ -67,7 +68,7 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.ViewHo
 
         @Override
         public void onClick(View view) {
-            ((MainActivity) mContext).pushMedia(mSongList, getAdapterPosition());
+            ((BaseServiceActivity) mContext).pushMedia(mSongList, getAdapterPosition());
         }
     }
 
