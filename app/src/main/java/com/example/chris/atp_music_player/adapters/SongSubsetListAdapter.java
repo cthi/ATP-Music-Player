@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.chris.atp_music_player.R;
@@ -26,6 +27,8 @@ public class SongSubsetListAdapter extends RecyclerView.Adapter<SongSubsetListAd
         TextView mTitle;
         @InjectView(R.id.item_song_list_subtitle)
         TextView mSubtitle;
+        @InjectView(R.id.item_song_overflow)
+        ImageButton mOverflow;
 
         public ViewHolder(View view) {
             super(view);
@@ -55,8 +58,11 @@ public class SongSubsetListAdapter extends RecyclerView.Adapter<SongSubsetListAd
     public ViewHolder onCreateViewHolder(ViewGroup parent, int position) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_song_list, parent, false);
+        ViewHolder viewHolder = new ViewHolder(view);
 
-        return new ViewHolder(view);
+        viewHolder.mOverflow.setOnClickListener(new OnSongOverflowMenuClicked(viewHolder, mSongList, mContext));
+
+        return viewHolder;
     }
 
     @Override

@@ -35,7 +35,7 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.ViewHo
                 .inflate(R.layout.item_song_list, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
 
-        viewHolder.mOverflow.setOnClickListener(new OnSongOverflowMenuClicked(viewHolder));
+        viewHolder.mOverflow.setOnClickListener(new OnSongOverflowMenuClicked(viewHolder, mSongList, mContext));
 
         return viewHolder;
     }
@@ -74,40 +74,5 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.ViewHo
     @Override
     public int getItemCount() {
         return mSongList.size();
-    }
-
-    private class OnSongOverflowMenuClicked implements View.OnClickListener, PopupMenu
-            .OnMenuItemClickListener {
-        RecyclerView.ViewHolder viewHolder;
-
-        public OnSongOverflowMenuClicked(RecyclerView.ViewHolder viewHolder) {
-            this.viewHolder = viewHolder;
-        }
-
-        @Override
-        public void onClick(View v) {
-            PopupMenu popupMenu = new PopupMenu(mContext, v);
-            popupMenu.setOnMenuItemClickListener(this);
-            popupMenu.inflate(R.menu.song_overflow_menu);
-            popupMenu.show();
-        }
-
-        @Override
-        public boolean onMenuItemClick(MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.song_menu_fav:
-                    Realm realm = Realm.getInstance(mContext);
-
-                    realm.executeTransaction(new Realm.Transaction() {
-                        @Override
-                        public void execute(Realm realm) {
-                            realm.copyToRealm(mSongList.get(viewHolder.getAdapterPosition()));
-                        }
-                    });
-                    return true;
-                default:
-                    return false;
-            }
-        }
     }
 }
