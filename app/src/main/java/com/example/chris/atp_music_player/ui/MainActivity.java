@@ -102,20 +102,23 @@ public class MainActivity extends BaseServiceActivity {
     @Override
     public void pushMedia(List<Song> songList, int position) {
         super.pushMedia(songList, position);
-
+        mSlidingPanel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
         mNowPlayingWidget.updateNowPlayingView(songList.get(position));
     }
 
     @Override
     public void pushMediaDontQueue(List<Song> songList, int position) {
         super.pushMediaDontQueue(songList, position);
-
+        mSlidingPanel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
         mNowPlayingWidget.updateNowPlayingView(songList.get(position));
     }
 
     public void restorePlayingView() {
         if (mServiceBound && mService.getLastSong() != null) {
+            mSlidingPanel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
             mNowPlayingWidget.updateNowPlayingView(mService.getLastSong());
+        } else {
+            mSlidingPanel.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
         }
     }
 
