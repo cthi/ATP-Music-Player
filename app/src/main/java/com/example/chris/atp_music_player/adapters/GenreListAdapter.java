@@ -59,8 +59,8 @@ public class GenreListAdapter extends RecyclerView.Adapter<GenreListAdapter.View
         @Override
         public void onClick(View view) {
             Intent intent = new Intent(mContext, SongGenreSubsetActivity.class);
-            intent.putExtra(Constants.GENRE, mGenreList.get(getPosition()).getName());
-            intent.putExtra(Constants.GENRE_ID, mGenreList.get(getPosition()).getId());
+            intent.putExtra(Constants.GENRE, mGenreList.get(getAdapterPosition()).getName());
+            intent.putExtra(Constants.GENRE_ID, mGenreList.get(getAdapterPosition()).getId());
             ATPApplication.subActivityWillBeVisible();
             mContext.startActivity(intent);
         }
