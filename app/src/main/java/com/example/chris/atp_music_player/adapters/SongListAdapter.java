@@ -67,7 +67,7 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.ViewHo
 
         @Override
         public void onClick(View view) {
-            ((MainActivity) mContext).pushMedia(mSongList, getPosition());
+            ((MainActivity) mContext).pushMedia(mSongList, getAdapterPosition());
         }
     }
 

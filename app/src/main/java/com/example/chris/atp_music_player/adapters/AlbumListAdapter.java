@@ -69,9 +69,9 @@ public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.View
         @Override
         public void onClick(View view) {
             Intent intent = new Intent(mContext, SongSubsetActivity.class);
-            intent.putExtra(Constants.QUERY_CONSTRAINT, mAlbumList.get(getPosition()).getTitle());
+            intent.putExtra(Constants.QUERY_CONSTRAINT, mAlbumList.get(getAdapterPosition()).getTitle());
             intent.putExtra(Constants.QUERY_TYPE, Constants.QUERY_TYPE_ALBUM);
-            intent.putExtra(Constants.DATA_ALBUM_ID, mAlbumList.get(getPosition()).getId());
+            intent.putExtra(Constants.DATA_ALBUM_ID, mAlbumList.get(getAdapterPosition()).getId());
             ATPApplication.subActivityWillBeVisible();
             mContext.startActivity(intent);
         }

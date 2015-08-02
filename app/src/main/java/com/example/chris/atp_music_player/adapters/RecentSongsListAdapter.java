@@ -64,7 +64,7 @@ public class RecentSongsListAdapter extends RecyclerView.Adapter<RecentSongsList
 
         @Override
         public void onClick(View view) {
-            ((MainActivity) mContext).pushMediaDontQueue(mSongList, getPosition());
+            ((MainActivity) mContext).pushMediaDontQueue(mSongList, getAdapterPosition());
         }
     }
 
