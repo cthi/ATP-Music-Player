@@ -94,11 +94,13 @@ public class LocalPlaybackService extends Service implements MusicPlayback,
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (intent.getAction() == null) {
-            return START_STICKY;
-        }
+        if (null == intent) {
+            stopSelf();
 
-        if (intent.getAction().equals(Constants.PLAYBACK_START_FOREGROUND)) {
+            return  START_NOT_STICKY;
+        } else if (intent.getAction() == null) {
+            return START_STICKY;
+        } else if (intent.getAction().equals(Constants.PLAYBACK_START_FOREGROUND)) {
             mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             mNotifView = new RemoteViews(getPackageName(), R.layout.item_remote_notif);
             mNotifView.setImageViewResource(R.id.item_remote_notif_img, R.mipmap.ic_launcher);
