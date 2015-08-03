@@ -115,7 +115,6 @@ public class MainActivity extends BaseServiceActivity {
 
     public void restorePlayingView() {
         if (mServiceBound && mService.getLastSong() != null) {
-            mSlidingPanel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
             mNowPlayingWidget.updateNowPlayingView(mService.getLastSong());
         } else {
             mSlidingPanel.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
