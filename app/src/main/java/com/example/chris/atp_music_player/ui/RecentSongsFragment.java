@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.adapters.SongListAdapter;
@@ -19,9 +20,10 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class RecentSongsFragment extends Fragment {
-
-    @InjectView(R.id.recent_songs_recycle_view)
+    @InjectView(R.id.song_rv)
     RecyclerView mRecyclerView;
+    @InjectView(R.id.error_placeholder)
+    TextView mErrorView;
 
     public static RecentSongsFragment newInstance() {
         return new RecentSongsFragment();
@@ -30,7 +32,7 @@ public class RecentSongsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_recent_songs, container, false);
+        View view = inflater.inflate(R.layout.song_list, container, false);
 
         ButterKnife.inject(this, view);
 
@@ -41,7 +43,14 @@ public class RecentSongsFragment extends Fragment {
 
         List<Song> songList = ((MainActivity) getActivity()).getService().getRecentSongs();
         Collections.reverse(songList);
-        mRecyclerView.setAdapter(new SongListAdapter(getActivity(), songList));
+
+        if (songList.isEmpty()) {
+            mErrorView.setText(R.string.err_recent);
+            mRecyclerView.setVisibility(View.GONE);
+            mErrorView.setVisibility(View.VISIBLE);
+        } else {
+            mRecyclerView.setAdapter(new SongListAdapter(getActivity(), songList));
+        }
 
         return view;
     }

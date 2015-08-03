@@ -13,6 +13,13 @@
     <string name="menu_favs">Favorites</string>
     <string name="menu_recent">Recently Played</string>
 
+    <string name="err_artists">No Artists</string>
+    <string name="err_albums">No Albums</string>
+    <string name="err_genres">No Genres</string>
+    <string name="err_songs">No Songs</string>
+    <string name="err_recent">No Recent Songs</string>
+    <string name="err_favs">No Favorite Songs</string>
+
     <string-array name="library_pager_items">
         <item>Artists</item>
         <item>Albums</item>

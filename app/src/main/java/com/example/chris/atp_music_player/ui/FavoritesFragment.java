@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.adapters.FavoritesListAdapter;
@@ -21,8 +22,10 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 
 public class FavoritesFragment extends Fragment {
-    @InjectView(R.id.favorites_rv)
+    @InjectView(R.id.song_rv)
     RecyclerView mRecyclerView;
+    @InjectView(R.id.error_placeholder)
+    TextView mErrorView;
 
     public static FavoritesFragment newInstance() {
         return new FavoritesFragment();
@@ -31,7 +34,7 @@ public class FavoritesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_favorites, container, false);
+        View view = inflater.inflate(R.layout.song_list, container, false);
         ButterKnife.inject(this, view);
 
         getActivity().setTitle(R.string.menu_favs);
@@ -51,6 +54,12 @@ public class FavoritesFragment extends Fragment {
             songList.add(song);
         }
 
-        mRecyclerView.setAdapter(new FavoritesListAdapter(getActivity(), songList));
+        if (songList.isEmpty()) {
+            mErrorView.setText(R.string.err_favs);
+            mRecyclerView.setVisibility(View.GONE);
+            mErrorView.setVisibility(View.VISIBLE);
+        } else {
+            mRecyclerView.setAdapter(new FavoritesListAdapter(getActivity(), songList));
+        }
     }
 }
