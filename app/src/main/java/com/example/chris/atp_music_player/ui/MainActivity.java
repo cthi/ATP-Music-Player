@@ -70,6 +70,16 @@ public class MainActivity extends BaseServiceActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (mServiceBound && mService.getLastSong() != null && mSlidingPanel.getPanelState()
+                == SlidingUpPanelLayout.PanelState.HIDDEN) {
+            mSlidingPanel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+        }
+    }
+
+    @Override
     public void setTitle(CharSequence title) {
         super.setTitle(title);
 
