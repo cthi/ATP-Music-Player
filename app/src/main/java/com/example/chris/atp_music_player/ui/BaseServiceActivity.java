@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 
 import com.example.chris.atp_music_player.models.Song;
 import com.example.chris.atp_music_player.services.LocalPlaybackService;
@@ -13,7 +13,7 @@ import com.example.chris.atp_music_player.utils.Constants;
 
 import java.util.List;
 
-public abstract class BaseServiceActivity extends ActionBarActivity {
+public abstract class BaseServiceActivity extends AppCompatActivity {
     protected LocalPlaybackService mService;
     protected boolean mServiceBound;
 
