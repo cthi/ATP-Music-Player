@@ -1,15 +1,13 @@
 package com.example.chris.atp_music_player.ui;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.astuetz.PagerSlidingTabStrip;
 import com.example.chris.atp_music_player.R;
 import com.example.chris.atp_music_player.adapters.LibraryPagerAdapter;
 
@@ -22,7 +20,7 @@ public class LibraryFragment extends Fragment {
     @InjectView(R.id.library_viewpager)
     ViewPager mViewPager;
     @InjectView(R.id.library_tabs)
-    PagerSlidingTabStrip mPagerTabs;
+    TabLayout mPagerTabs;
 
     public static LibraryFragment newInstance() {
         return new LibraryFragment();
@@ -37,7 +35,6 @@ public class LibraryFragment extends Fragment {
         getActivity().setTitle(R.string.menu_lib);
 
         initPager(savedInstanceState);
-        initPagerTabs();
 
         return view;
     }
@@ -57,16 +54,7 @@ public class LibraryFragment extends Fragment {
         if (null != bundle) {
             mViewPager.setCurrentItem(bundle.getInt(PAGE_NUM));
         }
-    }
 
-    public void initPagerTabs() {
-        if (mPagerTabs != null) {
-            mPagerTabs.setBackgroundColor(getResources().getColor(R.color.blue));
-            mPagerTabs.setIndicatorHeight(4);
-            mPagerTabs.setDividerColor(Color.TRANSPARENT);
-            mPagerTabs.setTextColor(Color.WHITE);
-            mPagerTabs.setIndicatorColor(Color.WHITE);
-            mPagerTabs.setViewPager(mViewPager);
-        }
+        mPagerTabs.setupWithViewPager(mViewPager);
     }
 }
