@@ -5,35 +5,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:paddingBottom="8dp"
     android:paddingLeft="8dp"
     android:paddingRight="8dp"
-    android:paddingTop="12dp"
-    android:paddingBottom="8dp">
+    android:paddingTop="12dp">
 
     <ImageView
         android:id="@+id/item_remote_notif_img"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginEnd="8dp"/>
+        tools:ignore="ContentDescription"/>
 
     <TextView
         android:id="@+id/item_remote_notif_title"
+        style="@style/NotifTextTitleTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/item_remote_notif_img"
         android:layout_toEndOf="@id/item_remote_notif_img"
-        tools:text="Song Title"
-        style = "@style/NotifTextTitleTheme"/>
+        android:layout_toRightOf="@id/item_remote_notif_img"
+        tools:text="Song Title"/>
 
     <TextView
         android:id="@+id/item_remote_notif_artist"
+        style="@style/NotifTextSubtitleTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/item_remote_notif_img"
-        android:layout_toEndOf="@id/item_remote_notif_img"
         android:layout_below="@id/item_remote_notif_title"
-        style = "@style/NotifTextSubtitleTheme"
+        android:layout_toEndOf="@id/item_remote_notif_img"
+        android:layout_toRightOf="@id/item_remote_notif_img"
         tools:text="Song Artist"/>
 
 </RelativeLayout>

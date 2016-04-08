@@ -1,39 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:layout_height="@dimen/double_list_text_height"
     android:background="?android:attr/selectableItemBackground"
     android:clickable="true"
     android:focusable="true"
-    android:layout_height="@dimen/double_list_text_height"
     android:paddingLeft="@dimen/double_list_text_padding_start"
     android:paddingRight="@dimen/double_list_text_padding_start"
     android:paddingTop="@dimen/double_list_text_padding_top_bold">
 
     <TextView
-        android:id="@+id/item_song_list_title"
-        tools:text="Forever"
-        android:fontFamily="sans-serif-light"
-        android:textStyle="bold"
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxLines="1"
         android:layout_gravity="center_vertical"
-        android:textSize="16sp"/>
+        android:fontFamily="sans-serif-light"
+        android:maxLines="1"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:text="Forever"/>
 
     <TextView
-        android:id="@+id/item_song_list_subtitle"
-        android:fontFamily="sans-serif-light"
-        android:layout_below="@id/item_song_list_title"
-        tools:text="Drake - Album "
+        android:id="@+id/subtitle"
         android:layout_width="match_parent"
-        android:maxLines="1"
         android:layout_height="wrap_content"
+        android:layout_below="@id/title"
         android:layout_gravity="center_vertical"
-        android:textSize="14sp" />
+        android:fontFamily="sans-serif-light"
+        android:maxLines="1"
+        android:textSize="14sp"
+        tools:text="Drake - Album "/>
 
     <ImageButton
-        android:id="@+id/item_song_overflow"
+        android:id="@+id/overflow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -42,4 +43,5 @@
         android:background="@null"
         android:src="@drawable/ic_action_overflow"
         tools:ignore="contentDescription"/>
+
 </RelativeLayout>

@@ -7,21 +7,18 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 
-import com.example.chris.atp_music_player.models.Song;
-import com.example.chris.atp_music_player.services.LocalPlaybackService;
-import com.example.chris.atp_music_player.utils.Constants;
-
-import java.util.List;
+import com.example.chris.atp_music_player.Constants;
+import com.example.chris.atp_music_player.playback.PlaybackService;
 
 public abstract class BaseServiceActivity extends AppCompatActivity {
-    protected LocalPlaybackService mService;
+    protected PlaybackService mService;
     protected boolean mServiceBound;
 
     private ServiceConnection mConnection = new ServiceConnection() {
 
         @Override
         public void onServiceConnected(ComponentName className, IBinder service) {
-            LocalPlaybackService.LocalBinder binder = (LocalPlaybackService.LocalBinder) service;
+            PlaybackService.LocalBinder binder = (PlaybackService.LocalBinder) service;
             mService = binder.getService();
             mServiceBound = true;
             onServiceBound();
@@ -37,8 +34,8 @@ public abstract class BaseServiceActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        Intent intent = new Intent(this, LocalPlaybackService.class);
-        intent.setAction(Constants.PLAYBACK_STOP_FOREGROUND);
+        Intent intent = new Intent(this, PlaybackService.class);
+        intent.setAction(Constants.INSTANCE.getPLAYBACK_STOP_FOREGROUND());
         bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
         startService(intent);
     }
@@ -53,13 +50,5 @@ public abstract class BaseServiceActivity extends AppCompatActivity {
     }
 
     void onServiceBound() {
-    }
-
-    public void pushMedia(List<Song> songList, int position) {
-        mService.play(songList, position);
-    }
-
-    public void pushMediaDontQueue(List<Song> songList, int position) {
-        mService.playDontQueue(songList, position);
     }
 }

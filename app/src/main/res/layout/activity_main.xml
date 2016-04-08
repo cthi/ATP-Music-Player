@@ -2,12 +2,13 @@
 <android.support.v4.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/drawerLayout"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:sothree="http://schemas.android.com/apk/res-auto"
+    <com.sothree.slidinguppanel.SlidingUpPanelLayout
+        xmlns:sothree="http://schemas.android.com/apk/res-auto"
         android:id="@+id/sliding_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -21,17 +22,17 @@
 
             <include
                 android:id="@+id/toolbar"
-                layout="@layout/base_toolbar" />
+                layout="@layout/base_toolbar"/>
 
             <FrameLayout
                 android:id="@+id/main_fragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/toolbar" />
+                android:layout_below="@id/toolbar"/>
 
         </RelativeLayout>
 
-        <include layout="@layout/now_playing_view" />
+        <include layout="@layout/now_playing_view"/>
 
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 

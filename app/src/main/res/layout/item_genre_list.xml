@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:layout_height="@dimen/single_list_text_height"
     android:background="?android:attr/selectableItemBackground"
     android:clickable="true"
     android:focusable="true"
-    android:layout_height="@dimen/single_list_text_height"
     android:paddingLeft="@dimen/single_list_text_padding_start"
     android:paddingRight="@dimen/single_list_text_padding_start">
 
     <TextView
         android:id="@+id/item_genre_list_title"
-        tools:text="Forever"
-        android:fontFamily="sans-serif-light"
-        android:textStyle="bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:fontFamily="sans-serif-light"
         android:maxLines="1"
         android:textSize="16sp"
-        android:layout_centerVertical="true" />
+        android:textStyle="bold"
+        tools:text="Forever"/>
+
 </RelativeLayout>

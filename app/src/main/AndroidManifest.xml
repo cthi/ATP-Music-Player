@@ -36,7 +36,7 @@
         </activity>
 
         <service
-            android:name=".services.LocalPlaybackService"
+            android:name=".playback.PlaybackService"
             android:exported="false" />
 
     </application>
